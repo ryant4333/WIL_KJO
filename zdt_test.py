@@ -39,10 +39,11 @@ def ZDT4(x):
 
     return [f1, f2]
 
-parts = 30
-x = np.random.rand(parts)
-print(x)
+def genZDTInputs(D):
+    x = np.random.rand(D)
+    return x
 
+x = genZDTInputs(30)
 objectiveValues = [ZDT1(x), ZDT2(x), ZDT3(x)]
 print(objectiveValues)
 
