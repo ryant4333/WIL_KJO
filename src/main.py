@@ -71,7 +71,7 @@ class Solution:
     """
     Solution class
     """
-
+    test = 0
 
 def main():
     print("Main here")
