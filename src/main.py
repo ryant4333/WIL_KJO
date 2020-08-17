@@ -56,11 +56,11 @@ class Swarm:
     """
     Swarm class
     """
-    config = Problem("config.json")
     eval_counter = 0  # TODO: implement with parallelisation
 
     def __init__(self, min_, max_, dims, p_num):
         particles = [Particle(min_=min_, max_=max_, dims=dims) for _ in range(p_num)]
+
 
 class Optimiser:
     """
@@ -101,10 +101,9 @@ class Solution:
 
 
 def main():
-
-    test = Problem("config.json")
-
-
+    config = Problem("config.json")
+    test_swarm = Swarm(min_=config.min, max_=config.max, dims=config.particle_num)
+    #Optimiser(test_swarm)
     return
 
 
