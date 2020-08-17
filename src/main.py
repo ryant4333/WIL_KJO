@@ -52,9 +52,6 @@ class Swarm:
     """
     Swarm class
     """
-    def apples(self):
-        return
-    test = "Hello"
 
 
 class Optimiser:
@@ -73,7 +70,7 @@ class Solution:
     """
     Solution class
     """
-    test = 0
+
 
 def main():
     print("Main here")
