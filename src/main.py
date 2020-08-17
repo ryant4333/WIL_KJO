@@ -52,9 +52,6 @@ class Swarm:
     """
     Swarm class
     """
-    def apples(self):
-        return
-    test = "Hello"
 
 
 class Optimiser:
@@ -67,20 +64,19 @@ class Archive:
     """
     Archive class
     """
-    a = 1
+
 
 class Solution:
     """
     Solution class
     """
-    test = 0
+
 
 def main():
     print("Main here")
     problem = Problem('config.json')
     print(problem.c1)
     return
-
 
 
 if __name__ == '__main__':
