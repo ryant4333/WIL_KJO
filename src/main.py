@@ -39,9 +39,13 @@ class Particle:
         self.p_best_position = self.position
         self.p_best_fitness = self.position_fitness
 
-    def evaluate(self, pos):
-        self.position = pos
-        self.position_fitness = zdt.ZDT1(pos)
+    def evaluate(self, new_position):
+        """
+        Updates p_best
+        :param new_position: New particle position
+        """
+        self.position = new_position
+        self.position_fitness = zdt.ZDT1(new_position)
 
         if self.position_fitness < self.p_best_fitness:
             self.p_best_position = self.position
@@ -64,12 +68,32 @@ class Archive:
     """
     Archive class
     """
+    # TODO: Convert to linked-list
+    # using an array instead of a linked-list for now
+    # to reduce complexity.
+    solutions = []
+
+    def push(self, solution):
+        """
+        Push solution into solutions archive
+        :param solution: Solution object
+        """
+        self.solutions.appened(solution)
+
+    def output(self):
+        """
+        Displaying the solutions archive
+        """
+        print("Solutions:", self.solutions)
 
 
 class Solution:
     """
     Solution class
     """
+    # TODO: Need more information for this...
+    x = []
+    objectives = []
 
 
 def main():
