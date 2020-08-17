@@ -66,6 +66,10 @@ class Optimiser:
     """
     Optimiser class
     """
+    config = Problem("config.json")
+    w = config.start_w
+    c1 = config.c1
+    c2 = config.c2
 
 
 class Archive:
