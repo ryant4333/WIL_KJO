@@ -1,4 +1,6 @@
 import json
+import numpy as np
+import zdt_test as zdt
 
 
 class Problem:
@@ -24,7 +26,30 @@ class Problem:
         self.min = config['min']
 
 
+class Particle:
+    """
+    Particle class
+    """
+    def __init__(self, dims, min_, max_):
+        self.position = np.random.uniform(low=min_, high=max_, size=dims)
+        self.position_fitness = zdt.ZDT1(self.position)
+        self.velocity = np.random.uniform(low=min_, high=max_, size=dims)
+
+        self.s_best_position = self.position.copy()
+        self.p_best_position = self.position.copy()
+        self.p_best_fitness = self.position_fitness.copy()
+
+    def evaluate(self, pos):
+        self.position = pos
+        self.position_fitness = zdt.ZDT1(pos)
+
+        if self.position_fitness < self.pBest_fitness:
+            self.p_best_position = self.position
+            self.p_best_fitness = self.position_fitness
+
+
 def main():
+    print("Main here")
     problem = Problem('config.json')
     print(problem.c1)
     return
