@@ -52,6 +52,8 @@ class Swarm:
     """
     Swarm class
     """
+    def apples(self):
+        return
     test = "Hello"
 
 
