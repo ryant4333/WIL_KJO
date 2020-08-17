@@ -60,7 +60,7 @@ class Swarm:
 
 class Optimiser:
     """
-    Swarm class
+    Optimiser class
     """
 
 
