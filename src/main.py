@@ -48,6 +48,30 @@ class Particle:
             self.p_best_fitness = self.position_fitness
 
 
+class Swarm:
+    """
+    Swarm class
+    """
+
+
+class Optimiser:
+    """
+    Swarm class
+    """
+
+
+class Archive:
+    """
+    Archive class
+    """
+
+
+class Solution:
+    """
+    Solution class
+    """
+
+
 def main():
     print("Main here")
     problem = Problem('config.json')
