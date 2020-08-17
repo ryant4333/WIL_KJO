@@ -33,7 +33,7 @@ def ZDT4(x):
     #D = 2-10
     D = len(x)
     f1 = x[0]
-    g = 1 + 10*(D-1) + np.sum(x[1:D]**2 - 10*np.cos(4*np.pi*x[1:D]))
+    g = (1 + 10*(D-1)) + np.sum(x[1:D]**2 - 10*np.cos(4*np.pi*x[1:D]))
     h = 1 - np.sqrt(f1/g)
     f2 = g * h
 
@@ -43,8 +43,19 @@ def genZDTInputs(D):
     x = np.random.rand(D)
     return x
 
-x = genZDTInputs(30)
-objectiveValues = [ZDT1(x), ZDT2(x), ZDT3(x)]
-print(objectiveValues)
+def genZDT4Inputs(D):
+    x1 = np.random.rand(1)
+    x2 = np.random.uniform(-5,5, D-1)
+    x = np.concatenate((x1,x2), axis=0)
+    return x
 
+x = genZDTInputs(30)
+print('ZDT1-3 input:\n', x)
+print('ZDT1 output:', ZDT1(x))
+print('ZDT2 output:', ZDT2(x))
+print('ZDT3 output:', ZDT3(x))
+
+x = genZDT4Inputs(10)
+print('ZDT4 input:\n', x)
+print('ZDT4 output:', ZDT4(x))
 #ZDT4 has to have different initial values
