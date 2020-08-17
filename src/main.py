@@ -67,7 +67,7 @@ class Archive:
     """
     Archive class
     """
-
+    a = 1
 
 class Solution:
     """
