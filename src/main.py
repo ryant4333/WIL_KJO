@@ -35,15 +35,15 @@ class Particle:
         self.position_fitness = zdt.ZDT1(self.position)
         self.velocity = np.random.uniform(low=min_, high=max_, size=dims)
 
-        self.s_best_position = self.position.copy()
-        self.p_best_position = self.position.copy()
-        self.p_best_fitness = self.position_fitness.copy()
+        self.s_best_position = self.position
+        self.p_best_position = self.position
+        self.p_best_fitness = self.position_fitness
 
     def evaluate(self, pos):
         self.position = pos
         self.position_fitness = zdt.ZDT1(pos)
 
-        if self.position_fitness < self.pBest_fitness:
+        if self.position_fitness < self.p_best_fitness:
             self.p_best_position = self.position
             self.p_best_fitness = self.position_fitness
 
@@ -52,6 +52,7 @@ class Swarm:
     """
     Swarm class
     """
+    test = "Hello"
 
 
 class Optimiser:
@@ -77,6 +78,7 @@ def main():
     problem = Problem('config.json')
     print(problem.c1)
     return
+
 
 
 if __name__ == '__main__':
