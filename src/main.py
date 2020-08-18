@@ -105,9 +105,12 @@ class Solution:
 
 
 def main():
-    config = Problem("config.json")
-    test_swarm = Swarm(min_=config.min, max_=config.max, dims=config.particle_num)
-    #Optimiser(test_swarm)
+    # config = Problem("config.json")
+    # test_swarm = Swarm(min_=config.min, max_=config.max, dims=config.particle_num)
+    # Optimiser(test_swarm)
+    test_particle = Particle(dims=10, min_=0, max_=1)
+    print("p_position:", test_particle.position)
+    print("p_fitness:", test_particle.position_fitness)
     return
 
 
