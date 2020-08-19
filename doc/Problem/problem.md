@@ -2,6 +2,10 @@
 ![alt text](problem.PNG)
 ___
 ## Attributes
+* objectives: function
+This is a function pointer to the problems objectives. This function will return an array of floats.
+* optimizationType: string [ ]
+This variable holds the optimization type, either "MAX" or "MIN", to determine how to compare each objective.
 * c1: float
 The weight of the cognitive component of the particles move function.
 * c2: float

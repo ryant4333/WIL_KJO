@@ -24,5 +24,5 @@ The run method is used to keep all of the main code for running a MOPSO.
 * stop(): Boolean
 The stop method determines when the the optimiser will stop the next iteration. This returns false if the number of iterations has reached its max or the average velocity has reached its minimum indicating that the particles have stopped moving. 
 
-* weightRegression(startW: float, endW: float): void
+* weightRegression(maxW: float, minW: float): void
 This method changes the weight variable. `Dicussions need to be had about the method.`
