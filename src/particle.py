@@ -3,10 +3,10 @@ import solution as solutions
 
 class Particle:
 
-    def __init__(self):
+    def __init__(self, pos):
         self.p_best = None
         self.s_best = None
-        self.x = None
+        self.x = pos
         self.velocity = None
 
     def evaluate(self, objectives, optimization_type):
