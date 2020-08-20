@@ -1,11 +1,11 @@
 import particle as particle
 import numpy as np
+import main as main
 
-
-min_ = (0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0)
-max_ = (1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1)
-p_num = 2
-# ----------------------------------------------------------------#
+config = main.Problem("config.json")
+# min = (0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0)
+# max = (1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1)
+# num_particles = 3
 
 
 class Swarm:
@@ -16,19 +16,15 @@ class Swarm:
 
 def p_values():
     x = []
-    for i in min_:
-        x.append(np.random.uniform(min_[i], max_[i]))
+    for i in range(len(config.min)):
+        x.append(np.random.uniform(config.min[i], config.max[i]))
 
     np_array = np.array(x)
     return np_array
 
-#---------------------------------------------------------------#
-
-
-test_swarm = Swarm(p_num)
-
 
 if __name__ == "__main__":
 
+    test_swarm = Swarm(config.particle_num)
     for i in test_swarm.swarm:
         print(i.x)
