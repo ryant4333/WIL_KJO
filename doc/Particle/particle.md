@@ -17,7 +17,7 @@ This attribute keeps track of the particles last velocity for inertia.
 ___
 ## Methods
 
-* move(c1: float, c2: float, w: float): void
+* move(c1: float, c2: float, w: float, max: float[ ], min: float [ ]): void
 The move method changes the classes x attribute, moving the particle in the dimension space.
 
 * eval(objective: function): solution
