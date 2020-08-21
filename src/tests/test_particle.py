@@ -46,6 +46,8 @@ class TestParticle(unittest.TestCase):
         with self.assertRaises(TypeError):
             particle.move(1,1,1, [100], [-100,-100])
     
+    # tests that the particle moves in a random way, 
+    # seeded so it prodcues the same result each time
     def test_particle_move(self):
         particle = Particle()
         particle.p_best = Solution([1, 1], [1, 1])
