@@ -18,6 +18,7 @@ class TestSwarm(unittest.TestCase):
         dims_p = all(len(x.x) == 3 for x in test_swarm.swarm)
         self.assertEqual(dims_p, True)
 
+
     def test_range_particle_dims(self):
         test_swarm = Swarm(num_particles=13, min_=[0, 1, 2], max_=[1, 2, 3])
         high = [1, 2, 3]
