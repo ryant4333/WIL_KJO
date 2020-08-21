@@ -1,4 +1,4 @@
-Simport json
+import json
 
 
 class Problem:
