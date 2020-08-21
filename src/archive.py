@@ -1,12 +1,29 @@
-import linked list thing
+import llist
 
 """
-start with empty linked list
-Define push function particles can use to push evaluated position
-Use fully_dominated function from solution to compare pushed result against archive
-trim fully dominated solutions
-Output function to return list at end
+Init archive in optimiser
+particles push evaluated solutions, {obj}
+check against all archive values
+unless dominated then end
 """
 class Archive:
     def __init__(self):
+        self.archive = llist.sllist()
+
+
+    def push(self, eval_obj):
         
+        pass
+        #Is it empty
+        #end when dominated
+        #Cutout dominated solutions in archive
+        #append
+
+
+    def output():
+        pass
+        #returns archive
+
+if __name__ == "__main__":
+    arch = Archive()
+    print(arch.archive)

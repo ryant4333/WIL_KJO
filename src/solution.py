@@ -1,5 +1,6 @@
 class Solution:
     def __init__(self, x, objectives):
+        """Objectives array of floats that specify pos fitness"""
         self.x = x
         self.objectives = objectives
 
