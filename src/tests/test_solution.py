@@ -38,6 +38,25 @@ class TestSolution(unittest.TestCase):
         opposite = sol2.fully_dominated(sol1, ["MIN", "MIN"])
         self.assertEqual(boolean, False)
         self.assertEqual(opposite, True)
+    
+    def test_fully_dominated_solution_error(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5, 5])
+        with self.assertRaises(TypeError):
+            boolean = sol1.fully_dominated(sol2, ["MIN", "MIN"])
+    
+    def test_fully_dominated_optimization_type_size_error(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5])
+        with self.assertRaises(TypeError):
+            boolean = sol1.fully_dominated(sol2, ["MIN"])
+    
+    def test_fully_dominated_optimization_type_value_error(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5])
+        with self.assertRaises(TypeError):
+            boolean = sol1.fully_dominated(sol2, ["MIN", "AXE"])
+        
 
 if __name__ == "__main__":
     unittest.main()
