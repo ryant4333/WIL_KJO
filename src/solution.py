@@ -18,7 +18,7 @@ class Solution:
                 if self.objectives[i] < solution.objectives[i]:
                     return False
             else:
-                raise TypeError("optimization_type has incorrect type at " + i)
+                raise ValueError("optimization_type has incorrect value at " + i)
         return True
 
 if __name__ == "__main__":
