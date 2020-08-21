@@ -1,7 +1,12 @@
 class Solution:
     def __init__(self, x, objectives):
+        """Objectives array of floats that specify pos fitness"""
         self.x = x
         self.objectives = objectives
+
+    def __repr__(self):
+        #repr prints objects for testing purposes
+        return "<Solution x:{}, obj:{}>".format(self.x, self.objectives)
 
     # returns true if the inputed solution can fully dominate
     def fully_dominated(self, solution, optimization_type):
