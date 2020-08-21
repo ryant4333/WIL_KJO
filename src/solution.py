@@ -20,9 +20,42 @@ class Solution:
             else:
                 raise ValueError("optimization_type has incorrect value at " + i)
         return True
+    
+    # returns 1 if self dominates, -1 is param solution dominates 
+    # and 0 if neither dominate 
+    def dominated(self, solution, optimization_type):
+        if len(self.objectives) != len(solution.objectives):
+            raise TypeError("solutions have different objective sizes")
+        if len(self.objectives) != len(optimization_type):
+            raise TypeError("optimization_type has different size")
+        
+        x = 0
+        y = 0
 
+        for i in range(len(self.objectives)):
+            if self.objectives[i] == solution.objectives[i]:
+                continue
+            if optimization_type[i] == "MAX":
+                if self.objectives[i] > solution.objectives[i]:
+                    x+=1
+                else:
+                    y+=1
+            elif optimization_type[i] == "MIN":
+                if self.objectives[i] < solution.objectives[i]:
+                    x+=1
+                else:
+                    y+=1
+            else:
+                raise ValueError("optimization_type has incorrect value at " + i)
+        
+        if x > 0 and y > 0:
+            return 0
+        if x > 0:
+            return 1
+        if y > 0:
+            return -1
+        
 if __name__ == "__main__":
-    sol1 = Solution([], [1,3])
-    sol2 = Solution([], [1,2])
-
-    print(sol1.fully_dominated(sol2, ["MAX", "MAX"])) #should return true
+    sol1 = Solution([], [2,3])
+    sol2 = Solution([], [1,5])
+    print(sol1.dominated(sol2, ["MAX", "MAX"]))
