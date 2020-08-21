@@ -29,5 +29,4 @@ class Problem:
 
 if __name__ == '__main__':
     config = Problem("config.json")
-    
     print(config.c1)
