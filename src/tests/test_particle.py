@@ -1,6 +1,7 @@
 # needs to run from test file
 import unittest
 import sys
+import random
 sys.path.insert(1, "../") # to import py classes
 from solution import Solution
 from particle import Particle
@@ -44,6 +45,18 @@ class TestParticle(unittest.TestCase):
             particle.move(1,1,1, [100,100], [-100])
         with self.assertRaises(TypeError):
             particle.move(1,1,1, [100], [-100,-100])
+    
+    def test_particle_move(self):
+        particle = Particle()
+        particle.p_best = Solution([1, 1], [1, 1])
+        particle.s_best = Solution([1, 1], [5, 5])
+        particle.x = [0, 0]
+        particle.velocity = [0.5, 0.5]
+        random.seed(13)
+        particle.move(1,1,1, [100,100], [-100, -100])
+        self.assertAlmostEqual(particle.x[0], 2.38853297)
+        self.assertAlmostEqual(particle.x[1], 2.38853297)
+        
 
 def basicObjective(x):
     new_x = []
