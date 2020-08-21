@@ -1,11 +1,9 @@
-import json
+Simport json
 
-#I really like the config.json easy for researchers to tinker with
 
 class Problem:
     """
-    Read in from text file
-    Initialise and pass config variables to Optimiser
+    Problem config class
     """
     def __init__(self, config_file):
         # Read data from JSON file
@@ -24,9 +22,3 @@ class Problem:
         self.dimensions = config['dimensions']
         self.max = config['max']
         self.min = config['min']
-
-
-
-if __name__ == '__main__':
-    config = Problem("config.json")
-    print(config.c1)
