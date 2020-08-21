@@ -18,8 +18,9 @@ class Archive:
         #Archive is singly linked list, can be easily changed to doubly
         self.archive = llist.sllist()
 
-
-    def push(self, new_solution, optimization_type):
+    #def push(self, new_solution, optimization_type):
+    #Optimization_type currently hard coded
+    def push(self, new_solution):
         """
         new_solution should be solution object
 
@@ -29,17 +30,16 @@ class Archive:
         """
         for sol in self.archive:
             if new_solution.fully_dominated(sol, ["MAX", "MAX"]):
-                pass
+                #The new solution is dominated by sol in archive
+                print(new_solution, " Is Dominated by ", sol)
+                return
+            #if new_solution.fully_dominated(sol, ["MAX", "MAX"]):
+                # node = self.arch
+                # self.archive.remove(self.archive)
+        print("Adding solution to list: ", new_solution)
+        self.archive.append(new_solution)    
 
 
-        for each llist
-        ll[5].fully_dominated(new_sol)
-        self.archive.append(new_solution)
-        pass
-        #Is it empty
-        #end when dominated
-        #Cutout dominated solutions in archive
-        #append
 
 
     def output():
@@ -52,3 +52,7 @@ if __name__ == "__main__":
     sol3 = Solution([], [2,2])
 
     arch = Archive()
+
+    arch.push(sol1)
+    arch.push(sol2)
+    arch.push(sol3)
