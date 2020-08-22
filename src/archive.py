@@ -43,8 +43,9 @@ class Archive:
         self.archive.append(new_solution)
         return
 
-
     def output(self):
+        #Currently returning a linked list
+        #Should it return an array once done?
         return self.archive
 
 if __name__ == "__main__":
