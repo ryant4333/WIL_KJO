@@ -18,33 +18,8 @@ class Archive:
         #Archive is singly linked list, can be easily changed to doubly
         self.archive = llist.sllist()
 
-    def push(self, new_solution):
-        """
-        def push(self, new_solution, optimization_type):
-        Optimization_type currently hard coded
 
-        new_solution should be solution object
-        All print functions can be removed just for testing
-        """
-        ll_pos = 0
-        #Tracks current position for removing nodes
-
-        for sol in self.archive:
-            if new_solution.fully_dominated(sol, ["MAX", "MAX"]):
-                #The new solution is dominated by sol in archive
-                print(new_solution, "Is Dominated by existing sol:", sol)
-                return
-
-            if sol.fully_dominated(new_solution, ["MAX", "MAX"]):
-                print(sol, "In archive is dominated by:", new_solution)
-                node = self.archive.nodeat(ll_pos)
-                self.archive.remove(node)
-                ll_pos -= 1
-            ll_pos += 1
-        print("Adding solution to list: ", new_solution)
-        self.archive.append(new_solution)   
-
-    def push2(self, new_solution, optimization_type):
+    def push(self, new_solution, optimization_type):
         ll_pos = 0
 
         for sol in self.archive:
@@ -81,10 +56,10 @@ if __name__ == "__main__":
 
     arch = Archive()
 
-    arch.push2(sol1, ["MAX", "MAX"])
-    arch.push2(sol2, ["MAX", "MAX"])
-    arch.push2(sol3, ["MAX", "MAX"])
-    arch.push2(sol4, ["MAX", "MAX"])
-    arch.push2(sol5, ["MAX", "MAX"])
+    arch.push(sol1, ["MAX", "MAX"])
+    arch.push(sol2, ["MAX", "MAX"])
+    arch.push(sol3, ["MAX", "MAX"])
+    arch.push(sol4, ["MAX", "MAX"])
+    arch.push(sol5, ["MAX", "MAX"])
 
     print(arch.output())
