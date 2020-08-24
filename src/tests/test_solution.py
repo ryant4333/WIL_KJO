@@ -1,17 +1,121 @@
-from unittest import TestCase
+# needs to run from test file
+import unittest
+import sys
+sys.path.insert(1, "../") # to import running in the test path
+from solution import Solution
 
-import solution
 
+class TestSolution(unittest.TestCase):
 
-class TestSolutionDomination(TestCase):
+    # def test_fully_dominated_max(self):
+    #     sol1 = Solution([], [1, 1])
+    #     sol2 = Solution([], [5, 5])
+    #     boolean = sol1.fully_dominated(sol2, ["MAX", "MAX"])
+    #     opposite = sol2.fully_dominated(sol1, ["MAX", "MAX"])
+    #     self.assertEqual(boolean, True)
+    #     self.assertEqual(opposite, False)
+    
+    # def test_fully_dominated_min(self):
+    #     sol1 = Solution([], [1, 1])
+    #     sol2 = Solution([], [5, 5])
+    #     boolean = sol1.fully_dominated(sol2, ["MIN", "MIN"])
+    #     opposite = sol2.fully_dominated(sol1, ["MIN", "MIN"])
+    #     self.assertEqual(boolean, False)
+    #     self.assertEqual(opposite, True)
+    
+    # def test_fully_dominated_max_one_difference(self):
+    #     sol1 = Solution([], [5, 1])
+    #     sol2 = Solution([], [5, 5])
+    #     boolean = sol1.fully_dominated(sol2, ["MAX", "MAX"])
+    #     opposite = sol2.fully_dominated(sol1, ["MAX", "MAX"])
+    #     self.assertEqual(boolean, True)
+    #     self.assertEqual(opposite, False)
+    
+    # def test_fully_dominated_min_one_difference(self):
+    #     sol1 = Solution([], [5, 1])
+    #     sol2 = Solution([], [5, 5])
+    #     boolean = sol1.fully_dominated(sol2, ["MIN", "MIN"])
+    #     opposite = sol2.fully_dominated(sol1, ["MIN", "MIN"])
+    #     self.assertEqual(boolean, False)
+    #     self.assertEqual(opposite, True)
+    
+    # def test_fully_dominated_solution_error(self):
+    #     sol1 = Solution([], [5, 1])
+    #     sol2 = Solution([], [5, 5, 5])
+    #     with self.assertRaises(TypeError):
+    #         boolean = sol1.fully_dominated(sol2, ["MIN", "MIN"])
+    
+    # def test_fully_dominated_optimization_type_size_error(self):
+    #     sol1 = Solution([], [5, 1])
+    #     sol2 = Solution([], [5, 5])
+    #     with self.assertRaises(TypeError):
+    #         boolean = sol1.fully_dominated(sol2, ["MIN"])
+    
+    # def test_fully_dominated_optimization_type_value_error(self):
+    #     sol1 = Solution([], [5, 1])
+    #     sol2 = Solution([], [5, 5])
+    #     with self.assertRaises(TypeError):
+    #         boolean = sol1.fully_dominated(sol2, ["MIN", "AXE"])
+    
+    # DOMINATED FUNCTION
+    def test_dominated_max(self):
+        sol1 = Solution([], [1, 1])
+        sol2 = Solution([], [5, 5])
+        boolean = sol1.dominated(sol2, ["MAX", "MAX"])
+        opposite = sol2.dominated(sol1, ["MAX", "MAX"])
+        self.assertEqual(boolean, -1)
+        self.assertEqual(opposite, 1)
+    
+    def test_dominated_min(self):
+        sol1 = Solution([], [1, 1])
+        sol2 = Solution([], [5, 5])
+        boolean = sol1.dominated(sol2, ["MIN", "MIN"])
+        opposite = sol2.dominated(sol1, ["MIN", "MIN"])
+        self.assertEqual(boolean, 1)
+        self.assertEqual(opposite, -1)
+    
+    def test_dominated_0(self):
+        sol1 = Solution([], [6, 1])
+        sol2 = Solution([], [5, 5])
+        boolean = sol1.dominated(sol2, ["MAX", "MAX"])
+        opposite = sol2.dominated(sol1, ["MAX", "MAX"])
+        self.assertEqual(boolean, 0)
+        self.assertEqual(opposite, 0)
+    
+    def test_dominated_max_one_difference(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5])
+        boolean = sol1.dominated(sol2, ["MAX", "MAX"])
+        opposite = sol2.dominated(sol1, ["MAX", "MAX"])
+        self.assertEqual(boolean, -1)
+        self.assertEqual(opposite, 1)
+    
+    def test_dominated_min_one_difference(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5])
+        boolean = sol1.dominated(sol2, ["MIN", "MIN"])
+        opposite = sol2.dominated(sol1, ["MIN", "MIN"])
+        self.assertEqual(boolean, 1)
+        self.assertEqual(opposite, -1)
+    
+    def test_dominated_solution_error(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5, 5])
+        with self.assertRaises(TypeError):
+            boolean = sol1.dominated(sol2, ["MIN", "MIN"])
+    
+    def test_dominated_optimization_type_size_error(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5])
+        with self.assertRaises(TypeError):
+            boolean = sol1.dominated(sol2, ["MIN"])
+    
+    def test_dominated_optimization_type_value_error(self):
+        sol1 = Solution([], [5, 1])
+        sol2 = Solution([], [5, 5])
+        with self.assertRaises(TypeError):
+            boolean = sol1.dominated(sol2, ["MIN", "AXE"])
+        
 
-    def setUp(self):
-        self.solution_1 = solution.Solution([], [1, 3])
-        self.solution_2 = solution.Solution([], [1, 2])
-
-    def tearDown(self):
-        self.solution_1 = None
-        self.solution_2 = None
-
-    def test_fully_dominated(self):
-        self.assertFalse(self.solution_1.fully_dominated(self.solution_2, ["MAX", "MAX"]))
+if __name__ == "__main__":
+    unittest.main()
