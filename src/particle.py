@@ -26,7 +26,7 @@ class Particle:
   
     def move(self, c1, c2, w, maximum, minimum):
         if len(self.x) != len(maximum) or len(self.x) != len(minimum):
-            raise TypeError(move.__name__ + ": incorrect array size")
+            raise TypeError("incorrect array size")
         
         inertia = np.array(self.velocity) * w
         cognitive = np.subtract(self.p_best.x, self.x) * c1 * random.uniform(0,2)
