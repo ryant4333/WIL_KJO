@@ -1,6 +1,7 @@
 {
   "objectives": [
-    "def add(a, b):\n    result = a + b\n    print(result)\n    return result\nadd(1, 2)"
+    "zdt_test.ZDT1",
+    "zdt_test.ZDT2"
   ],
   "c1": 1.1,
   "c2": 2.2,

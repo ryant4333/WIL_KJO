@@ -15,4 +15,3 @@ class TestSolutionDomination(TestCase):
 
     def test_fully_dominated(self):
         self.assertFalse(self.solution_1.fully_dominated(self.solution_2, ["MAX", "MAX"]))
-
