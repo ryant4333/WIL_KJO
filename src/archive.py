@@ -14,10 +14,10 @@ Potential changes:
 """
 
 class Archive:
-    def __init__(self):
+    def __init__(self, limit):
         #Archive is singly linked list, can be easily changed to doubly
         self.archive = llist.sllist()
-
+        self.limit = limit
 
     def push(self, new_solution, optimization_type):
         ll_pos = 0
@@ -40,27 +40,75 @@ class Archive:
                 raise ValueError("Dom status has incorrect value:", dom_status)
             ll_pos += 1
         
-        self.archive.append(new_solution)
+        if len(self.archive) >= self.limit:
+            print("Limit hit! To be Implemented")
+            self.archive.append(new_solution)
+
+            """ 
+            only look through <10> solutions at a time
+            Find worst non_dominated solution
+            replace with new solution
+            """
+            # print("Limit hit")
+            # #All solutions including new are non dominated
+            # self.archive.rotate(3)
+            # worst_node = new_solution
+            # current_node = self.archive.first.value
+            # for i in range(3):
+
+            # print(max_node)
+            # print(current_node)
+        else:
+            self.archive.append(new_solution)
+        
         return
+
+    def non_dom_comp(self, sol1, sol2, optimization_type):
+        # Returns the better non dominated solution
+        sol1_count = 0
+        sol2_count = 0
+        for i in range(len(optimization_type)):
+            if optimization_type[i] == "MAX":
+                sol1_count += sol1.objectives[i]
+                sol2_count += sol2.objectives[i]
+            if optimization_type[i] == "MIN":
+                sol1_count -= sol1.objectives[i]
+                sol2_count -= sol2.objectives[i]
+        if sol1_count > sol2_count:
+            return sol1
+        else:
+            return sol2
+
 
     def output(self):
         #Currently returning a linked list
         #Should it return an array once done?
+        print(self.archive.size)
         return self.archive
 
+    def write_out(self):
+        f_handler = open("archive_output.txt", "a")
+        for i in range(len(self.archive)):
+            line = "{}, {}\n".format(self.archive[i].x, self.archive[i].objectives)
+            f_handler.write(line)
+        f_handler.close()
+
+
 if __name__ == "__main__":
-    sol1 = Solution([], [1,3])
-    sol2 = Solution([], [1,2])
-    sol3 = Solution([], [2,2])
-    sol4 = Solution([], [5,5])
-    sol5 = Solution([], [6,4])
+    sol1 = Solution([], [7,3,5])  #15
+    sol2 = Solution([], [8,2,4])  #14
+    sol3 = Solution([], [9,1,6])  #16
+    sol4 = Solution([], [5,5,8])  #18
+    sol5 = Solution([], [6,4,1])  #11
 
-    arch = Archive()
+    arch = Archive(3)
 
-    arch.push(sol1, ["MAX", "MAX"])
-    arch.push(sol2, ["MAX", "MAX"])
-    arch.push(sol3, ["MAX", "MAX"])
-    arch.push(sol4, ["MAX", "MAX"])
-    arch.push(sol5, ["MAX", "MAX"])
+    arch.push(sol1, ["MAX", "MAX", "MAX"])
+    arch.push(sol2, ["MAX", "MAX", "MAX"])
+    arch.push(sol3, ["MAX", "MAX", "MAX"])
+    arch.push(sol4, ["MAX", "MAX", "MAX"])
+    arch.push(sol5, ["MAX", "MAX", "MAX"])
 
     print(arch.output())
+    
+    # arch.write_out()

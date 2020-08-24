@@ -9,7 +9,7 @@ class TestArchive(unittest.TestCase):
 
     # tests that a solution is pushed into archive
     def test_archive_empty_push(self):
-        arch = Archive()
+        arch = Archive(10)
         sol1 = Solution([], [1, 1])
         arch.push(sol1, ["MAX", "MAX"])
         arch_len = len(arch.output())
@@ -18,7 +18,7 @@ class TestArchive(unittest.TestCase):
 
     # tests both non-dominated solutions are added
     def test_archive_push_non_dominated(self):
-        arch = Archive()
+        arch = Archive(10)
         sol1 = Solution([], [5, 5])
         sol2 = Solution([], [6, 4])
         arch.push(sol1, ["MAX", "MAX"])
@@ -29,7 +29,7 @@ class TestArchive(unittest.TestCase):
     # tests that dominated solution isnt added to archive
     # by checking len and that non-dom particle is still in
     def test_archive_push_dominated(self):
-        arch = Archive()
+        arch = Archive(10)
         sol1 = Solution([], [5, 5])
         sol2 = Solution([], [1, 1])
         arch.push(sol1, ["MAX", "MAX"])
@@ -41,7 +41,7 @@ class TestArchive(unittest.TestCase):
 
     # tests that dominated solution in archive is removed
     def test_archive_remove_dominated(self):
-        arch = Archive()
+        arch = Archive(10)
         sol1 = Solution([], [1, 1])
         sol2 = Solution([], [5, 5])
         arch.push(sol1, ["MAX", "MAX"])
@@ -53,7 +53,7 @@ class TestArchive(unittest.TestCase):
 
     # tests that multiple dominated solution in archive are removed
     def test_archive_remove_multi_dominated(self):
-        arch = Archive()
+        arch = Archive(10)
         sol1 = Solution([], [1, 1])
         sol2 = Solution([], [2, 2])
         sol3 = Solution([], [5, 5])
