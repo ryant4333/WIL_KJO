@@ -16,8 +16,3 @@ class TestSolutionDomination(TestCase):
     def test_fully_dominated(self):
         self.assertFalse(self.solution_1.fully_dominated(self.solution_2, ["MAX", "MAX"]))
 
-def add(a, b):
-    result = a + b
-    print(result)
-    return result
-add(2,3)
