@@ -11,7 +11,7 @@ class Problem:
             config = json.load(f)
         # Declaring variables
         # TODO: Add variable for objectives
-        # self.objectives = config['objectives']
+        self.objectives = config['objectives']
         self.c1 = config['c1']
         self.c2 = config['c2']
         self.start_w = config['start_w']

@@ -1,17 +1,23 @@
 from unittest import TestCase
 
-import swarm
-import problem
+import solution
 
 
 class TestSolutionDomination(TestCase):
 
     def setUp(self):
-        self.problem = problem.Problem('test_config.json')
-        self.swarm = swarm.Swarm()
+        self.solution_1 = solution.Solution([], [1, 3])
+        self.solution_2 = solution.Solution([], [1, 2])
 
     def tearDown(self):
-        self.swarm = None
+        self.solution_1 = None
+        self.solution_2 = None
 
     def test_fully_dominated(self):
         self.assertFalse(self.solution_1.fully_dominated(self.solution_2, ["MAX", "MAX"]))
+
+def add(a, b):
+    result = a + b
+    print(result)
+    return result
+add(2,3)

@@ -6,10 +6,10 @@ import particle
 class TestSolutionDomination(TestCase):
 
     def setUp(self):
-        self.particle = particle.Particle()
+        self.my_particle = particle.Particle()
 
     def tearDown(self):
-        self.particle = None
+        self.my_particle = None
 
     def test_particle_evaluate(self):  # TODO: Particle evaluating test
         pass

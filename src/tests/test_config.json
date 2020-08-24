@@ -1,4 +1,7 @@
 {
+  "objectives": [
+    "def add(a, b):\n    result = a + b\n    print(result)\n    return result\nadd(1, 2)"
+  ],
   "c1": 1.1,
   "c2": 2.2,
   "start_w": 1.1,
