@@ -1,15 +1,24 @@
 from unittest import TestCase
 
-import problem
+from problem import Problem
 
 
 class TestSolutionDomination(TestCase):
 
     def setUp(self):
-        self.problem = problem.Problem('test_config.json')
+        self.config = Problem('test_config.json')
 
     def tearDown(self):
-        self.problem = None
+        self.config = None
 
-    def test_input(self): # TODO: Perhaps tests for when we use a different input method
-        pass
+    def test_read_as_methods_correct(self):
+        # check if objective methods have been converted to functions properly
+        for obj in self.config.objectives:
+            self.assertTrue(callable(obj))
+
+    def test_read_as_methods_false(self):
+        # check if unconverted methods are detected
+        # (?) maybe don't need this test, I'm not sure
+        self.config.objectives = ["zdt_test.ZDT1", "zdt_test.ZDT2"]  # using unconverted objectives
+        for obj in self.config.objectives:
+            self.assertFalse(callable(obj))

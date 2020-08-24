@@ -58,7 +58,6 @@ class TestSolution(unittest.TestCase):
     #         boolean = sol1.fully_dominated(sol2, ["MIN", "AXE"])
     
     # DOMINATED FUNCTION
-
     def test_dominated_max(self):
         sol1 = Solution([], [1, 1])
         sol2 = Solution([], [5, 5])
