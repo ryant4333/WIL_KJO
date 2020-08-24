@@ -1,12 +1,12 @@
 from unittest import TestCase
 
-import problem
+from problem import Problem
 
 
 class TestSolutionDomination(TestCase):
 
     def setUp(self):
-        self.config = problem.Problem('test_config.json')
+        self.config = Problem('test_config.json')
 
     def tearDown(self):
         self.config = None
