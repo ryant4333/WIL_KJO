@@ -5,13 +5,14 @@
   ],
   "c1": 1.1,
   "c2": 2.2,
-  "start_w": 1.1,
-  "end_w": 1.1,
+  "min_w": 1.1,
+  "max_w": 1.1,
   "particle_num": 13,
   "max_iterations": 1,
   "min_avg_velocity": 1.1,
   "dimensions": [1, 1],
   "max":[1, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1] ,
-  "min":[0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0]
+  "min":[0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+  "cube_count": 10
 }
 

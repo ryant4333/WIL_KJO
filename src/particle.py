@@ -19,7 +19,7 @@ class Particle:
         obj = objectives(self.x)
         solution = Solution(self.x, obj)
         
-        if(self.p_best.fully_dominated(solution, optimization_type) == True):
+        if(self.p_best.dominated(solution, optimization_type) == -1):
             self.p_best = solution
         
         return solution
