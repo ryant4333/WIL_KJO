@@ -1,4 +1,5 @@
 from zdt_test import ZDT1
+from zdt_test import genZDTInputs
 from solution import Solution
 import numpy as np
 
@@ -45,27 +46,46 @@ class Hypercubes:
         
         return
 
+    # def new_sol_check(self, new_solution, optimizaton_type):
+    #     """
+    #     Checks new sol against all items
+    #     return False if new solution bad
+    #     return true if new solution is non-dom
+    #     """
+    #     for cube in self.cube_dict:
+    #         for sol in self.cube_dict[cube]:
+    #             dom_status = new_solution.dominated(sol, optimizaton_type)
+
+    #             if dom_status == -1:
+    #                 return False
+    #             elif dom_status == 1:
+    #                 self.remove_sol(sol)
+    #             elif dom_status == 0:
+    #                 pass
+    #     return True
+
     def new_sol_check(self, new_solution, optimizaton_type):
         """
         Checks new sol against all items
         return False if new solution bad
         return true if new solution is non-dom
+
         """
+        
         for cube in self.cube_dict:
-            for sol in self.cube_dict[cube]:
+            to_del = []
+            for i, sol in enumerate(self.cube_dict[cube]):
                 dom_status = new_solution.dominated(sol, optimizaton_type)
 
                 if dom_status == -1:
                     return False
                 elif dom_status == 1:
-                    self.remove_sol(sol)
+                    to_del.append(i)
                 elif dom_status == 0:
                     pass
+            for i in sorted(to_del, reverse=True):
+                del self.cube_dict[cube][i]
         return True
-
-    def remove_sol(self, sol):
-        key = self.get_bin_key(sol)
-        self.cube_dict[key].remove(sol)
 
     def full_remove(self):
         pass
@@ -78,17 +98,21 @@ class Hypercubes:
 
 
 if __name__ == "__main__":
-    mini = np.array([0,0,0,0,0,0,0,0])
-    maxi = np.array([1,1,1,1,1,1,1,1])
-    
-    sol1 = Solution([], [0.2, 3.4])
-    sol2 = Solution([], [0.8, 3.1])
-    sol3 = Solution([], [0.3, 3.3])
-    
+    mini = np.zeros(30)
+    maxi = np.ones(30)
+
+    solutions = []
+    for i in range(50):
+        x = genZDTInputs(30)
+        sol = ZDT1(x)
+        
+        solutions.append(Solution(x, sol))
+
+    # print(solutions)
+
     cube = Hypercubes(mini, maxi, ZDT1, 5)
 
-    cube.push_sol(sol1, ["MIN", "MIN"])
-    cube.push_sol(sol2, ["MIN", "MIN"])
-    cube.push_sol(sol3, ["MIN", "MIN"])
+    for i in solutions:
+        cube.push_sol(i, ["MIN", "MIN"])
 
     print(cube.output())
