@@ -8,11 +8,14 @@ import random
 Problems/todo:
 In random selection sometimes nothing is deleated as random value is
 larger than any of the probablilities
+
+Remove cube when empty
+figure out why solution count wrong
 """
 
 
 class Hypercubes:
-    def __init__(self, d_min, d_max, objective, cube_count):
+    def __init__(self, d_min, d_max, objective, cube_count, max_solutions):
         """
         Init dict to hold solutions, keys will be sub-cubes
         Counter to keep track of # solutions
@@ -20,7 +23,7 @@ class Hypercubes:
         """
         self.cube_dict = {}
         self.sol_count = 0
-        self.max_sol_count = 15
+        self.max_sol_count = max_solutions
 
         s_min = objective(d_min)
         s_max = objective(d_max)
@@ -53,15 +56,14 @@ class Hypercubes:
 
         if self.new_sol_check(new_solution, optimizaton_type):
             if self.sol_count >= self.max_sol_count:
-                print(self.sol_count, "is greater than 15")
-                # If full remove 1
-                self.full_remove(1)
+                self.delete_sol()
 
             key = self.get_bin_key(new_solution)
             if key in self.cube_dict:
                 self.cube_dict[key].append(new_solution)
             else:
                 self.cube_dict[key] = [new_solution]
+            self.sol_count += 1
         
         return
 
@@ -75,6 +77,7 @@ class Hypercubes:
         return true if new solution is non-dom
         """
         
+        empty_cubes = []
         for cube in self.cube_dict:
             to_del = []
             for i, sol in enumerate(self.cube_dict[cube]):
@@ -90,25 +93,38 @@ class Hypercubes:
             for i in sorted(to_del, reverse=True):
                 del self.cube_dict[cube][i]
                 self.sol_count -= 1
-        self.sol_count += 1
+
+            if len(self.cube_dict[cube]) == 0:
+                empty_cubes.append(cube)
+                #Check if cube empty
+
+        for cube in empty_cubes:
+            del self.cube_dict[cube]
+
         return True
 
-    def remove_empty_cubes(self):
-        empty_cubes = []
-        for cube in self.cube_dict:
-            size = len(self.cube_dict[cube])
-            if (size == 0):
-                empty_cubes.append(cube)
-        for i in empty_cubes:
-            del self.cube_dict[i]
-        return
-
-    def full_remove(self, num):
-        """
-        Could add int to input to deleate multiple
-        """
-        self.remove_empty_cubes()
+    def select_min_cube(self):
+        cube_fitness = {}
+        keys = self.cube_dict.keys()
+        for cube in keys:
+            cube_len = len(self.cube_dict[cube])
+            cube_fitness[cube] = cube_len
         
+        relative_fitness = [(self.sol_count/f) for f in cube_fitness.values()]
+        total_fit = sum(relative_fitness)
+        relative_fitness = [(f/total_fit) for f in relative_fitness]
+        #relative fitness adds to 1
+        
+        r = random.random()
+        counter = 0
+        for (i, key) in enumerate(keys):
+            counter += relative_fitness[i]
+            if r <= counter:
+                return key
+        return keys[-1]
+
+
+    def select_cube(self):
         cube_fitness = {}
         keys = self.cube_dict.keys()
         for cube in keys:
@@ -118,22 +134,34 @@ class Hypercubes:
         relative_fitness = [f/self.sol_count for f in cube_fitness.values()]
         #relative fitness adds to 1
 
-        for n in range(num):
-            r = random.random()
-            for (i, key) in enumerate(keys):
-                if r <= relative_fitness[i]:
-                    chosen = random.randrange(len(self.cube_dict[key]))
-                    print("Shits Full, Deleating:", self.cube_dict[key][chosen])
-                    del self.cube_dict[key][chosen]
-                    self.sol_count -= 1
-                    break
+        r = random.random()
+        counter = 0
+        for (i, key) in enumerate(keys):
+            counter += relative_fitness[i]
+            if r <= counter:
+                return key
+        return keys[-1]
+            
 
+    def delete_sol(self):
+        cube = self.select_cube()
+        
+        chosen = random.randrange(len(self.cube_dict[cube]))
+        del self.cube_dict[cube][chosen]
+        
+        if len(self.cube_dict[cube]) == 0:
+            del self.cube_dict[cube]
 
-        return
+        self.sol_count -= 1
 
 
     def output(self):
-        return self.cube_dict
+        count = 0
+        for i in self.cube_dict.keys():
+            print("Cube:", i, "Has count: ", len(self.cube_dict[i]))
+            count += len(self.cube_dict[i])
+        print("Summed len: ", count)
+        return
 
 
     def output_front(self):
@@ -171,10 +199,15 @@ if __name__ == "__main__":
         solutions.append(Solution(x, sol))
         
 
-    cube = Hypercubes(mini, maxi, zdt_test.ZDT1, 5)
+    cube = Hypercubes(mini, maxi, zdt_test.ZDT1, 5, 15)
 
     for i in solutions:
         cube.push_sol(i, ["MIN", "MIN"])
 
-    print(cube.output_front())
+    # print(cube.select_min_cube())
+    # print(cube.output_front())
     #cube.draw_front()
+    cube.output()
+    print(cube.sol_count)
+
+    
