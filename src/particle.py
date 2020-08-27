@@ -1,7 +1,6 @@
 import random
 import numpy as np
 from solution import Solution
-from datetime import datetime
 
 class Particle:
 
