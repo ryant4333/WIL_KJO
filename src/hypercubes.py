@@ -103,6 +103,14 @@ class Hypercubes:
 
         return True
 
+    def select_gbest(self):
+        cube = self.select_min_cube()
+
+        chosen = random.randrange(len(self.cube_dict[cube]))
+        return self.cube_dict[cube][chosen]
+
+
+
     def select_min_cube(self):
         cube_fitness = {}
         keys = self.cube_dict.keys()
