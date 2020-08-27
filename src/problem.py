@@ -1,11 +1,6 @@
 import json
-
-"""
-NOTE: With the current implementation of reading in objective functions
-as methods, we require the actual python file that contains said methods.
-(In this case it is the zdt_test file).
-"""
 import zdt_test
+import numpy as np
 
 
 class Problem:
@@ -17,7 +12,7 @@ class Problem:
         with open(config_file) as f:
             config = json.load(f)
         # Declaring variables
-        self.objectives = read_as_methods(config['objectives'])
+        self.objective = config['objective']
         self.c1 = config['c1']
         self.c2 = config['c2']
         self.max_w = config['max_w']
@@ -30,20 +25,9 @@ class Problem:
         self.min = config['min']
         self.cube_count = config['cube_count']
 
+    def import_zdt(self, zdt_objective):
+        """
+        Sets the objective to the ZDT objective function
+        """
+        self.objective = zdt_objective
 
-def read_as_methods(objectives):
-    return [eval(obj) for obj in objectives]
-
-
-"""
-OLD read_as_methods code:
-
-This function let's us read in and execute the objective function as string BUT..
-I couldn't figure out how to extract the actual function from it and use it somewhere else
-Input that worked: def add(a, b):\n    result = a + b\n    print(result)\n    return result\nadd(1, 2)"
-
-(to run this put it back in the test_problem.py testfile)
-"""
-# print(self.config.objectives)
-# code = compile(self.config.objectives[0], "<string>", "exec")
-# exec(code)
