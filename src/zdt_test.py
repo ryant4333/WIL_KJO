@@ -2,6 +2,7 @@ import numpy as np
 
 
 def ZDT1(x):
+    x = np.array(x)
     D = len(x)
     f1 = x[0]
     g = 1 + 9 * np.sum(x[1:D] / (D - 1))
@@ -12,6 +13,7 @@ def ZDT1(x):
 
 
 def ZDT2(x):
+    x = np.array(x)
     D = len(x)
     f1 = x[0]
     g = 1 + 9 * np.sum(x[1:D] / (D - 1))
@@ -22,6 +24,7 @@ def ZDT2(x):
 
 
 def ZDT3(x):
+    x = np.array(x)
     D = len(x)
     f1 = x[0]
     g = 1 + 9 * np.sum(x[1:D] / (D - 1))

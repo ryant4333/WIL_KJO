@@ -20,10 +20,11 @@ class Problem:
         self.particle_num = config['particle_num']
         self.max_iterations = config['max_iterations']
         self.min_avg_velocity = config['min_avg_velocity']
-        self.dimensions = config['dimensions']
         self.max = config['max']
         self.min = config['min']
         self.cube_count = config['cube_count']
+        self.optimization_type = config['optimization_type']
+        self.solution_count = config['solution_count']
 
     def import_zdt(self, zdt_objective):
         """
@@ -31,3 +32,6 @@ class Problem:
         """
         self.objective = zdt_objective
 
+if __name__ == "__main__":
+    problem = Problem("config.json")
+    print(type(problem.max[0]))
