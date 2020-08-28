@@ -7,7 +7,7 @@ sys.path.insert(1, "../")  # to import running in the test path
 from problem import Problem
 
 
-class TestSolutionDomination(unittest.TestCase):
+class TestProblem(unittest.TestCase):
 
     def test_import_zdt(self):
         self.problem = Problem('test_config.json')
