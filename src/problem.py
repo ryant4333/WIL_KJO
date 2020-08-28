@@ -1,6 +1,5 @@
 import json
 import zdt_test
-import numpy as np
 
 
 class Problem:
@@ -12,7 +11,7 @@ class Problem:
         with open(config_file) as f:
             config = json.load(f)
         # Declaring variables
-        self.objective = config['objective']
+        self.objective = convert_to_method(config['objective'])
         self.c1 = config['c1']
         self.c2 = config['c2']
         self.max_w = config['max_w']
@@ -26,12 +25,9 @@ class Problem:
         self.optimization_type = config['optimization_type']
         self.solution_count = config['solution_count']
 
-    def import_zdt(self, zdt_objective):
-        """
-        Sets the objective to the ZDT objective function
-        """
-        self.objective = zdt_objective
 
-if __name__ == "__main__":
-    problem = Problem("config.json")
-    print(type(problem.max[0]))
+def convert_to_method(objective):
+    """
+    Convert objective name to function reference
+    """
+    return eval(objective)
