@@ -10,10 +10,8 @@ import numpy as np
 import math
 
 class Optimiser:
-    def __init__(self, config, ZDT=None):
+    def __init__(self, config):
         self.problem = problem.Problem(config)
-        if ZDT != None:
-            self.problem.import_zdt(ZDT)
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
             self.problem.max)
@@ -81,6 +79,6 @@ def _get_avg_velocity(particles):
     return v
 
 if __name__ == "__main__":
-    optimiser = Optimiser("config.json", zdt_test.ZDT1)
+    optimiser = Optimiser("config.json")
     optimiser.run()
     optimiser.hypercubes.draw_front()
