@@ -14,14 +14,16 @@ class Problem:
         self.objective = convert_to_method(config['objective'])
         self.c1 = config['c1']
         self.c2 = config['c2']
-        self.start_w = config['start_w']
-        self.end_w = config['end_w']
+        self.max_w = config['max_w']
+        self.min_w = config['max_w']
         self.particle_num = config['particle_num']
         self.max_iterations = config['max_iterations']
         self.min_avg_velocity = config['min_avg_velocity']
-        self.dimensions = config['dimensions']
         self.max = config['max']
         self.min = config['min']
+        self.cube_count = config['cube_count']
+        self.optimization_type = config['optimization_type']
+        self.solution_count = config['solution_count']
 
 
 def convert_to_method(objective):

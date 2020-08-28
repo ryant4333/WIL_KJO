@@ -1,7 +1,6 @@
 import random
 import numpy as np
 from solution import Solution
-from datetime import datetime
 
 class Particle:
 
@@ -18,9 +17,17 @@ class Particle:
         """
         obj = objectives(self.x)
         solution = Solution(self.x, obj)
-        
-        if(self.p_best.fully_dominated(solution, optimization_type) == True):
+
+        if self.p_best == None:
             self.p_best = solution
+
+        dom_status = self.p_best.dominated(solution, optimization_type)
+        
+        if (dom_status == -1):
+            self.p_best = solution
+        elif(dom_status == 0):
+            if random.random() > 0.5:
+                self.p_best = solution
         
         return solution
   
@@ -37,9 +44,9 @@ class Particle:
         # check constraints
         for i in range(len(x)):
             if x[i] > maximum[i]:
-                x[i] -= (maximum[i] - minimum[i])
+                x[i] = maximum[i]
             elif x[i] < minimum[i]:
-                x[i] += (maximum[i] - minimum[i])
+                x[i] = minimum[i]
         
         self.x = x
         self.velocity = velocity
