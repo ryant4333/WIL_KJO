@@ -1,16 +1,16 @@
 {
   "objective": "zdt_test.ZDT1",
-  "c1": 1.1,
-  "c2": 2.2,
+  "c1": 1,
+  "c2": 1,
   "min_w": 0.4,
   "max_w": 0.7,
   "particle_num": 30,
   "max_iterations": 400,
-  "min_avg_velocity": 0.1,
+  "min_avg_velocity": 0.01,
   "max":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   "min":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   "cube_count": 10,
-  "solution_count": 1000,
+  "solution_count": 100,
   "optimization_type": ["MIN", "MIN"]
 }
 

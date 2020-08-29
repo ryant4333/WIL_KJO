@@ -17,7 +17,7 @@ def ZDT2(x):
     D = len(x)
     f1 = x[0]
     g = 1 + 9 * np.sum(x[1:D] / (D - 1))
-    h = 1 - (f1 / g) ** 2
+    h = 1 - ((f1 / g) ** 2)
     f2 = g * h
 
     return [f1, f2]
@@ -38,6 +38,7 @@ def ZDT4(x):
     # x[0] = between 0-1
     # x[1:D] = between -5 to 5
     # D = 2-10
+    x = np.array(x)
     D = len(x)
     f1 = x[0]
     g = (1 + 10 * (D - 1)) + np.sum(x[1:D] ** 2 - 10 * np.cos(4 * np.pi * x[1:D]))
