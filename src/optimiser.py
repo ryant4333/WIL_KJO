@@ -82,4 +82,4 @@ def _get_avg_velocity(particles):
 if __name__ == "__main__":
     optimiser = Optimiser("config.json")
     optimiser.run()
-    plot_graph.plot("ZDT1", optimiser)
+    plot_graph.plot(optimiser.problem.objective.__name__, optimiser)
