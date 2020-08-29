@@ -4,6 +4,7 @@ import hypercubes
 import particle
 import solution
 import zdt_test
+import plot_graph
 
 import random
 import numpy as np
@@ -81,4 +82,4 @@ def _get_avg_velocity(particles):
 if __name__ == "__main__":
     optimiser = Optimiser("config.json")
     optimiser.run()
-    optimiser.hypercubes.draw_front()
+    plot_graph.plot("ZDT1", optimiser)
