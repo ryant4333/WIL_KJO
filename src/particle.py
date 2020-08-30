@@ -45,8 +45,10 @@ class Particle:
         for i in range(len(x)):
             if x[i] > maximum[i]:
                 x[i] = maximum[i]
+                velocity[i] *= -1
             elif x[i] < minimum[i]:
                 x[i] = minimum[i]
+                velocity *= -1
         
         self.x = x
         self.velocity = velocity
