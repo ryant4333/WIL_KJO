@@ -1,8 +1,10 @@
+import numpy as np
+
 class Solution:
     def __init__(self, x, objectives):
         """Objectives array of floats that specify pos fitness"""
-        self.x = x
-        self.objectives = objectives
+        self.x = np.array(x)
+        self.objectives = np.array(objectives)
 
     def __repr__(self):
         #repr prints objects for testing purposes
