@@ -36,8 +36,8 @@ class Particle:
             raise TypeError("incorrect array size")
         
         inertia = np.array(self.velocity) * w
-        cognitive = np.subtract(self.p_best.x, self.x) * c1 * random.uniform(0,2)
-        social = np.subtract(self.s_best.x, self.x) * c2 * random.uniform(0,2)
+        cognitive = np.subtract(self.p_best.x, self.x) * c1 * random.uniform(0,1)
+        social = np.subtract(self.s_best.x, self.x) * c2 * random.uniform(0,1)
         velocity = inertia + cognitive + social
         x = np.array(self.x) + velocity
 
