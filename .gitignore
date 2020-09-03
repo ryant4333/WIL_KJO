@@ -1,4 +1,5 @@
 ./src/Logs/*
+*__pycache__*
 
 # Except this file
 !.gitignore
