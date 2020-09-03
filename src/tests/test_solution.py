@@ -64,6 +64,14 @@ class TestSolution(unittest.TestCase):
         sol2 = Solution([], [5, 5])
         with self.assertRaises(TypeError):
             boolean = sol1.dominated(sol2, ["MIN", "AXE"])
+
+    def test_non_dominated_equal_solution(self):
+        sol1 = Solution([], [5, 5])
+        sol2 = Solution([], [5, 5])
+        boolean = sol1.dominated(sol2, ["MIN", "MIN"])
+        opposite = sol2.dominated(sol1, ["MAX", "MAX"])
+        self.assertEqual(boolean, 1)
+        self.assertEqual(opposite, 1)
         
 
 if __name__ == "__main__":
