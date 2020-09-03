@@ -44,8 +44,8 @@ class Solution:
             return 1
         if y > 0:
             return -1
-        
+        return 1
 if __name__ == "__main__":
-    sol1 = Solution([], [2,3])
-    sol2 = Solution([], [1,5])
+    sol1 = Solution([], [1,1])
+    sol2 = Solution([], [1,1])
     print(sol1.dominated(sol2, ["MAX", "MAX"]))
