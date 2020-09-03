@@ -56,8 +56,8 @@ class TestParticle(unittest.TestCase):
         particle.velocity = [0.5, 0.5]
         random.seed(13)
         particle.move(1,1,1, [100,100], [-100, -100])
-        self.assertAlmostEqual(particle.x[0], 2.38853297)
-        self.assertAlmostEqual(particle.x[1], 2.38853297)
+        self.assertAlmostEqual(particle.x[0], 1.4442664846800106)
+        self.assertAlmostEqual(particle.x[1], 1.4442664846800106)
         
 
 def basicObjective(x):
