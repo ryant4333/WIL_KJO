@@ -58,8 +58,8 @@ class TestOptimiser(unittest.TestCase):
     def test_verbose_true(self):
         captured = io.StringIO()
         sys.stdout = captured
-        o = optimiser.Optimiser("test_config.json", verbose=True)
-        o.run()
+        o = optimiser.Optimiser("test_config.json")
+        o.run(verbose=True)
         sys.stdout = sys.__stdout__
         output = captured.getvalue()
         self.assertNotEqual(output, '')

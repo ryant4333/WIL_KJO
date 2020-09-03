@@ -11,7 +11,7 @@ import numpy as np
 import math
 
 class Optimiser:
-    def __init__(self, config, verbose=False):
+    def __init__(self, config):
         self.problem = problem.Problem(config)
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
@@ -23,8 +23,7 @@ class Optimiser:
             self.problem.solution_count)
         self.weight = random.uniform(self.problem.max_w, self.problem.min_w)
         self.iteration = 0
-        self.verbose = verbose
-    
+
     def weightRegression(self, max, min):
         self.weight = random.uniform(max, min)
     
@@ -39,10 +38,10 @@ class Optimiser:
 
         return False
 
-    def run(self):
+    def run(self, verbose=False):
         while True:
             self.iteration+=1
-            if self.verbose:
+            if verbose:
                 print("ITERATION: ", self.iteration, " AVG V: ", _get_avg_velocity(self.swarm.particles))
 
             # print("EVAL")
@@ -82,6 +81,6 @@ def _get_avg_velocity(particles):
     return v
 
 if __name__ == "__main__":
-    optimiser = Optimiser("config.json", verbose=True)
-    optimiser.run()
+    optimiser = Optimiser("config.json")
+    optimiser.run(verbose=True)
     plot_graph.plot(optimiser.problem.objective.__name__, optimiser)
