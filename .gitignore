@@ -1,0 +1,4 @@
+./src/Logs/*
+
+# Except this file
+!.gitignore
