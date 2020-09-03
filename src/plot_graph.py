@@ -14,12 +14,16 @@ def plot(title, opt):
     create_pos_log(opt, dir_name)
 
     front = np.loadtxt(dir_name + "/front_log")
-    plt.scatter(front[:, 0], front[:, 1], c='b')
+    if len(front) > 2:
+        plt.scatter(front[:, 0], front[:, 1], c='b')
+    else:
+        plt.scatter(front[0], front[1], c='b')
     plt.title(title)
     plt.xlabel(r'$f_1(x)$')
     plt.ylabel(r'$f_2(x)$')
     plt.legend(["Front"])
     plt.savefig("Logs/" + time_now + "/front.png")
+    print(len(front))
     plt.show()
 
 
