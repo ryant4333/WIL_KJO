@@ -1,5 +1,5 @@
 # Problem
-![alt text](problem.PNG)
+![alt text](problem.png)
 ___
 ## Attributes
 * objectives: function
