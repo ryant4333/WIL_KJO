@@ -13,3 +13,8 @@ class TestProblem(unittest.TestCase):
         self.problem = Problem('test_config.json')
         test_input = np.array([0.1, 1])
         self.assertEqual(self.problem.objective(test_input), zdt_test.ZDT1(test_input))
+
+    def test_val(self):
+        self.problem = Problem('test_config.json')
+        # with self.assertRaises(TypeError):
+        self.problem.validate_types()
