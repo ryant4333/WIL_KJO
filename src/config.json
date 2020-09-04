@@ -11,6 +11,6 @@
   "min":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   "cube_count": 20,
   "solution_count": 200,
-  "optimization_type": ["MIN", "MIN"]
+  "optimization_type": ["MIN", "MIN"],
+  "swarm_distribution": "EVEN"
 }
-

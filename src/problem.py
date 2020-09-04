@@ -24,6 +24,7 @@ class Problem:
         self.cube_count = config['cube_count']
         self.optimization_type = config['optimization_type']
         self.solution_count = config['solution_count']
+        self.swarm_distribution = config['swarm_distribution']
 
 
 def convert_to_method(objective):
