@@ -1,5 +1,5 @@
 # Particle
-![alt text](particle.PNG)
+![alt text](particle.png)
 ___
 ## Attributes
 * p_best: solution
