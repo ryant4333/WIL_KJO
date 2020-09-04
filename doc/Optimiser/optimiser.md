@@ -1,5 +1,5 @@
 # Optimiser
-![alt text](optimiser.PNG)
+![alt text](optimiser.png)
 ___
 ## Attributes
 * swarm: Swarm
