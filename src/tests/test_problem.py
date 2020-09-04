@@ -17,4 +17,3 @@ class TestProblem(unittest.TestCase):
     def test_val(self):
         self.problem = Problem('test_config.json')
         # with self.assertRaises(TypeError):
-        self.problem.validate_types()

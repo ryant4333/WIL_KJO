@@ -11,7 +11,6 @@ class Problem:
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)
-
         # Declaring variables
         self.objective: str = config['objective']
         self.c1: float = config['c1']
@@ -26,35 +25,19 @@ class Problem:
         self.cube_count: int = config['cube_count']
         self.optimization_type: list[str] = config['optimization_type']
         self.solution_count: int = config['solution_count']
+        # Validation
+        self.validate_config()
 
-    #     # validate ...
-    #     self.type_check(self.objective, self.c1, self.c2, self.max_w, self.min_w, self.particle_num,
-    #                     self.max_iterations, self.min_avg_velocity, self.max, self.min, self.cube_count,
-    #                     self.optimization_type, self.solution_count)
-    #
-    #     # convert to a method
-    #     self.objective = convert_to_method(self.objective)
-    #
-    # def type_check(self, objective: str, c1: float, c2: float, max_w: float, min_w: float, particle_num: int,
-    #                max_iterations: int, min_avg_velocity: float, maximum: list[float], minimum: list[float],
-    #                cube_count: int, optimization_type: list[str], solution_count: int):
-    #     pass
-
-    def validate_input(self):
-        # Check types
-
-        # Is the objective valid?
-
-        # Is min & max the same array size?
-
-        # Are the mins less than the maxs
-
-        # Is the optimization types either 'MIN' or 'MAX'
-
-        # Are the correct values +/ve
-
-        # Are the certain values not 0
-        pass
+    def validate_config(self):
+        """
+        Perform validation on the config file
+        - Checking types
+        - Checking values
+        - Checking objective function
+        """
+        self.validate_types()
+        self.validate_values()
+        self.validate_objective()
 
     def validate_types(self):
         """
@@ -97,16 +80,45 @@ class Problem:
             if type(i) != str:
                 raise TypeError("optimization_type should be type: <list of strings>")
 
+    def validate_values(self):
+        """
+        Validates specific config file values
+        """
+        # Is the optimization types either 'MIN' or 'MAX'
+        for i in self.optimization_type:
+            if i != "MAX" and i != "MIN":
+                raise ValueError("optimization_type '%s' should be MAX or MIN" % i)
+        # Values are greater than 0 and non-negative
+        if self.particle_num <= 0:
+            raise ValueError("particle_num should be greater than 0")
+        if self.max_iterations <= 0:
+            raise ValueError("max_iterations should be greater than 0")
+        if self.cube_count <= 0:
+            raise ValueError("cube_count should be greater than 0")
+        if self.solution_count <= 0:
+            raise ValueError("solution_count should be greater than 0")
+        # Is min & max the same array size?
+        if len(self.max) != len(self.min):
+            raise ValueError("size of max (%s) and min (%s) should be equal" % (len(self.max), len(self.min)))
+        # Are the min inputs less than the max outputs
+        for i in range(len(self.max)):
+            if self.max[i] <= self.min[i]:
+                raise ValueError("min values should be less than max values (%s not less than %s)"
+                                 % (self.min[i], self.max[i]))
 
-def convert_to_method(objective):
-    """
-    Convert objective name to function reference
-    """
-    # Check if a valid objective name was given
-    try:
-        method = eval(objective)
-    except NameError:
-        raise NameError("Objective '%s' was not found" % objective)
-    if not callable(method):
-        raise ValueError("Objective '%s' is not callable" % objective)
-    return method
+    def validate_objective(self):
+        """
+        Validates the objective function
+        """
+        try:
+            self.convert_objective_to_method()
+        except NameError:
+            raise NameError("Objective '%s' was not found" % self.objective)
+        if not callable(self.objective):
+            raise ValueError("Objective '%s' is not callable" % self.objective)
+
+    def convert_objective_to_method(self):
+        """
+        Convert objective name to function reference
+        """
+        self.objective = eval(self.objective)
