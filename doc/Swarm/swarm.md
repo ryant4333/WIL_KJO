@@ -1,5 +1,5 @@
 # Swarm
-![alt text](swarm.PNG)
+![alt text](swarm.png)
 ___
 ## Attributes
 * particles: particle [ ]
