@@ -25,6 +25,8 @@ class Problem:
         self.cube_count: int = config['cube_count']
         self.optimization_type: list[str] = config['optimization_type']
         self.solution_count: int = config['solution_count']
+        # Convert objective to method
+        self.convert_to_method(self.objective)
         # Validation
         self.validate_config()
 
@@ -33,18 +35,14 @@ class Problem:
         Perform validation on the config file
         - Checking types
         - Checking values
-        - Checking objective function
         """
         self.validate_types()
         self.validate_values()
-        self.validate_objective()
 
     def validate_types(self):
         """
         Validates the config file types
         """
-        if type(self.objective) != str:
-            raise TypeError("objective should be type: <string>")
         if type(self.c1) != float and type(self.c1) != int:
             raise TypeError("c1 should be type: <float>")
         if type(self.c2) != float and type(self.c2) != int:
@@ -84,10 +82,6 @@ class Problem:
         """
         Validates specific config file values
         """
-        # Is the optimization types either 'MIN' or 'MAX'
-        for i in self.optimization_type:
-            if i != "MAX" and i != "MIN":
-                raise ValueError("optimization_type '%s' should be MAX or MIN" % i)
         # Values are greater than 0 and non-negative
         if self.particle_num <= 0:
             raise ValueError("particle_num should be greater than 0")
@@ -97,6 +91,10 @@ class Problem:
             raise ValueError("cube_count should be greater than 0")
         if self.solution_count <= 0:
             raise ValueError("solution_count should be greater than 0")
+        # Is the optimization types either 'MIN' or 'MAX'
+        for i in self.optimization_type:
+            if i != "MAX" and i != "MIN":
+                raise ValueError("optimization_type '%s' should be MAX or MIN" % i)
         # Is min & max the same array size?
         if len(self.max) != len(self.min):
             raise ValueError("size of max (%s) and min (%s) should be equal" % (len(self.max), len(self.min)))
@@ -106,19 +104,13 @@ class Problem:
                 raise ValueError("min values should be less than max values (%s not less than %s)"
                                  % (self.min[i], self.max[i]))
 
-    def validate_objective(self):
-        """
-        Validates the objective function
-        """
-        try:
-            self.convert_objective_to_method()
-        except NameError:
-            raise NameError("Objective '%s' was not found" % self.objective)
-        if not callable(self.objective):
-            raise ValueError("Objective '%s' is not callable" % self.objective)
-
-    def convert_objective_to_method(self):
+    def convert_to_method(self, objective):
         """
         Convert objective name to function reference
         """
-        self.objective = eval(self.objective)
+        try:
+            self.objective = eval(objective)
+        except NameError:
+            raise NameError("Objective '%s' was not found" % objective)
+        if not callable(self.objective):
+            raise ValueError("Objective '%s' is not callable" % objective)
