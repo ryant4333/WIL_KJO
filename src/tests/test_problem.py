@@ -1,10 +1,10 @@
 import unittest
 import sys
-import zdt_test
 import numpy as np
 
 sys.path.insert(1, "../")  # to import running in the test path
 from problem import Problem
+import zdt_test
 
 
 class TestProblem(unittest.TestCase):
@@ -127,3 +127,16 @@ class TestProblem(unittest.TestCase):
     def test_convert_to_method_not_callable(self):
         with self.assertRaises(ValueError):
             self.problem.convert_to_method('zdt_test')
+    
+    def test_type_error_swarm_dist(self):
+        self.problem.swarm_distribution = 1
+        with self.assertRaises(TypeError):
+            self.problem.validate_types()
+    
+    def test_value_error_swarm_dist(self):
+        self.problem.swarm_distribution = "MEH"
+        with self.assertRaises(ValueError):
+            self.problem.validate_values()
+
+if __name__ == "__main__":
+    unittest.main()
