@@ -15,7 +15,7 @@ class Optimiser:
         self.problem = problem.Problem(config)
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
-            self.problem.max)
+            self.problem.max, self.problem.swarm_distribution)
         self.hypercubes = hypercubes.Hypercubes(self.problem.min,
             self.problem.max,
             self.problem.objective,

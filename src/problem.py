@@ -25,6 +25,7 @@ class Problem:
         self.cube_count: int = config['cube_count']
         self.optimization_type: list[str] = config['optimization_type']
         self.solution_count: int = config['solution_count']
+        self.swarm_distribution: str = config['swarm_distribution']
         # Convert objective to method
         self.convert_to_method(self.objective)
         # Validation

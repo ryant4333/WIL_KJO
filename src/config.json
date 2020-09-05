@@ -10,7 +10,7 @@
   "max":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   "min":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   "cube_count": 20,
-  "solution_count": 100,
-  "optimization_type": ["MIN", "MIN"]
+  "solution_count": 200,
+  "optimization_type": ["MIN", "MIN"],
+  "swarm_distribution": "EVEN"
 }
-
