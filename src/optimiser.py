@@ -23,7 +23,7 @@ class Optimiser:
             self.problem.solution_count)
         self.weight = random.uniform(self.problem.max_w, self.problem.min_w)
         self.iteration = 0
-    
+
     def weightRegression(self, max, min):
         self.weight = random.uniform(max, min)
     
@@ -38,10 +38,11 @@ class Optimiser:
 
         return False
 
-    def run(self):
+    def run(self, verbose=False):
         while True:
             self.iteration+=1
-            print("ITERATION: ", self.iteration, " AVG V: ", _get_avg_velocity(self.swarm.particles))
+            if verbose:
+                print("ITERATION: ", self.iteration, " AVG V: ", _get_avg_velocity(self.swarm.particles))
 
             # print("EVAL")
             # evaluate particle positions
@@ -81,5 +82,5 @@ def _get_avg_velocity(particles):
 
 if __name__ == "__main__":
     optimiser = Optimiser("config.json")
-    optimiser.run()
+    optimiser.run(verbose=True)
     plot_graph.plot(optimiser.problem.objective.__name__, optimiser)

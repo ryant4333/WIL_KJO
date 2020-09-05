@@ -1,5 +1,5 @@
 # Solution
-![alt text](solution.PNG)
+![alt text](solution.png)
 ___
 ## Attributes
 * x: float [ ]
