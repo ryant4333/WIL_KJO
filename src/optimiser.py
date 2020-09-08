@@ -34,7 +34,9 @@ class Optimiser:
         v = _get_avg_velocity(self.swarm.particles)
 
         if v < self.problem.min_avg_velocity:
-            return True
+            self.swarm = swarm.Swarm(self.problem.particle_num,
+                self.problem.min,
+                self.problem.max, self.problem.swarm_distribution)
 
         return False
 
