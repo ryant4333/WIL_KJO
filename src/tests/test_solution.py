@@ -69,7 +69,7 @@ class TestSolution(unittest.TestCase):
         sol1 = Solution([], [5, 5])
         sol2 = Solution([], [5, 5])
         boolean = sol1.dominated(sol2, ["MIN", "MIN"])
-        opposite = sol2.dominated(sol1, ["MAX", "MAX"])
+        opposite = sol2.dominated(sol1, ["MIN", "MIN"])
         self.assertEqual(boolean, 1)
         self.assertEqual(opposite, 1)
         
