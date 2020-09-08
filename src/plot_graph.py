@@ -23,7 +23,6 @@ def plot(title, opt):
     plt.ylabel(r'$f_2(x)$')
     plt.legend(["Front"])
     plt.savefig("Logs/" + time_now + "/front.png")
-    print(len(front))
     plt.show()
 
 
