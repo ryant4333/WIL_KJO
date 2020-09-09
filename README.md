@@ -18,6 +18,7 @@ The optimiser uses a *config.json* file as input.
   "cube_count": 20,
   "solution_count": 100,
   "optimization_type": ["MIN", "MIN"]
+  "swarm_distribution": "RANDOM"
 }
 ```
 This table describes the *config.json* file attributes:
@@ -37,3 +38,4 @@ This table describes the *config.json* file attributes:
 | cube_count        | int              | Number of hypercubes. |
 | solution_count    | int              | Total number of solutions able to be kept in the hypercube (that is, all combined hypercubes). |
 | optimization_type | array of strings | Optimization type of the objective functions (either `MIN` or `MAX`). This denotes whether the objective function is seeking a minimum or maximum value. E.g. *ZDT1* has 2 objective functions: *F1* and *F2* which are both seeking minimization. Thus, I give the input `["MIN", "MIN"]`.
+| swarm_distribution| string           | Type of particle distribution used (either `EVEN` or `RANDOM`). |
