@@ -22,7 +22,6 @@ class Swarm:
         elif s_dist == "EVEN":
 
             arr_sorted = np.array([np.arange(min_[x], max_[x], (max_[x] - min_[x]) / num_particles) for x in range(len(max_))])
-            np.random.shuffle((arr_sorted[0]))
 
             for j in range(num_particles):
                 x_pos = arr_sorted[:, j]

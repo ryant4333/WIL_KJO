@@ -12,5 +12,5 @@
   "cube_count": 20,
   "solution_count": 200,
   "optimization_type": ["MIN", "MIN"],
-  "swarm_distribution": "EVEN"
+  "swarm_distribution": "RANDOM"
 }
