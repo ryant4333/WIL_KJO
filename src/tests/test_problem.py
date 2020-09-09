@@ -45,7 +45,7 @@ class TestProblem(unittest.TestCase):
             self.problem.validate_config()
 
     def test_validation_min_avg_velocity_type(self):
-        self.problem.particle_num = "1.1"
+        self.problem.min_avg_velocity = "1.1"
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
