@@ -69,7 +69,7 @@ class Problem:
         if type(self.optimization_type) != list:
             raise TypeError("optimization_type should be type: <list of strings>")
         if type(self.swarm_distribution) != str:
-            raise TypeError("swarm_distribution should be type: str")
+            raise TypeError("swarm_distribution should be type: <string>")
         # Checking list nested types
         for i in self.max:
             if type(i) != float and type(i) != int:

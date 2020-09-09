@@ -128,12 +128,12 @@ class TestProblem(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.problem.convert_to_method('zdt_test')
     
-    def test_type_error_swarm_dist(self):
+    def test_swarm_distribution_type(self):
         self.problem.swarm_distribution = 1
         with self.assertRaises(TypeError):
             self.problem.validate_types()
     
-    def test_value_error_swarm_dist(self):
+    def test_swarm_distribution_value(self):
         self.problem.swarm_distribution = "MEH"
         with self.assertRaises(ValueError):
             self.problem.validate_values()
