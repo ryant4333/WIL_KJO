@@ -16,9 +16,7 @@ class Optimiser:
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
             self.problem.max, self.problem.swarm_distribution)
-        self.hypercubes = hypercubes.Hypercubes(self.problem.min,
-            self.problem.max,
-            self.problem.objective,
+        self.hypercubes = hypercubes.Hypercubes(
             self.problem.cube_count,
             self.problem.solution_count)
         self.weight = random.uniform(self.problem.max_w, self.problem.min_w)
@@ -46,28 +44,29 @@ class Optimiser:
             if verbose:
                 print("ITERATION: ", self.iteration, " AVG V: ", _get_avg_velocity(self.swarm.particles))
 
-            # print("EVAL")
             # evaluate particle positions
+            new_sols = []
+            updated = False
             for particle in self.swarm.particles:
                 sol = particle.evaluate(self.problem.objective, self.problem.optimization_type) # this updates pbest
+                new_sols.append(sol)
+                updated = self.hypercubes.update_bounds(sol)
+            
+            if updated:
+                self.hypercubes.redo_dict(self.problem.optimization_type)
+            
+            for sol in new_sols:
                 self.hypercubes.push_sol(sol, self.problem.optimization_type)
             
-            # print("GBEST")
             #select each particles gbest
             for particle in self.swarm.particles:
                 gbest = self.hypercubes.select_gbest()
                 particle.s_best = gbest
             
-            # print("MOVE")
             #move particles
             for particle in self.swarm.particles:
                 particle.move(self.problem.c1, self.problem.c2, self.weight, 
                     self.problem.max, self.problem.min)
-
-            # print("FRONT")
-            # self.hypercubes.output()
-            
-            # print("STOP?")
 
             if self.stop():
                 break
