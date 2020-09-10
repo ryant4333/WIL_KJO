@@ -15,7 +15,7 @@ figure out why solution count wrong
 
 
 class Hypercubes:
-    def __init__(self, d_min, d_max, objective, cube_count, max_solutions):
+    def __init__(self,cube_count, max_solutions):
         """
         Init dict to hold solutions, keys will be sub-cubes
         Counter to keep track of # solutions
@@ -24,17 +24,20 @@ class Hypercubes:
         self.cube_dict = {}
         self.sol_count = 0
         self.max_sol_count = max_solutions
-
-        s_min = objective(d_min)
-        s_max = objective(d_max)
-        
-        key_dist = []
         self.bin_size = []
+        self.max = []
+        self.min = []
+        self.cube_count = cube_count
+
+        # s_min = objective(d_min)
+        # s_max = objective(d_max)
+        
+        # key_dist = []
         
 
-        for i in range(len(s_min)):
-            key_dist.append(s_max[i] - s_min[i])
-            self.bin_size.append(key_dist[i] / cube_count)
+        # for i in range(len(s_min)):
+        #     key_dist.append(s_max[i] - s_min[i])
+        #     self.bin_size.append(key_dist[i] / cube_count)
 
     def get_bin_key(self, sol):
         """
@@ -48,13 +51,13 @@ class Hypercubes:
             key_list.append(key_val)
         return str(key_list)
 
-    def push_sol(self, new_solution, optimizaton_type):
+    def push_sol(self, new_solution, optimizaton_type, skipcheck=False):
         """
         If new solution check == True
         add new solution to a cube
         """
 
-        if self.new_sol_check(new_solution, optimizaton_type):
+        if skipcheck or self.new_sol_check(new_solution, optimizaton_type):
             if self.sol_count >= self.max_sol_count:
                 self.delete_sol()
 
@@ -191,6 +194,42 @@ class Hypercubes:
         
         plt.scatter(x, y)
         plt.savefig('front.png')
+    
+    def redo_dict(self, optimization_type):
+        buckets = list(self.cube_dict.values())
+        self.cube_dict = {}
+        self.sol_count = 0
+        self.bin_size = []
+        key_dist = []
+
+        for i in range(len(self.min)):
+            key_dist.append(self.max[i] - self.min[i])
+            self.bin_size.append(key_dist[i] / self.cube_count)
+        
+        for sols in buckets:
+            for sol in sols:
+                self.push_sol(sol, optimization_type, skipcheck=True)
+
+    def update_bounds(self, sol):
+        updated = False
+
+        if self.max == [] and self.min == []:
+            updated = True
+            self.max = np.array(sol.objectives)
+            self.min = np.array(sol.objectives)
+
+        for i in range(len(self.max)):
+            if sol.objectives[i] > self.max[i]:
+                updated = True
+                self.max[i] = sol.objectives[i]
+        
+        for i in range(len(self.min)):
+            if sol.objectives[i] < self.max[i]:
+                updated = True
+                self.min[i] = sol.objectives[i]
+        
+        return updated
+
 
 
         

@@ -1,51 +1,51 @@
 import numpy as np
-
+from pymop.problems.zdt import ZDT1 as test1
+from pymop.problems.zdt import ZDT2 as test2
+from pymop.problems.zdt import ZDT3 as test3
+from pymop.problems.zdt import ZDT4 as test4
+from pymop.problems.zdt import ZDT6 as test6
 
 def ZDT1(x):
     x = np.array(x)
     D = len(x)
-    f1 = x[0]
-    g = 1 + 9 * np.sum(x[1:D] / (D - 1))
-    h = 1 - np.sqrt(f1 / g)
-    f2 = g * h
-
-    return [f1, f2]
+    problem = test1(n_var=D)
+    F = problem.evaluate(x)
+    return F
 
 
 def ZDT2(x):
     x = np.array(x)
     D = len(x)
-    f1 = x[0]
-    g = 1 + 9 * np.sum(x[1:D] / (D - 1))
-    h = 1 - ((f1 / g) ** 2)
-    f2 = g * h
+    problem = test2(n_var=D)
+    F = problem.evaluate(x)
 
-    return [f1, f2]
+    return F
 
 
 def ZDT3(x):
     x = np.array(x)
     D = len(x)
-    f1 = x[0]
-    g = 1 + 9 * np.sum(x[1:D] / (D - 1))
-    h = (1 - np.sqrt(f1 / g)) - ((f1 / g) * np.sin(10 * np.pi * f1))
-    f2 = g * h
+    problem = test3(n_var=D)
+    F = problem.evaluate(x)
 
-    return [f1, f2]
+    return F
 
 
 def ZDT4(x):
-    # x[0] = between 0-1
-    # x[1:D] = between -5 to 5
-    # D = 2-10
     x = np.array(x)
     D = len(x)
-    f1 = x[0]
-    g = (1 + 10 * (D - 1)) + np.sum(x[1:D] ** 2 - 10 * np.cos(4 * np.pi * x[1:D]))
-    h = 1 - np.sqrt(f1 / g)
-    f2 = g * h
+    problem = test4(n_var=D)
+    F = problem.evaluate(x)
 
-    return [f1, f2]
+    return F
+
+def ZDT6(x):
+    x = np.array(x)
+    D = len(x)
+    problem = test6(n_var=D)
+    F = problem.evaluate(x)
+
+    return F
 
 
 def genZDTInputs(D):
