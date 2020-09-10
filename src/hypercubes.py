@@ -29,16 +29,6 @@ class Hypercubes:
         self.min = []
         self.cube_count = cube_count
 
-        # s_min = objective(d_min)
-        # s_max = objective(d_max)
-        
-        # key_dist = []
-        
-
-        # for i in range(len(s_min)):
-        #     key_dist.append(s_max[i] - s_min[i])
-        #     self.bin_size.append(key_dist[i] / cube_count)
-
     def get_bin_key(self, sol):
         """
         input is solution object
@@ -69,7 +59,6 @@ class Hypercubes:
             self.sol_count += 1
         
         return
-
 
     def new_sol_check(self, new_solution, optimizaton_type):
         """
@@ -112,8 +101,6 @@ class Hypercubes:
         chosen = random.randrange(len(self.cube_dict[cube]))
         return self.cube_dict[cube][chosen]
 
-
-
     def select_min_cube(self):
         cube_fitness = {}
         keys = self.cube_dict.keys()
@@ -134,7 +121,6 @@ class Hypercubes:
                 return key
         return keys[-1]
 
-
     def select_cube(self):
         cube_fitness = {}
         keys = self.cube_dict.keys()
@@ -153,7 +139,6 @@ class Hypercubes:
                 return key
         return keys[-1]
             
-
     def delete_sol(self):
         cube = self.select_cube()
         
@@ -165,7 +150,6 @@ class Hypercubes:
 
         self.sol_count -= 1
 
-
     def output(self):
         count = 0
         for i in self.cube_dict.keys():
@@ -173,7 +157,6 @@ class Hypercubes:
             count += len(self.cube_dict[i])
         print("Summed len: ", count)
         return
-
 
     def output_front(self):
         """
@@ -229,11 +212,6 @@ class Hypercubes:
                 self.min[i] = sol.objectives[i]
         
         return updated
-
-
-
-        
-
 
 if __name__ == "__main__":
     mini = np.zeros(30)

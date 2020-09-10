@@ -46,28 +46,3 @@ def ZDT6(x):
     F = problem.evaluate(x)
 
     return F
-
-
-def genZDTInputs(D):
-    x = np.random.rand(D)
-    return x
-
-
-def genZDT4Inputs(D):
-    x1 = np.random.rand(1)
-    x2 = np.random.uniform(-5, 5, D - 1)
-    x = np.concatenate((x1, x2), axis=0)
-    return x
-
-
-if __name__ == "__main__":
-    x = genZDTInputs(30)
-    print('ZDT1-3 input:\n', x)
-    print('ZDT1 output:', ZDT1(x))
-    print('ZDT2 output:', ZDT2(x))
-    print('ZDT3 output:', ZDT3(x))
-
-    x = genZDT4Inputs(10)
-    print('ZDT4 input:\n', x)
-    print('ZDT4 output:', ZDT4(x))
-    # ZDT4 has to have different initial values

@@ -44,7 +44,6 @@ class Optimiser:
             if verbose:
                 print("ITERATION: ", self.iteration, " AVG V: ", _get_avg_velocity(self.swarm.particles))
 
-            # print("EVAL")
             # evaluate particle positions
             new_sols = []
             updated = False
@@ -59,22 +58,15 @@ class Optimiser:
             for sol in new_sols:
                 self.hypercubes.push_sol(sol, self.problem.optimization_type)
             
-            # print("GBEST")
             #select each particles gbest
             for particle in self.swarm.particles:
                 gbest = self.hypercubes.select_gbest()
                 particle.s_best = gbest
             
-            # print("MOVE")
             #move particles
             for particle in self.swarm.particles:
                 particle.move(self.problem.c1, self.problem.c2, self.weight, 
                     self.problem.max, self.problem.min)
-
-            # print("FRONT")
-            # self.hypercubes.output()
-            
-            # print("STOP?")
 
             if self.stop():
                 break
