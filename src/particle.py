@@ -48,7 +48,7 @@ class Particle:
                 velocity[i] *= -1
             elif x[i] < minimum[i]:
                 x[i] = minimum[i]
-                velocity *= -1
+                velocity[i] *= -1
         
         self.x = x
         self.velocity = velocity

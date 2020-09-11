@@ -42,7 +42,11 @@ class Optimiser:
         while True:
             self.iteration+=1
             if verbose:
-                print("ITERATION: ", self.iteration, " AVG V: ", _get_avg_velocity(self.swarm.particles))
+                print(
+                "ITERATION: ", self.iteration,
+                " SOLS: ", self.hypercubes.sol_count,
+                " AVG V: ", _get_avg_velocity(self.swarm.particles)
+                )
 
             # evaluate particle positions
             new_sols = []
