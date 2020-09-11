@@ -1,4 +1,4 @@
-./src/Logs/*
+*logs*
 *__pycache__*
 
 # Except this file
