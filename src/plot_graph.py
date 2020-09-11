@@ -5,9 +5,11 @@ import os
 import optimiser
 
 
-def plot(title, opt):
+def plot(title, opt, directory):
+    if not directory[-1] in ('/', '\\'):
+        directory+='/'
     time_now = dt.datetime.now().strftime("%Y-%m-%d-%H%M%S")
-    dir_name = "Logs/" + time_now
+    dir_name = directory + "logs/" + time_now
 
     create_dir(dir_name)
     create_fitness_log(opt, dir_name)
@@ -22,13 +24,13 @@ def plot(title, opt):
     plt.xlabel(r'$f_1(x)$')
     plt.ylabel(r'$f_2(x)$')
     plt.legend(["Front"])
-    plt.savefig("Logs/" + time_now + "/front.png")
+    plt.savefig(dir_name + "/front.png")
     plt.show()
 
 
 def create_dir(dir_name):
     try:
-        os.mkdir(dir_name)
+        os.makedirs(dir_name)
         print("Directory ", dir_name, " Created ")
     except FileExistsError:
         print("Directory ", dir_name, " already exists")

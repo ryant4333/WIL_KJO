@@ -2,7 +2,7 @@ import unittest
 import sys
 import numpy as np
 
-sys.path.insert(1, "../")  # to import running in the test path
+sys.path.insert(1, "./src/")  # to import running in the test path
 from problem import Problem
 import zdt_test
 

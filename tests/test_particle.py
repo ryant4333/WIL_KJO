@@ -2,7 +2,7 @@
 import unittest
 import sys
 import random
-sys.path.insert(1, "../") # to import py classes
+sys.path.insert(1, "./src/") # to import py classes
 from solution import Solution
 from particle import Particle
 

@@ -1,4 +1,6 @@
 import unittest
+import sys
+sys.path.insert(1, "./tests/") 
 import test_particle
 import test_problem
 import test_solution

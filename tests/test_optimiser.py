@@ -4,7 +4,7 @@ import io
 import sys
 import random
 import numpy as np
-sys.path.insert(1, "../") # to import py classes
+sys.path.insert(1, "./src/") # to import py classes
 import optimiser
 
 class TestOptimiser(unittest.TestCase):

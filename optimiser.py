@@ -1,3 +1,10 @@
+import sys
+import random
+import numpy as np
+import math
+
+sys.path.insert(1, "./src/")
+
 import problem
 import swarm
 import hypercubes
@@ -5,10 +12,6 @@ import particle
 import solution
 import zdt_test
 import plot_graph
-
-import random
-import numpy as np
-import math
 
 class Optimiser:
     def __init__(self, config):
@@ -86,6 +89,11 @@ def _get_avg_velocity(particles):
     return v
 
 if __name__ == "__main__":
-    optimiser = Optimiser("config.json")
+    d = sys.argv[1]
+    if not d[-1] in ('/', '\\'):
+        d+='/'
+    config = d+"config.json"
+
+    optimiser = Optimiser(config)
     optimiser.run(verbose=True)
-    plot_graph.plot(optimiser.problem.objective.__name__, optimiser)
+    plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)

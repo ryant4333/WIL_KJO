@@ -1,7 +1,7 @@
 # needs to run from test file
 import unittest
 import sys
-sys.path.insert(1, "../") # to import running in the test path
+sys.path.insert(1, "./src/") # to import running in the test path
 from solution import Solution
 
 
