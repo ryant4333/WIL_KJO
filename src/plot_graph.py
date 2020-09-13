@@ -31,7 +31,7 @@ def plot(title, opt, directory):
 def create_dir(dir_name):
     try:
         os.makedirs(dir_name)
-        print("Directory ", dir_name, " Created ")
+        print("DIRECTORY CREATED: ", dir_name)
     except FileExistsError:
         print("Directory ", dir_name, " already exists")
 

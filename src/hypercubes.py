@@ -1,4 +1,3 @@
-import zdt_test
 from solution import Solution
 import numpy as np
 import matplotlib.pyplot as plt

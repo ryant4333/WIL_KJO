@@ -2,6 +2,9 @@ import sys
 import random
 import numpy as np
 import math
+import threading
+import concurrent.futures
+import time
 
 sys.path.insert(1, "./src/")
 
@@ -10,8 +13,23 @@ import swarm
 import hypercubes
 import particle
 import solution
-import zdt_test
 import plot_graph
+
+class SolutionContainer:
+    def __init__(self):
+        self.container = []
+        self._lock = threading.Lock()
+    
+    def add(self, sol):
+        with self._lock:
+            self.container.append(sol)
+
+def eval_thread(particle, objective, optimization_type, new_sols):
+    sol = particle.evaluate(objective, optimization_type)
+    new_sols.add(sol)
+
+def move_thread(particle, c1, c2, weight, max_, min_):
+    particle.move(c1, c2, weight, max_, min_)
 
 class Optimiser:
     def __init__(self, config):
@@ -41,7 +59,7 @@ class Optimiser:
 
         return False
 
-    def run(self, verbose=False):
+    def run(self, workers=None, verbose=False):
         while True:
             self.iteration+=1
             if verbose:
@@ -52,17 +70,25 @@ class Optimiser:
                 )
 
             # evaluate particle positions
-            new_sols = []
+            new_sols = SolutionContainer()
+            with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:               
+                for particle in self.swarm.particles:
+                    executor.submit(
+                        eval_thread, 
+                        particle, 
+                        self.problem.objective, 
+                        self.problem.optimization_type, 
+                        new_sols
+                    )
+            
             updated = False
-            for particle in self.swarm.particles:
-                sol = particle.evaluate(self.problem.objective, self.problem.optimization_type) # this updates pbest
-                new_sols.append(sol)
+            for sol in new_sols.container:
                 updated = self.hypercubes.update_bounds(sol)
             
             if updated:
                 self.hypercubes.redo_dict(self.problem.optimization_type)
             
-            for sol in new_sols:
+            for sol in new_sols.container:
                 self.hypercubes.push_sol(sol, self.problem.optimization_type)
             
             #select each particles gbest
@@ -71,9 +97,17 @@ class Optimiser:
                 particle.s_best = gbest
             
             #move particles
-            for particle in self.swarm.particles:
-                particle.move(self.problem.c1, self.problem.c2, self.weight, 
-                    self.problem.max, self.problem.min)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:  
+                for particle in self.swarm.particles:
+                    executor.submit(
+                        move_thread,
+                        particle,
+                        self.problem.c1, 
+                        self.problem.c2, 
+                        self.weight, 
+                        self.problem.max, 
+                        self.problem.min
+                    )
 
             if self.stop():
                 break
@@ -92,8 +126,17 @@ if __name__ == "__main__":
     d = sys.argv[1]
     if not d[-1] in ('/', '\\'):
         d+='/'
+    
+    if len(sys.argv) < 3:
+        w = None
+    else:
+        w = int(sys.argv[2])
+
     sys.path.insert(1, d)
     config = d+"config.json"
     optimiser = Optimiser(config)
-    optimiser.run(verbose=True)
+    start = time.perf_counter()
+    optimiser.run(workers=w,verbose=True)
+    end = time.perf_counter()
+    print("RUNNING TIME: ", end - start, " seconds")
     plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)

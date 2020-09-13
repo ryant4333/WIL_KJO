@@ -1,17 +1,17 @@
 {
-    "objective": "zdt_test.ZDT4",
+    "objective": "objectives.viennet",
     "c1": 1,
     "c2": 1,
     "min_w": 0.4,
     "max_w": 0.7,
-    "particle_num": 30,
+    "particle_num": 40,
     "max_iterations": 400,
     "min_avg_velocity": 0.01,
-    "max":[1, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-    "min":[0, -5, -5, -5, -5, -5, -5, -5, -5, -5],
+    "max":["inf", 3],
+    "min":[-3, "inf"],
     "cube_count": 20,
     "solution_count": 200,
-    "optimization_type": ["MIN", "MIN"],
+    "optimization_type": ["MIN", "MIN", "MIN"],
     "swarm_distribution": "RANDOM"
 }
   
