@@ -26,11 +26,6 @@ class TestOptimiser(unittest.TestCase):
         v = optimiser._get_avg_velocity(o.swarm.particles)
         self.assertAlmostEqual(v, 5.477225575051661)
     
-    def test_stop_on_avg_velocity(self):
-        o = optimiser.Optimiser("test_config.json")
-        boolean = o.stop() # assuming true if min_avg_v is greater than 0 
-        self.assertEqual(boolean, True)
-    
     def test_stop_on_iter(self):
         o = optimiser.Optimiser("test_config.json")
         for particle in o.swarm.particles:
