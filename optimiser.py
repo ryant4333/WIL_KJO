@@ -92,8 +92,8 @@ if __name__ == "__main__":
     d = sys.argv[1]
     if not d[-1] in ('/', '\\'):
         d+='/'
+    sys.path.insert(1, d)
     config = d+"config.json"
-
     optimiser = Optimiser(config)
     optimiser.run(verbose=True)
     plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)

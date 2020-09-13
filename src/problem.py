@@ -1,6 +1,4 @@
 import json
-import zdt_test
-
 
 class Problem:
     """
@@ -114,7 +112,9 @@ class Problem:
         Convert objective name to function reference
         """
         try:
-            self.objective = eval(objective)
+            s = objective.split(".")
+            module = __import__(s[0])
+            self.objective = getattr(module, s[1])
         except NameError:
             raise NameError("Objective '%s' was not found" % objective)
         if not callable(self.objective):
