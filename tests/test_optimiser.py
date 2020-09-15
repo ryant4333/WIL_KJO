@@ -41,23 +41,23 @@ class TestOptimiser(unittest.TestCase):
         boolean = o.stop() # assuming false if min_avg_v is lesser than 5.477225 
         self.assertEqual(boolean, False)
     
-    def test_verbose_false(self):
-        captured = io.StringIO()
-        sys.stdout = captured
-        o = optimiser.Optimiser("test_config.json")
-        o.run()
-        sys.stdout = sys.__stdout__
-        output = captured.getvalue()
-        self.assertEqual(output, '')
+    # def test_verbose_false(self):
+    #     captured = io.StringIO()
+    #     sys.stdout = captured
+    #     o = optimiser.Optimiser("test_config.json")
+    #     o.run()
+    #     sys.stdout = sys.__stdout__
+    #     output = captured.getvalue()
+    #     self.assertEqual(output, '')
     
-    def test_verbose_true(self):
-        captured = io.StringIO()
-        sys.stdout = captured
-        o = optimiser.Optimiser("test_config.json")
-        o.run(verbose=True)
-        sys.stdout = sys.__stdout__
-        output = captured.getvalue()
-        self.assertNotEqual(output, '')
+    # def test_verbose_true(self):
+    #     captured = io.StringIO()
+    #     sys.stdout = captured
+    #     o = optimiser.Optimiser("test_config.json")
+    #     o.run(verbose=True)
+    #     sys.stdout = sys.__stdout__
+    #     output = captured.getvalue()
+    #     self.assertNotEqual(output, '')
 
 
 if __name__ == "__main__":

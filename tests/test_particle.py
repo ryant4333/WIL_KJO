@@ -15,7 +15,8 @@ class TestParticle(unittest.TestCase):
         particle = Particle()
         particle.x = [1, 1]
         particle.p_best = Solution([4,4], [5, 5])
-        sol = particle.evaluate(basicObjective, ["MAX", "MAX"])
+        sol = particle.evaluate(basicObjective)
+        particle.update_pbest(sol, ["MAX", "MAX"])
         self.assertEqual(sol.objectives[0], 2)
         self.assertEqual(sol.objectives[1], 2)
         self.assertEqual(sol.x[0], 1)
@@ -28,7 +29,8 @@ class TestParticle(unittest.TestCase):
         particle = Particle()
         particle.x = [5, 5]
         particle.p_best = Solution([4,4], [5, 5])
-        sol = particle.evaluate(basicObjective, ["MAX", "MAX"])
+        sol = particle.evaluate(basicObjective)
+        particle.update_pbest(sol, ["MAX", "MAX"])
         self.assertEqual(sol.objectives[0], 6)
         self.assertEqual(sol.objectives[1], 6)
         self.assertEqual(particle.p_best.objectives[0], 6)
@@ -55,7 +57,8 @@ class TestParticle(unittest.TestCase):
         particle.x = [0, 0]
         particle.velocity = [0.5, 0.5]
         random.seed(13)
-        particle.move(1,1,1, [100,100], [-100, -100])
+        v = particle.calc_velocity(1, 1, 1)
+        particle.move(v, [100,100], [-100, -100])
         self.assertAlmostEqual(particle.x[0], 1.4442664846800106)
         self.assertAlmostEqual(particle.x[1], 1.4442664846800106)
         

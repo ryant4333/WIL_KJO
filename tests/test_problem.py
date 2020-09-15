@@ -4,6 +4,7 @@ import numpy as np
 
 sys.path.insert(1, "./src/")  # to import running in the test path
 from problem import Problem
+from zdt.zdt1.objectives import ZDT1
 
 class TestProblem(unittest.TestCase):
 
@@ -15,7 +16,10 @@ class TestProblem(unittest.TestCase):
 
     def test_convert_to_method(self):
         test_input = np.array([0.1, 1])
-        self.assertEqual(self.problem.objective(test_input), zdt_test.ZDT1(test_input))
+        arr1 = self.problem.objective(test_input)
+        arr2 = ZDT1(test_input)
+        self.assertEqual(arr1[0], arr2[0])
+        self.assertEqual(arr1[1], arr2[1])
 
     def test_c1_type(self):
         self.problem.c1 = "1.1"
@@ -119,11 +123,11 @@ class TestProblem(unittest.TestCase):
             self.problem.validate_config()
 
     def test_convert_to_method_not_found(self):
-        with self.assertRaises(NameError):
+        with self.assertRaises(ModuleNotFoundError):
             self.problem.convert_to_method('invalid_zdt_test.ZDT1')
 
     def test_convert_to_method_not_callable(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ModuleNotFoundError):
             self.problem.convert_to_method('zdt_test')
     
     def test_swarm_distribution_type(self):
