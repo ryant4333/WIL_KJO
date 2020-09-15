@@ -18,9 +18,6 @@ import plot_graph
 def eval_process(objective, particle):
     return particle.evaluate(objective)
 
-def move_process(particle, c1, c2, weight, max_, min_):
-    particle.move(c1, c2, weight, max_, min_)
-
 class Optimiser:
     def __init__(self, config):
         self.problem = problem.Problem(config)
@@ -50,7 +47,7 @@ class Optimiser:
         return False
 
     def run(self, verbose=False):
-        #initalise process pool
+        #initalise process pool and functions
         cores = multiprocessing.cpu_count() - 1
         pool = multiprocessing.Pool(cores)
         eval_func = partial(
@@ -92,12 +89,19 @@ class Optimiser:
                 gbest = self.hypercubes.select_gbest()
                 particle.s_best = gbest
             
-            #move particles 
+            #calc particles veloctiy
+            vs = []
             for particle in self.swarm.particles:
-                particle.move(
-                    self.problem.c1, 
+                vs.append(particle.calc_velocity(
+                    self.problem.c1,
                     self.problem.c2, 
-                    self.weight, 
+                    self.weight
+                ))
+
+            #move particles 
+            for i in range(len(self.swarm.particles)):
+                self.swarm.particles[i].move(
+                    vs[i], 
                     self.problem.max, 
                     self.problem.min
                 )

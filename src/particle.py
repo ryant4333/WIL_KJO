@@ -19,14 +19,10 @@ class Particle:
         solution = Solution(self.x, obj)        
         return solution
   
-    def move(self, c1, c2, w, maximum, minimum):
+    def move(self, velocity, maximum, minimum):
         if len(self.x) != len(maximum) or len(self.x) != len(minimum):
             raise TypeError("incorrect array size")
         
-        inertia = np.array(self.velocity) * w
-        cognitive = np.subtract(self.p_best.x, self.x) * c1 * random.uniform(0,1)
-        social = np.subtract(self.s_best.x, self.x) * c2 * random.uniform(0,1)
-        velocity = inertia + cognitive + social
         x = np.array(self.x) + velocity
 
         # check constraints
@@ -41,6 +37,13 @@ class Particle:
         self.x = x
         self.velocity = velocity
     
+    def calc_velocity(self, c1, c2, w):
+        inertia = np.array(self.velocity) * w
+        cognitive = np.subtract(self.p_best.x, self.x) * c1 * random.uniform(0,1)
+        social = np.subtract(self.s_best.x, self.x) * c2 * random.uniform(0,1)
+        velocity = inertia + cognitive + social
+        return velocity
+    
     def update_pbest(self, solution, optimization_type):
         if self.p_best == None:
             self.p_best = solution
@@ -54,13 +57,5 @@ class Particle:
                 self.p_best = solution
 
 if __name__ == "__main__":
-    particle = Particle()
-    particle.p_best = Solution([1, 1], [1, 1])
-    particle.s_best = Solution([1, 1], [5, 5])
-    particle.x = [0, 0]
-    particle.velocity = [0.5, 0.5]
-
-    particle.move(1,1,1, [100,100], [-100, -100])
-    print(particle.x)
-    # looks like not random values but they are just linear
+    pass
     
