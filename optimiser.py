@@ -48,7 +48,7 @@ class Optimiser:
 
         return False
 
-    def run(self, workers=None, verbose=False):
+    def run(self, verbose=False):
         while True:
             self.iteration+=1
             if verbose:
@@ -110,17 +110,12 @@ if __name__ == "__main__":
     d = sys.argv[1]
     if not d[-1] in ('/', '\\'):
         d+='/'
-    
-    if len(sys.argv) < 3:
-        w = None
-    else:
-        w = int(sys.argv[2])
 
     sys.path.insert(1, d)
     config = d+"config.json"
     optimiser = Optimiser(config)
     start = time.perf_counter()
-    optimiser.run(workers=w,verbose=True)
+    optimiser.run(verbose=True)
     end = time.perf_counter()
     print("RUNNING TIME: ", end - start, " seconds")
     plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)

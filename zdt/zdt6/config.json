@@ -1,5 +1,5 @@
 {
-    "objective": "zdt_test.ZDT6",
+    "objective": "objectives.ZDT6",
     "c1": 1,
     "c2": 1,
     "min_w": 0.4,
