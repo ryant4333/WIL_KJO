@@ -3,7 +3,8 @@ import random
 import numpy as np
 import math
 import time
-from multiprocessing import Pool
+import multiprocessing
+from functools import partial
 
 sys.path.insert(1, "./src/")
 
@@ -14,8 +15,8 @@ import particle
 import solution
 import plot_graph
 
-def eval_process(particle, objective, optimization_type, new_sols):
-    return particle.evaluate(objective, optimization_type)
+def eval_process(objective, particle):
+    return particle.evaluate(objective)
 
 def move_process(particle, c1, c2, weight, max_, min_):
     particle.move(c1, c2, weight, max_, min_)
@@ -49,6 +50,14 @@ class Optimiser:
         return False
 
     def run(self, verbose=False):
+        #initalise process pool
+        cores = multiprocessing.cpu_count() - 1
+        pool = multiprocessing.Pool(cores)
+        eval_func = partial(
+            eval_process, 
+            self.problem.objective
+        )
+
         while True:
             self.iteration+=1
             if verbose:
@@ -59,14 +68,14 @@ class Optimiser:
                 )
 
             # evaluate particle positions
-            new_sols = []
-                    
-            for particle in self.swarm.particles:
-                sol = particle.evaluate(
-                    self.problem.objective, 
+            new_sols = pool.map(eval_func, self.swarm.particles)
+
+            # update pbest with new sols
+            for i in range(len(self.swarm.particles)):
+                self.swarm.particles[i].update_pbest(
+                    new_sols[i], 
                     self.problem.optimization_type
                 )
-                new_sols.append(sol)
             
             updated = False
             for sol in new_sols:

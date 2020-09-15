@@ -10,25 +10,13 @@ class Particle:
         self.x = []
         self.velocity = []
 
-    def evaluate(self, objectives, optimization_type):
+    def evaluate(self, objectives):
         """
-        maybe updates p_best
-        and returns new solution
+        returns new solution,
+        update pbest is new function to work with multiprocessing
         """
         obj = objectives(self.x)
-        solution = Solution(self.x, obj)
-
-        if self.p_best == None:
-            self.p_best = solution
-
-        dom_status = self.p_best.dominated(solution, optimization_type)
-        
-        if (dom_status == -1):
-            self.p_best = solution
-        elif(dom_status == 0):
-            if random.random() > 0.5:
-                self.p_best = solution
-        
+        solution = Solution(self.x, obj)        
         return solution
   
     def move(self, c1, c2, w, maximum, minimum):
@@ -52,6 +40,18 @@ class Particle:
         
         self.x = x
         self.velocity = velocity
+    
+    def update_pbest(self, solution, optimization_type):
+        if self.p_best == None:
+            self.p_best = solution
+
+        dom_status = self.p_best.dominated(solution, optimization_type)
+        
+        if (dom_status == -1):
+            self.p_best = solution
+        elif(dom_status == 0):
+            if random.random() > 0.5:
+                self.p_best = solution
 
 if __name__ == "__main__":
     particle = Particle()
