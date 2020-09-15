@@ -1,6 +1,6 @@
 {
     "objective": "objectives.ZDT4",
-    "c1": 1,
+    "c1": 1.5,
     "c2": 1,
     "min_w": 0.4,
     "max_w": 0.7,
