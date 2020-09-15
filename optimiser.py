@@ -14,13 +14,6 @@ import particle
 import solution
 import plot_graph
 
-class SolutionContainer:
-    def __init__(self):
-        self.container = []
-    
-    def add(self, sol):
-        self.container.append(sol)
-
 def eval_process(particle, objective, optimization_type, new_sols):
     return particle.evaluate(objective, optimization_type)
 
