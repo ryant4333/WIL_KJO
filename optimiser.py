@@ -2,8 +2,6 @@ import sys
 import random
 import numpy as np
 import math
-import threading
-import concurrent.futures
 import time
 
 sys.path.insert(1, "./src/")
@@ -18,11 +16,9 @@ import plot_graph
 class SolutionContainer:
     def __init__(self):
         self.container = []
-        self._lock = threading.Lock()
     
     def add(self, sol):
-        with self._lock:
-            self.container.append(sol)
+        self.container.append(sol)
 
 def eval_thread(particle, objective, optimization_type, new_sols):
     sol = particle.evaluate(objective, optimization_type)
@@ -71,15 +67,13 @@ class Optimiser:
 
             # evaluate particle positions
             new_sols = SolutionContainer()
-            with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:               
-                for particle in self.swarm.particles:
-                    executor.submit(
-                        eval_thread, 
-                        particle, 
-                        self.problem.objective, 
-                        self.problem.optimization_type, 
-                        new_sols
-                    )
+                        
+            for particle in self.swarm.particles:
+                sol = particle.evaluate(
+                    self.problem.objective, 
+                    self.problem.optimization_type
+                )
+                new_sols.add(sol)
             
             updated = False
             for sol in new_sols.container:
@@ -96,18 +90,15 @@ class Optimiser:
                 gbest = self.hypercubes.select_gbest()
                 particle.s_best = gbest
             
-            #move particles
-            with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:  
-                for particle in self.swarm.particles:
-                    executor.submit(
-                        move_thread,
-                        particle,
-                        self.problem.c1, 
-                        self.problem.c2, 
-                        self.weight, 
-                        self.problem.max, 
-                        self.problem.min
-                    )
+            #move particles 
+            for particle in self.swarm.particles:
+                particle.move(
+                    self.problem.c1, 
+                    self.problem.c2, 
+                    self.weight, 
+                    self.problem.max, 
+                    self.problem.min
+                )
 
             if self.stop():
                 break
