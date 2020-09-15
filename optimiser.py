@@ -3,6 +3,7 @@ import random
 import numpy as np
 import math
 import time
+from multiprocessing import Pool
 
 sys.path.insert(1, "./src/")
 
@@ -20,11 +21,10 @@ class SolutionContainer:
     def add(self, sol):
         self.container.append(sol)
 
-def eval_thread(particle, objective, optimization_type, new_sols):
-    sol = particle.evaluate(objective, optimization_type)
-    new_sols.add(sol)
+def eval_process(particle, objective, optimization_type, new_sols):
+    return particle.evaluate(objective, optimization_type)
 
-def move_thread(particle, c1, c2, weight, max_, min_):
+def move_process(particle, c1, c2, weight, max_, min_):
     particle.move(c1, c2, weight, max_, min_)
 
 class Optimiser:
@@ -66,23 +66,23 @@ class Optimiser:
                 )
 
             # evaluate particle positions
-            new_sols = SolutionContainer()
-                        
+            new_sols = []
+                    
             for particle in self.swarm.particles:
                 sol = particle.evaluate(
                     self.problem.objective, 
                     self.problem.optimization_type
                 )
-                new_sols.add(sol)
+                new_sols.append(sol)
             
             updated = False
-            for sol in new_sols.container:
+            for sol in new_sols:
                 updated = self.hypercubes.update_bounds(sol)
             
             if updated:
                 self.hypercubes.redo_dict(self.problem.optimization_type)
             
-            for sol in new_sols.container:
+            for sol in new_sols:
                 self.hypercubes.push_sol(sol, self.problem.optimization_type)
             
             #select each particles gbest
