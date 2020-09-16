@@ -47,6 +47,8 @@ class Optimiser:
         return False
 
     def run(self, verbose=False):
+        start = time.perf_counter()
+
         #initalise process pool and functions
         cores = multiprocessing.cpu_count()
         if verbose:
@@ -114,6 +116,9 @@ class Optimiser:
                 )
 
             if self.stop():
+                end = time.perf_counter()
+                if verbose:
+                    print("RUNNING TIME: ", end - start, " seconds")
                 break
 
 def _get_avg_velocity(particles):
@@ -127,6 +132,8 @@ def _get_avg_velocity(particles):
     return v
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        raise AttributeError("Missing directory to problem folder")
     d = sys.argv[1]
     if not d[-1] in ('/', '\\'):
         d+='/'
@@ -134,8 +141,5 @@ if __name__ == "__main__":
     sys.path.insert(1, d)
     config = d+"config.json"
     optimiser = Optimiser(config)
-    start = time.perf_counter()
     optimiser.run(verbose=True)
-    end = time.perf_counter()
-    print("RUNNING TIME: ", end - start, " seconds")
     plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)
