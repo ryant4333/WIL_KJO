@@ -22,7 +22,7 @@ class Optimiser:
         config file data."""
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
-            self.problem.max, self.problem.swarm_distribution)
+            self.problem.max)
         """Keeps instance of swarm class which is responsible for an array of 
         particles."""
         self.hypercubes = hypercubes.Hypercubes(
@@ -55,7 +55,7 @@ class Optimiser:
         if v < self.problem.min_avg_velocity:
             self.swarm = swarm.Swarm(self.problem.particle_num,
                 self.problem.min,
-                self.problem.max, self.problem.swarm_distribution)
+                self.problem.max)
 
         return False
 

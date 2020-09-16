@@ -129,16 +129,6 @@ class TestProblem(unittest.TestCase):
     def test_convert_to_method_not_callable(self):
         with self.assertRaises(ModuleNotFoundError):
             self.problem.convert_to_method('zdt_test')
-    
-    def test_swarm_distribution_type(self):
-        self.problem.swarm_distribution = 1
-        with self.assertRaises(TypeError):
-            self.problem.validate_types()
-    
-    def test_swarm_distribution_value(self):
-        self.problem.swarm_distribution = "MEH"
-        with self.assertRaises(ValueError):
-            self.problem.validate_values()
 
 
 if __name__ == "__main__":
