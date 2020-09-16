@@ -1,38 +1,222 @@
 import json
+import zdt.zdt1
 
+# TODO: Having an issue reading the objective functions without importing them.
+#  e.g. 'zdt.zdt1.objectives.ZDT1' will not work without importing zdt.zdt1.
+#  Another fix to this is by marking the zdt folder as 'Source Root'. There's a
+#  way to do this by adding __init__.py files in our directories so I will try this.
 
 class Wizard:
     def __init__(self):
         """
         Wizard for setting up config file
         """
-        # Gather user input
-        self.objective = input('Enter path to objective file: ')
-        objective_count = int(input('Enter number of objectives: '))
+        # Objective
+        while True:
+            self.objective = input('Enter path to objective function: ')
+            try:
+                # Try to evaluate the objective
+                s = self.objective.split(".")
+                module = __import__(s[0])
+                getattr(module, s[1])
+            except:
+                print("Sorry, objective '%s' not found. Please try again." % self.objective)
+                continue
+            else:
+                break
+
+        # Objective Count
+        while True:
+            try:
+                objective_count = int(input('Enter number of objectives: '))
+            except ValueError:
+                print("Must be type int. Please try again")
+                continue
+            if objective_count <= 0:
+                print("Value must be greater than 0.")
+                continue
+            else:
+                break
+
+        # Optimization Type
         self.optimization_type = []
         print("Enter optimization types (MAX or MIN)")
         for i in range(objective_count):
-            self.optimization_type.append(input("Objective %s: " % (i + 1)))
-        variable_count = int(input("Enter number of objective variables: "))
+            while True:
+                try:
+                    optimization = str(input("Objective %s: " % (i + 1)))
+                except ValueError:
+                    print("Must be type string. Please try again")
+                    continue
+                if optimization != "MAX" and optimization != "MIN":
+                    print("Optimization type must be either 'MAX' or 'MIN'. Please try again.")
+                    continue
+                else:
+                    self.optimization_type.append(optimization)
+                    break
+
+        # Objective variables count
+        while True:
+            try:
+                variable_count = int(input("Enter number of objective variables: "))
+            except ValueError:
+                print("Must be type int. Please try again")
+                continue
+            if variable_count <= 0:
+                print("Value must be greater than 0.")
+                continue
+            else:
+                break
+
+        # Objective variables (max and min)
         self.max_ = []
         self.min_ = []
-        print("Enter objective variable max and min values:")
         for i in range(variable_count):
-            print("Variable %s" % (i + 1))
-            self.max_.append(input("Max: "))
-            self.min_.append(input("Min: "))
-        self.swarm_distribution = input('Enter swarm distribution type (EVEN or RANDOM): ')
-        self.c1 = input("Enter c1: ")
-        self.c2 = input("Enter c2: ")
-        self.max_w = input("Enter maximum weight: ")
-        self.min_w = input("Enter minimum weight: ")
-        self.max_iterations = input("Enter maximum iterations (stopping condition): ")
-        self.min_avg_velocity = input("Enter minimum average velocity (stopping condition): ")
-        self.particle_num = input("Enter number of particles: ")
-        self.cube_count = input("Enter number of cubes to be used in the hypercube: ")
-        self.solution_count = input("Enter maximum number of solutions to store: ")
+            while True:
+                print("Variable %s" % (i + 1))
+                try:
+                    max_value = float(input("Max: "))
+                except ValueError:
+                    print("Must be type float. Please try again")
+                    continue
+                try:
+                    min_value = float(input("Min: "))
+                except ValueError:
+                    print("Must be type float. Please try again")
+                    continue
+                if max_value <= min_value:
+                    print("Maximum (%s) should be greater than minimum (%s). "
+                          "Please try again." % (max_value, min_value))
+                    continue
+                else:
+                    self.max_.append(max_value)
+                    self.min_.append(min_value)
+                    break
+
+        # Swarm Distribution
+        while True:
+            try:
+                self.swarm_distribution = str(input('Enter swarm distribution type (EVEN or RANDOM): '))
+            except ValueError:
+                print("Must be type string. Please try again")
+                continue
+            if self.swarm_distribution != "EVEN" and self.swarm_distribution != "RANDOM":
+                print("Swarm distribution must be either 'EVEN' or 'RANDOM'. Please try again")
+                continue
+            else:
+                break
+
+        # C1
+        while True:
+            try:
+                self.c1 = float(input("Enter c1: "))
+            except ValueError:
+                print("Must be type float. Please try again")
+                continue
+            else:
+                break
+
+        # C2
+        while True:
+            try:
+                self.c2 = float(input("Enter c2: "))
+            except ValueError:
+                print("Must be type float. Please try again")
+                continue
+            else:
+                break
+
+        while True:
+            # Max W
+            while True:
+                try:
+                    self.max_w = float(input("Enter maximum weight: "))
+                except ValueError:
+                    print("Must be type float. Please try again")
+                    continue
+                else:
+                    break
+            # Min W
+            while True:
+                try:
+                    self.min_w = float(input("Enter minimum weight: "))
+                except ValueError:
+                    print("Must be type float. Please try again")
+                    continue
+                else:
+                    break
+            # Check if Max W <= Min W
+            if self.max_w <= self.min_w:
+                print("Maximum (%s) should be greater than minimum (%s). "
+                      "Please try again." % (self.max_w, self.min_w))
+                continue
+            else:
+                break
+
+        # Max Iterations
+        while True:
+            try:
+                self.max_iterations = int(input("Enter maximum iterations (stopping condition): "))
+            except ValueError:
+                print("Must be type int. Please try again")
+                continue
+            if self.max_iterations <= 0:
+                print("Value must be greater than 0.")
+                continue
+            else:
+                break
+
+        # Min Avg Velocity
+        while True:
+            try:
+                self.min_avg_velocity = float(input("Enter minimum average velocity (stopping condition): "))
+            except ValueError:
+                print("Must be type float. Please try again")
+                continue
+            else:
+                break
+
+        # Particle Number
+        while True:
+            try:
+                self.particle_num = int(input("Enter number of particles: "))
+            except ValueError:
+                print("Must be type int. Please try again")
+                continue
+            if self.particle_num <= 0:
+                print("Value must be greater than 0.")
+                continue
+            else:
+                break
+
+        # Cube Count
+        while True:
+            try:
+                self.cube_count = int(input("Enter number of cubes to be used in the hypercube: "))
+            except ValueError:
+                print("Must be type int. Please try again")
+                continue
+            if self.cube_count <= 0:
+                print("Value must be greater than 0.")
+                continue
+            else:
+                break
+
+        # Solution Count
+        while True:
+            try:
+                self.solution_count = int(input("Enter maximum number of solutions to store: "))
+            except ValueError:
+                print("Must be type int. Please try again")
+                continue
+            if self.solution_count <= 0:
+                print("Value must be greater than 0.")
+                continue
+            else:
+                break
+
         # Create the JSON file
-        self.create_config()
+        # self.create_config()
 
     def create_config(self):
         """
