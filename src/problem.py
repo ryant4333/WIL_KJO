@@ -2,7 +2,7 @@ import json
 
 class Problem:
     """
-    Problem config class
+    Saves config file in the problem class.
     """
 
     def __init__(self, config_file):

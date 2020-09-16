@@ -2,9 +2,10 @@ import numpy as np
 
 class Solution:
     def __init__(self, x, objectives):
-        """Objectives array of floats that specify pos fitness"""
         self.x = np.array(x)
+        """Holds solution position."""
         self.objectives = np.array(objectives)
+        """Objectives array of floats that specify pos fitness"""
 
     def __repr__(self):
         #repr prints objects for testing purposes
@@ -14,6 +15,9 @@ class Solution:
     # returns 1 if self dominates, -1 is param solution dominates 
     # and 0 if neither dominate 
     def dominated(self, solution, optimization_type):
+        """Determines which solution dominates which. Returns 1 if self 
+        instance dominates, -1 if param sol dominates and 0 if neither. Unlikely
+        edge case where both solutions equal each other returns 1"""
         if len(self.objectives) != len(solution.objectives):
             raise TypeError("solutions have different objective sizes")
         if len(self.objectives) != len(optimization_type):

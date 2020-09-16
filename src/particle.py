@@ -6,20 +6,26 @@ class Particle:
 
     def __init__(self):
         self.p_best = None
+        """Position of the particles personal best."""
         self.s_best = None
+        """Position of the global best (taken from hypercubes class)."""
         self.x = []
+        """Current position of the particle."""
         self.velocity = []
+        """Inertia of particle."""
 
     def evaluate(self, objectives):
         """
-        returns new solution,
-        update pbest is new function to work with multiprocessing
+        Gets objectives based on the particles current position. Uses these 
+        objectives and the particles position to return a new solution.
         """
         obj = objectives(self.x)
         solution = Solution(self.x, obj)        
         return solution
   
     def move(self, velocity, maximum, minimum):
+        """Changes the position of the particle, maintains search space 
+        constraints, and saves velocity."""
         if len(self.x) != len(maximum) or len(self.x) != len(minimum):
             raise TypeError("incorrect array size")
         
@@ -38,6 +44,8 @@ class Particle:
         self.velocity = velocity
     
     def calc_velocity(self, c1, c2, w):
+        """Calculates the velocity of the particle with cognitive, social and 
+        inertia weight."""
         inertia = np.array(self.velocity) * w
         cognitive = np.subtract(self.p_best.x, self.x) * c1 * random.uniform(0,1)
         social = np.subtract(self.s_best.x, self.x) * c2 * random.uniform(0,1)
@@ -45,6 +53,9 @@ class Particle:
         return velocity
     
     def update_pbest(self, solution, optimization_type):
+        """Determines if new solution fully dominates personal best. If it does,
+        it becomes new personal best. If new solution is not fully dominated by
+        personal best, it updates it with a %50 chance."""
         if self.p_best == None:
             self.p_best = solution
 

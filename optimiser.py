@@ -15,25 +15,38 @@ import particle
 import solution
 import plot_graph
 
-def eval_process(objective, particle):
-    return particle.evaluate(objective)
-
 class Optimiser:
     def __init__(self, config):
         self.problem = problem.Problem(config)
+        """Keeps instance of problem class which is responsible for holding 
+        config file data."""
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
             self.problem.max, self.problem.swarm_distribution)
+        """Keeps instance of swarm class which is responsible for an array of 
+        particles."""
         self.hypercubes = hypercubes.Hypercubes(
             self.problem.cube_count,
             self.problem.solution_count)
+        """Keeps instance of hypercubes which is responsible for storing the 
+        pareto front."""
         self.weight = random.uniform(self.problem.max_w, self.problem.min_w)
+        """Weight of inertia for all particles."""
         self.iteration = 0
+        """Saves iteration step of the optimiser, increases at each iteration in
+        run function.
+        """
 
     def weightRegression(self, max, min):
+        """Changes the value for the weight variable, current implementation 
+        is a random number between max and min."""
         self.weight = random.uniform(max, min)
     
     def stop(self):
+        """Checks to see if iteration is greater or equal to the max iterations
+        in config file. If true, function returns true. If false, function
+        checks if average velocity is less than min average velocity in the 
+        config file and if true swarm will restart and return false."""
         if self.iteration >= self.problem.max_iterations:
             return True
 
@@ -47,6 +60,8 @@ class Optimiser:
         return False
 
     def run(self, verbose=False):
+        """Runs MOPSO optimisation. If verbose is true, terminal will output 
+        details."""
         start = time.perf_counter()
 
         #initalise process pool and functions
@@ -60,7 +75,7 @@ class Optimiser:
             print("DONE")
             
         eval_func = partial(
-            eval_process, 
+            _eval_process, 
             self.problem.objective
         )
 
@@ -121,7 +136,16 @@ class Optimiser:
                     print("RUNNING TIME: ", end - start, " seconds")
                 break
 
+def _eval_process(objective, particle):
+    """
+    A global function which is used for wrapping the particle.evaluate function
+    to be used by an instance of Pool from the multiprocess library.
+    """
+    return particle.evaluate(objective)
+
+
 def _get_avg_velocity(particles):
+    """Calculates the average velocity of the particles."""
     v_sum = np.random.uniform(0, 0, len(particles[0].velocity))
     for particle in particles:
         v_sum = v_sum + particle.velocity
