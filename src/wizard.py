@@ -3,8 +3,8 @@ import zdt.zdt1
 
 # TODO: Having an issue reading the objective functions without importing them.
 #  e.g. 'zdt.zdt1.objectives.ZDT1' will not work without importing zdt.zdt1.
-#  Another fix to this is by marking the zdt folder as 'Source Root'. There's a
-#  way to do this by adding __init__.py files in our directories so I will try this.
+#  There also seems to be a problem where ZDT1 is not callable.
+
 
 class Wizard:
     def __init__(self):
@@ -18,13 +18,15 @@ class Wizard:
                 # Try to evaluate the objective
                 s = self.objective.split(".")
                 module = __import__(s[0])
-                getattr(module, s[1])
+                test_method = getattr(module, s[1])
             except:
-                print("Sorry, objective '%s' not found. Please try again." % self.objective)
+                print("Objective '%s' not found. Please try again." % self.objective)
+                continue
+            if not callable(test_method):
+                print("Objective '%s' is not callable. Please try again." % self.objective)
                 continue
             else:
                 break
-
         # Objective Count
         while True:
             try:
@@ -37,7 +39,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # Optimization Type
         self.optimization_type = []
         print("Enter optimization types (MAX or MIN)")
@@ -54,7 +55,6 @@ class Wizard:
                 else:
                     self.optimization_type.append(optimization)
                     break
-
         # Objective variables count
         while True:
             try:
@@ -67,7 +67,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # Objective variables (max and min)
         self.max_ = []
         self.min_ = []
@@ -92,7 +91,6 @@ class Wizard:
                     self.max_.append(max_value)
                     self.min_.append(min_value)
                     break
-
         # Swarm Distribution
         while True:
             try:
@@ -105,7 +103,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # C1
         while True:
             try:
@@ -115,7 +112,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # C2
         while True:
             try:
@@ -125,9 +121,8 @@ class Wizard:
                 continue
             else:
                 break
-
+        # Max W and MIN W
         while True:
-            # Max W
             while True:
                 try:
                     self.max_w = float(input("Enter maximum weight: "))
@@ -136,7 +131,6 @@ class Wizard:
                     continue
                 else:
                     break
-            # Min W
             while True:
                 try:
                     self.min_w = float(input("Enter minimum weight: "))
@@ -145,14 +139,12 @@ class Wizard:
                     continue
                 else:
                     break
-            # Check if Max W <= Min W
             if self.max_w <= self.min_w:
                 print("Maximum (%s) should be greater than minimum (%s). "
                       "Please try again." % (self.max_w, self.min_w))
                 continue
             else:
                 break
-
         # Max Iterations
         while True:
             try:
@@ -165,7 +157,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # Min Avg Velocity
         while True:
             try:
@@ -175,7 +166,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # Particle Number
         while True:
             try:
@@ -188,7 +178,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # Cube Count
         while True:
             try:
@@ -201,7 +190,6 @@ class Wizard:
                 continue
             else:
                 break
-
         # Solution Count
         while True:
             try:
@@ -214,9 +202,9 @@ class Wizard:
                 continue
             else:
                 break
-
         # Create the JSON file
-        # self.create_config()
+        self.create_config()
+        print("\nSuccessfully created config file!")
 
     def create_config(self):
         """
