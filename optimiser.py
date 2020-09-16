@@ -48,8 +48,15 @@ class Optimiser:
 
     def run(self, verbose=False):
         #initalise process pool and functions
-        cores = multiprocessing.cpu_count() - 1
+        cores = multiprocessing.cpu_count()
+        if verbose:
+            print("NUMBER OF CORES: ", cores)
+            print("CREATING PROCESSES ... ", end = '')
+
         pool = multiprocessing.Pool(cores)
+        if verbose:
+            print("DONE")
+            
         eval_func = partial(
             eval_process, 
             self.problem.objective
