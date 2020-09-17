@@ -1,0 +1,17 @@
+{
+    "objective": "viennet_func.viennet",
+    "c1": 1,
+    "c2": 2,
+    "min_w": 0.1,
+    "max_w": 0.2,
+    "particle_num": 30,
+    "max_iterations": 400,
+    "min_avg_velocity": 0.01,
+    "max":[10000, 3],
+    "min":[-3, -10000],
+    "cube_count": 20,
+    "solution_count": 1000,
+    "optimization_type": ["MIN", "MIN", "MIN"],
+    "swarm_distribution": "RANDOM"
+}
+  

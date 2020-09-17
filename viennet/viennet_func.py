@@ -1,7 +1,10 @@
 import math
 import numpy as np
 
-def viennet(x, y):
+def viennet(input):
+    x = input[0]
+    y = input[1]
+    
     z = x**2 + y**2
     
     f1 = 0.5 * z + math.sin(z)
