@@ -3,6 +3,7 @@ import numpy as np
 import datetime as dt
 import os
 import optimiser
+from mpl_toolkits.mplot3d import Axes3D as ax
 
 
 def plot(title, opt, directory):
@@ -16,14 +17,17 @@ def plot(title, opt, directory):
     create_pos_log(opt, dir_name)
 
     front = np.loadtxt(dir_name + "/front_log")
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
     if len(front) > 2:
-        plt.scatter(front[:, 0], front[:, 1], c='b')
+        ax.scatter(front[:, 0], front[:, 1], front[:, 2], c='b', marker='o')
     else:
         plt.scatter(front[0], front[1], c='b')
     plt.title(title)
     plt.xlabel(r'$f_1(x)$')
     plt.ylabel(r'$f_2(x)$')
-    plt.legend(["Front"])
+    ax.legend(["Front"])
     plt.savefig(dir_name + "/front.png")
     plt.show()
 
@@ -41,7 +45,7 @@ def create_fitness_log(self, dir_name):
     try:
         output = open(dir_name + "/front_log", "w+")
         for i in front:
-            print("{} {}".format(i[0], i[1]), file=output)
+            print("{} {} {}".format(i[0], i[1], i[2]), file=output)
     except FileExistsError:
         print("File ", "front_log", " already exists")
 
