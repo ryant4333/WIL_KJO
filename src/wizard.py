@@ -1,32 +1,13 @@
 import json
-import zdt.zdt1
-
-# TODO: Having an issue reading the objective functions without importing them.
-#  e.g. 'zdt.zdt1.objectives.ZDT1' will not work without importing zdt.zdt1.
-#  There also seems to be a problem where ZDT1 is not callable.
 
 
 class Wizard:
+    """
+    Wizard for setting up config file
+    """
     def __init__(self):
-        """
-        Wizard for setting up config file
-        """
-        # Objective
-        while True:
-            self.objective = input('Enter path to objective function: ')
-            try:
-                # Try to evaluate the objective
-                s = self.objective.split(".")
-                module = __import__(s[0])
-                test_method = getattr(module, s[1])
-            except:
-                print("Objective '%s' not found. Please try again." % self.objective)
-                continue
-            if not callable(test_method):
-                print("Objective '%s' is not callable. Please try again." % self.objective)
-                continue
-            else:
-                break
+        # Objective (ignoring checks for this)
+        self.objective = input('Enter path to objective function: ')
         # Objective Count
         while True:
             try:
