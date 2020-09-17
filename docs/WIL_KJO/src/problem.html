@@ -51,7 +51,6 @@ class Problem:
         self.cube_count: int = config[&#39;cube_count&#39;]
         self.optimization_type: list[str] = config[&#39;optimization_type&#39;]
         self.solution_count: int = config[&#39;solution_count&#39;]
-        self.swarm_distribution: str = config[&#39;swarm_distribution&#39;]
         # Convert objective to method
         self.convert_to_method(self.objective)
         # Validation
@@ -94,8 +93,6 @@ class Problem:
             raise TypeError(&#34;solution_count should be type: &lt;int&gt;&#34;)
         if type(self.optimization_type) != list:
             raise TypeError(&#34;optimization_type should be type: &lt;list of strings&gt;&#34;)
-        if type(self.swarm_distribution) != str:
-            raise TypeError(&#34;swarm_distribution should be type: &lt;string&gt;&#34;)
         # Checking list nested types
         for i in self.max:
             if type(i) != float and type(i) != int:
@@ -132,8 +129,6 @@ class Problem:
             if self.max[i] &lt;= self.min[i]:
                 raise ValueError(&#34;min values should be less than max values (%s not less than %s)&#34;
                                  % (self.min[i], self.max[i]))
-        if self.swarm_distribution != &#34;EVEN&#34; and self.swarm_distribution != &#34;RANDOM&#34;:
-            raise ValueError(&#34;swarm_distribution should be EVEN or RANDOM&#34;)
 
     def convert_to_method(self, objective):
         &#34;&#34;&#34;
@@ -191,7 +186,6 @@ class Problem:
         self.cube_count: int = config[&#39;cube_count&#39;]
         self.optimization_type: list[str] = config[&#39;optimization_type&#39;]
         self.solution_count: int = config[&#39;solution_count&#39;]
-        self.swarm_distribution: str = config[&#39;swarm_distribution&#39;]
         # Convert objective to method
         self.convert_to_method(self.objective)
         # Validation
@@ -234,8 +228,6 @@ class Problem:
             raise TypeError(&#34;solution_count should be type: &lt;int&gt;&#34;)
         if type(self.optimization_type) != list:
             raise TypeError(&#34;optimization_type should be type: &lt;list of strings&gt;&#34;)
-        if type(self.swarm_distribution) != str:
-            raise TypeError(&#34;swarm_distribution should be type: &lt;string&gt;&#34;)
         # Checking list nested types
         for i in self.max:
             if type(i) != float and type(i) != int:
@@ -272,8 +264,6 @@ class Problem:
             if self.max[i] &lt;= self.min[i]:
                 raise ValueError(&#34;min values should be less than max values (%s not less than %s)&#34;
                                  % (self.min[i], self.max[i]))
-        if self.swarm_distribution != &#34;EVEN&#34; and self.swarm_distribution != &#34;RANDOM&#34;:
-            raise ValueError(&#34;swarm_distribution should be EVEN or RANDOM&#34;)
 
     def convert_to_method(self, objective):
         &#34;&#34;&#34;
@@ -371,8 +361,6 @@ class Problem:
         raise TypeError(&#34;solution_count should be type: &lt;int&gt;&#34;)
     if type(self.optimization_type) != list:
         raise TypeError(&#34;optimization_type should be type: &lt;list of strings&gt;&#34;)
-    if type(self.swarm_distribution) != str:
-        raise TypeError(&#34;swarm_distribution should be type: &lt;string&gt;&#34;)
     # Checking list nested types
     for i in self.max:
         if type(i) != float and type(i) != int:
@@ -418,9 +406,7 @@ class Problem:
     for i in range(len(self.max)):
         if self.max[i] &lt;= self.min[i]:
             raise ValueError(&#34;min values should be less than max values (%s not less than %s)&#34;
-                             % (self.min[i], self.max[i]))
-    if self.swarm_distribution != &#34;EVEN&#34; and self.swarm_distribution != &#34;RANDOM&#34;:
-        raise ValueError(&#34;swarm_distribution should be EVEN or RANDOM&#34;)</code></pre>
+                             % (self.min[i], self.max[i]))</code></pre>
 </details>
 </dd>
 </dl>

@@ -50,7 +50,7 @@ class Optimiser:
         config file data.&#34;&#34;&#34;
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
-            self.problem.max, self.problem.swarm_distribution)
+            self.problem.max)
         &#34;&#34;&#34;Keeps instance of swarm class which is responsible for an array of 
         particles.&#34;&#34;&#34;
         self.hypercubes = hypercubes.Hypercubes(
@@ -83,7 +83,7 @@ class Optimiser:
         if v &lt; self.problem.min_avg_velocity:
             self.swarm = swarm.Swarm(self.problem.particle_num,
                 self.problem.min,
-                self.problem.max, self.problem.swarm_distribution)
+                self.problem.max)
 
         return False
 
@@ -223,7 +223,7 @@ if __name__ == &#34;__main__&#34;:
         config file data.&#34;&#34;&#34;
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
-            self.problem.max, self.problem.swarm_distribution)
+            self.problem.max)
         &#34;&#34;&#34;Keeps instance of swarm class which is responsible for an array of 
         particles.&#34;&#34;&#34;
         self.hypercubes = hypercubes.Hypercubes(
@@ -256,7 +256,7 @@ if __name__ == &#34;__main__&#34;:
         if v &lt; self.problem.min_avg_velocity:
             self.swarm = swarm.Swarm(self.problem.particle_num,
                 self.problem.min,
-                self.problem.max, self.problem.swarm_distribution)
+                self.problem.max)
 
         return False
 
@@ -479,7 +479,7 @@ config file and if true swarm will restart and return false.</p></div>
     if v &lt; self.problem.min_avg_velocity:
         self.swarm = swarm.Swarm(self.problem.particle_num,
             self.problem.min,
-            self.problem.max, self.problem.swarm_distribution)
+            self.problem.max)
 
     return False</code></pre>
 </details>

@@ -38,7 +38,7 @@ class TestSwarm(unittest.TestCase):
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         num_p_a = len(test_swarm.particles) == p_num
         num_p_b = len(test_swarm.particles) != p_num
         self.assertEqual(num_p_a, True)
@@ -48,7 +48,7 @@ class TestSwarm(unittest.TestCase):
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         dims_p_a = all(len(x.x) == len(min_) for x in test_swarm.particles)
         dims_p_b = all(len(x.x) == len(max_) for x in test_swarm.particles)
         self.assertEqual(dims_p_a, True)
@@ -58,7 +58,7 @@ class TestSwarm(unittest.TestCase):
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         range_dims_a = all(max_[y] &gt;= x.x[y] &gt;= min_[y] for x, y in zip(test_swarm.particles, range(len(test_swarm.particles[0].x))))
         range_dims_b = any(max_[y] &lt;= x.x[y] &lt;= min_[y] for x, y in zip(test_swarm.particles, range(len(test_swarm.particles[0].x))))
         self.assertEqual(range_dims_a, True)
@@ -68,18 +68,11 @@ class TestSwarm(unittest.TestCase):
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         vel_p_a = all(len(x.velocity) == len(min_) for x in test_swarm.particles)
         vel_p_b = all(len(x.velocity) == len(max_) for x in test_swarm.particles)
         self.assertEqual(vel_p_a, True)
         self.assertEqual(vel_p_b, True)
-
-    def test_dist_input_value_error(self):
-        min_ = [0, 1, 2]
-        max_ = [1, 2, 3]
-        p_num = 13
-        with self.assertRaises(ValueError):
-            test_swarm = Swarm(p_num, min_, max_, &#34;BANANA&#34;)
 
 
 
@@ -139,7 +132,7 @@ not have a method with the specified name.</p></div>
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         num_p_a = len(test_swarm.particles) == p_num
         num_p_b = len(test_swarm.particles) != p_num
         self.assertEqual(num_p_a, True)
@@ -149,7 +142,7 @@ not have a method with the specified name.</p></div>
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         dims_p_a = all(len(x.x) == len(min_) for x in test_swarm.particles)
         dims_p_b = all(len(x.x) == len(max_) for x in test_swarm.particles)
         self.assertEqual(dims_p_a, True)
@@ -159,7 +152,7 @@ not have a method with the specified name.</p></div>
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         range_dims_a = all(max_[y] &gt;= x.x[y] &gt;= min_[y] for x, y in zip(test_swarm.particles, range(len(test_swarm.particles[0].x))))
         range_dims_b = any(max_[y] &lt;= x.x[y] &lt;= min_[y] for x, y in zip(test_swarm.particles, range(len(test_swarm.particles[0].x))))
         self.assertEqual(range_dims_a, True)
@@ -169,18 +162,11 @@ not have a method with the specified name.</p></div>
         min_ = [0, 1, 2]
         max_ = [1, 2, 3]
         p_num = 13
-        test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+        test_swarm = Swarm(p_num, min_, max_)
         vel_p_a = all(len(x.velocity) == len(min_) for x in test_swarm.particles)
         vel_p_b = all(len(x.velocity) == len(max_) for x in test_swarm.particles)
         self.assertEqual(vel_p_a, True)
-        self.assertEqual(vel_p_b, True)
-
-    def test_dist_input_value_error(self):
-        min_ = [0, 1, 2]
-        max_ = [1, 2, 3]
-        p_num = 13
-        with self.assertRaises(ValueError):
-            test_swarm = Swarm(p_num, min_, max_, &#34;BANANA&#34;)</code></pre>
+        self.assertEqual(vel_p_b, True)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -188,23 +174,6 @@ not have a method with the specified name.</p></div>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="WIL_KJO.tests.test_swarm.TestSwarm.test_dist_input_value_error"><code class="name flex">
-<span>def <span class="ident">test_dist_input_value_error</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def test_dist_input_value_error(self):
-    min_ = [0, 1, 2]
-    max_ = [1, 2, 3]
-    p_num = 13
-    with self.assertRaises(ValueError):
-        test_swarm = Swarm(p_num, min_, max_, &#34;BANANA&#34;)</code></pre>
-</details>
-</dd>
 <dt id="WIL_KJO.tests.test_swarm.TestSwarm.test_num_dims_particles"><code class="name flex">
 <span>def <span class="ident">test_num_dims_particles</span></span>(<span>self)</span>
 </code></dt>
@@ -218,7 +187,7 @@ not have a method with the specified name.</p></div>
     min_ = [0, 1, 2]
     max_ = [1, 2, 3]
     p_num = 13
-    test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+    test_swarm = Swarm(p_num, min_, max_)
     dims_p_a = all(len(x.x) == len(min_) for x in test_swarm.particles)
     dims_p_b = all(len(x.x) == len(max_) for x in test_swarm.particles)
     self.assertEqual(dims_p_a, True)
@@ -238,7 +207,7 @@ not have a method with the specified name.</p></div>
     min_ = [0, 1, 2]
     max_ = [1, 2, 3]
     p_num = 13
-    test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+    test_swarm = Swarm(p_num, min_, max_)
     vel_p_a = all(len(x.velocity) == len(min_) for x in test_swarm.particles)
     vel_p_b = all(len(x.velocity) == len(max_) for x in test_swarm.particles)
     self.assertEqual(vel_p_a, True)
@@ -258,7 +227,7 @@ not have a method with the specified name.</p></div>
     min_ = [0, 1, 2]
     max_ = [1, 2, 3]
     p_num = 13
-    test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+    test_swarm = Swarm(p_num, min_, max_)
     num_p_a = len(test_swarm.particles) == p_num
     num_p_b = len(test_swarm.particles) != p_num
     self.assertEqual(num_p_a, True)
@@ -278,7 +247,7 @@ not have a method with the specified name.</p></div>
     min_ = [0, 1, 2]
     max_ = [1, 2, 3]
     p_num = 13
-    test_swarm = Swarm(p_num, min_, max_,&#34;EVEN&#34;)
+    test_swarm = Swarm(p_num, min_, max_)
     range_dims_a = all(max_[y] &gt;= x.x[y] &gt;= min_[y] for x, y in zip(test_swarm.particles, range(len(test_swarm.particles[0].x))))
     range_dims_b = any(max_[y] &lt;= x.x[y] &lt;= min_[y] for x, y in zip(test_swarm.particles, range(len(test_swarm.particles[0].x))))
     self.assertEqual(range_dims_a, True)
@@ -306,7 +275,6 @@ not have a method with the specified name.</p></div>
 <li>
 <h4><code><a title="WIL_KJO.tests.test_swarm.TestSwarm" href="#WIL_KJO.tests.test_swarm.TestSwarm">TestSwarm</a></code></h4>
 <ul class="">
-<li><code><a title="WIL_KJO.tests.test_swarm.TestSwarm.test_dist_input_value_error" href="#WIL_KJO.tests.test_swarm.TestSwarm.test_dist_input_value_error">test_dist_input_value_error</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_swarm.TestSwarm.test_num_dims_particles" href="#WIL_KJO.tests.test_swarm.TestSwarm.test_num_dims_particles">test_num_dims_particles</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_swarm.TestSwarm.test_num_dims_velocity" href="#WIL_KJO.tests.test_swarm.TestSwarm.test_num_dims_velocity">test_num_dims_velocity</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_swarm.TestSwarm.test_num_particles_swarm" href="#WIL_KJO.tests.test_swarm.TestSwarm.test_num_particles_swarm">test_num_particles_swarm</a></code></li>

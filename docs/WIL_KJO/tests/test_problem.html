@@ -157,16 +157,6 @@ class TestProblem(unittest.TestCase):
     def test_convert_to_method_not_callable(self):
         with self.assertRaises(ModuleNotFoundError):
             self.problem.convert_to_method(&#39;zdt_test&#39;)
-    
-    def test_swarm_distribution_type(self):
-        self.problem.swarm_distribution = 1
-        with self.assertRaises(TypeError):
-            self.problem.validate_types()
-    
-    def test_swarm_distribution_value(self):
-        self.problem.swarm_distribution = &#34;MEH&#34;
-        with self.assertRaises(ValueError):
-            self.problem.validate_values()
 
 
 if __name__ == &#34;__main__&#34;:
@@ -341,17 +331,7 @@ not have a method with the specified name.</p></div>
 
     def test_convert_to_method_not_callable(self):
         with self.assertRaises(ModuleNotFoundError):
-            self.problem.convert_to_method(&#39;zdt_test&#39;)
-    
-    def test_swarm_distribution_type(self):
-        self.problem.swarm_distribution = 1
-        with self.assertRaises(TypeError):
-            self.problem.validate_types()
-    
-    def test_swarm_distribution_value(self):
-        self.problem.swarm_distribution = &#34;MEH&#34;
-        with self.assertRaises(ValueError):
-            self.problem.validate_values()</code></pre>
+            self.problem.convert_to_method(&#39;zdt_test&#39;)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -716,36 +696,6 @@ not have a method with the specified name.</p></div>
         self.problem.validate_config()</code></pre>
 </details>
 </dd>
-<dt id="WIL_KJO.tests.test_problem.TestProblem.test_swarm_distribution_type"><code class="name flex">
-<span>def <span class="ident">test_swarm_distribution_type</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def test_swarm_distribution_type(self):
-    self.problem.swarm_distribution = 1
-    with self.assertRaises(TypeError):
-        self.problem.validate_types()</code></pre>
-</details>
-</dd>
-<dt id="WIL_KJO.tests.test_problem.TestProblem.test_swarm_distribution_value"><code class="name flex">
-<span>def <span class="ident">test_swarm_distribution_value</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def test_swarm_distribution_value(self):
-    self.problem.swarm_distribution = &#34;MEH&#34;
-    with self.assertRaises(ValueError):
-        self.problem.validate_values()</code></pre>
-</details>
-</dd>
 <dt id="WIL_KJO.tests.test_problem.TestProblem.test_validation_min_avg_velocity_type"><code class="name flex">
 <span>def <span class="ident">test_validation_min_avg_velocity_type</span></span>(<span>self)</span>
 </code></dt>
@@ -806,8 +756,6 @@ not have a method with the specified name.</p></div>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_particle_num_value" href="#WIL_KJO.tests.test_problem.TestProblem.test_particle_num_value">test_particle_num_value</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_solution_count_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_solution_count_type">test_solution_count_type</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_solution_count_value" href="#WIL_KJO.tests.test_problem.TestProblem.test_solution_count_value">test_solution_count_value</a></code></li>
-<li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_swarm_distribution_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_swarm_distribution_type">test_swarm_distribution_type</a></code></li>
-<li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_swarm_distribution_value" href="#WIL_KJO.tests.test_problem.TestProblem.test_swarm_distribution_value">test_swarm_distribution_value</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_validation_min_avg_velocity_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_validation_min_avg_velocity_type">test_validation_min_avg_velocity_type</a></code></li>
 </ul>
 </li>
