@@ -1,10 +1,10 @@
 import json
 
+
 class Problem:
     """
     Saves config file in the problem class.
     """
-
     def __init__(self, config_file):
         # Read data from JSON file
         with open(config_file) as f:
