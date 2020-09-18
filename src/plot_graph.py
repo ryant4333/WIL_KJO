@@ -3,7 +3,7 @@ import numpy as np
 import datetime as dt
 import os
 import optimiser
-
+from mpl_toolkits.mplot3d import Axes3D
 
 def plot(title, opt, directory):
     if not directory[-1] in ('/', '\\'):
