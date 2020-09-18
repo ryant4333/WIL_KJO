@@ -17,7 +17,7 @@ def plot(title, opt, directory):
 
     if len(front) == 2:
         plt.scatter(front[0], front[1], c='b')
-    if len(front) == 3:
+    elif len(front) == 3:
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         plt.scatter(front[0], front[1], front[2], c='b')
