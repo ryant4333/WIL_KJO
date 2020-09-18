@@ -15,15 +15,22 @@ def plot(title, opt, directory):
     create_pos_log(opt, dir_name)
     front = np.loadtxt(dir_name + "/front_log")
 
-    if len(front) < 3:
+    if len(front) == 2:
         plt.scatter(front[0], front[1], c='b')
-    elif len(front[0]) > 2:
+    if len(front) == 3:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        plt.scatter(front[0], front[1], front[2], c='b')
+
+    elif len(front[0]) == 3:
          fig = plt.figure()
          ax = fig.add_subplot(111, projection='3d')
          ax.scatter(front[:, 0], front[:, 1], front[:, 2], c='b')
-    elif len(front[0]) > 1:
+    elif len(front[0]) == 2:
         plt.scatter(front[:, 0], front[:, 1], c='b')
 
+    elif ValueError:
+        print("Incorrect number of dims in solution to graph.")
 
     plt.title(title)
     plt.xlabel(r'$f_1(x)$')
