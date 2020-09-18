@@ -3,7 +3,6 @@ import numpy as np
 import datetime as dt
 import os
 import optimiser
-from mpl_toolkits.mplot3d import Axes3D as ax
 
 
 def plot(title, opt, directory):
@@ -11,23 +10,32 @@ def plot(title, opt, directory):
         directory+='/'
     time_now = dt.datetime.now().strftime("%Y-%m-%d-%H%M%S")
     dir_name = directory + "logs/" + time_now
-
     create_dir(dir_name)
     create_fitness_log(opt, dir_name)
     create_pos_log(opt, dir_name)
-
     front = np.loadtxt(dir_name + "/front_log")
 
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    if len(front) > 2:
-        ax.scatter(front[:, 0], front[:, 1], front[:, 2], c='b', marker='o')
-    else:
+    if len(front) == 2:
         plt.scatter(front[0], front[1], c='b')
+    if len(front) == 3:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        plt.scatter(front[0], front[1], front[2], c='b')
+
+    elif len(front[0]) == 3:
+         fig = plt.figure()
+         ax = fig.add_subplot(111, projection='3d')
+         ax.scatter(front[:, 0], front[:, 1], front[:, 2], c='b')
+    elif len(front[0]) == 2:
+        plt.scatter(front[:, 0], front[:, 1], c='b')
+
+    elif ValueError:
+        print("Incorrect number of dims in solution to graph.")
+
     plt.title(title)
     plt.xlabel(r'$f_1(x)$')
     plt.ylabel(r'$f_2(x)$')
-    ax.legend(["Front"])
+    plt.legend(["Front"])
     plt.savefig(dir_name + "/front.png")
     plt.show()
 
@@ -44,8 +52,12 @@ def create_fitness_log(self, dir_name):
     front = self.hypercubes.output_front()
     try:
         output = open(dir_name + "/front_log", "w+")
+
         for i in front:
-            print("{} {} {}".format(i[0], i[1], i[2]), file=output)
+            if len(i) > 2:
+                print("{} {} {}".format(i[0], i[1], i[2]), file=output)
+            else:
+                print("{} {}".format(i[0], i[1]), file=output)
     except FileExistsError:
         print("File ", "front_log", " already exists")
 
