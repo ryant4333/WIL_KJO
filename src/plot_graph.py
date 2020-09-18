@@ -15,12 +15,15 @@ def plot(title, opt, directory):
     create_pos_log(opt, dir_name)
     front = np.loadtxt(dir_name + "/front_log")
 
-    if len(front[0]) > 2:
+    if len(front) < 3:
+        plt.scatter(front[0], front[1], c='b')
+    elif len(front[0]) > 2:
          fig = plt.figure()
          ax = fig.add_subplot(111, projection='3d')
          ax.scatter(front[:, 0], front[:, 1], front[:, 2], c='b')
-    else:
+    elif len(front[0]) > 1:
         plt.scatter(front[:, 0], front[:, 1], c='b')
+
 
     plt.title(title)
     plt.xlabel(r'$f_1(x)$')
