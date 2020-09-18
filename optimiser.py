@@ -30,17 +30,22 @@ class Optimiser:
             self.problem.solution_count)
         """Keeps instance of hypercubes which is responsible for storing the 
         pareto front."""
-        self.weight = random.uniform(self.problem.max_w, self.problem.min_w)
-        """Weight of inertia for all particles."""
         self.iteration = 0
         """Saves iteration step of the optimiser, increases at each iteration in
         run function.
         """
+        self.weight = self.problem.max_w
+        """Weight of inertia for all particles."""
 
-    def weightRegression(self, max, min):
+    def weight_regression(self):
         """Changes the value for the weight variable, current implementation 
-        is a random number between max and min."""
-        self.weight = random.uniform(max, min)
+        is linear decreasing"""
+        nt = self.problem.max_iterations
+        t = self.iteration
+        w0 = self.problem.max_w
+        wnt = self.problem.min_w
+        wt = ((w0 - wnt) * ((nt - t)/nt)) + wnt
+        self.weight = wt
     
     def stop(self):
         """Checks to see if iteration is greater or equal to the max iterations
@@ -113,7 +118,8 @@ class Optimiser:
                 gbest = self.hypercubes.select_gbest()
                 particle.s_best = gbest
             
-            #calc particles veloctiy
+            #calc particles veloctiy with new weight regression
+            self.weight_regression()
             vs = []
             for particle in self.swarm.particles:
                 vs.append(particle.calc_velocity(

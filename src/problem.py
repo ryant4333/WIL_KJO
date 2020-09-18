@@ -14,7 +14,7 @@ class Problem:
         self.c1: float = config['c1']
         self.c2: float = config['c2']
         self.max_w: float = config['max_w']
-        self.min_w: float = config['max_w']
+        self.min_w: float = config['min_w']
         self.particle_num: int = config['particle_num']
         self.max_iterations: int = config['max_iterations']
         self.min_avg_velocity: float = config['min_avg_velocity']

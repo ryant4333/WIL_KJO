@@ -3,7 +3,7 @@
     "c1": 1,
     "c2": 1,
     "min_w": 0.4,
-    "max_w": 0.7,
+    "max_w": 0.9,
     "particle_num": 30,
     "max_iterations": 1000,
     "min_avg_velocity": 0.01,
