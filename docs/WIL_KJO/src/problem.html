@@ -28,12 +28,13 @@
 </summary>
 <pre><code class="python">import json
 
+
 class Problem:
     &#34;&#34;&#34;
     Saves config file in the problem class.
     &#34;&#34;&#34;
-
     def __init__(self, config_file):
+        &#34;&#34;&#34;Initialises a problem class based on a config json file&#34;&#34;&#34;
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)
@@ -42,7 +43,7 @@ class Problem:
         self.c1: float = config[&#39;c1&#39;]
         self.c2: float = config[&#39;c2&#39;]
         self.max_w: float = config[&#39;max_w&#39;]
-        self.min_w: float = config[&#39;max_w&#39;]
+        self.min_w: float = config[&#39;min_w&#39;]
         self.particle_num: int = config[&#39;particle_num&#39;]
         self.max_iterations: int = config[&#39;max_iterations&#39;]
         self.min_avg_velocity: float = config[&#39;min_avg_velocity&#39;]
@@ -158,7 +159,8 @@ class Problem:
 <span>(</span><span>config_file)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Saves config file in the problem class.</p></div>
+<div class="desc"><p>Saves config file in the problem class.</p>
+<p>Initialises a problem class based on a config json file</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -167,8 +169,8 @@ class Problem:
     &#34;&#34;&#34;
     Saves config file in the problem class.
     &#34;&#34;&#34;
-
     def __init__(self, config_file):
+        &#34;&#34;&#34;Initialises a problem class based on a config json file&#34;&#34;&#34;
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)
@@ -177,7 +179,7 @@ class Problem:
         self.c1: float = config[&#39;c1&#39;]
         self.c2: float = config[&#39;c2&#39;]
         self.max_w: float = config[&#39;max_w&#39;]
-        self.min_w: float = config[&#39;max_w&#39;]
+        self.min_w: float = config[&#39;min_w&#39;]
         self.particle_num: int = config[&#39;particle_num&#39;]
         self.max_iterations: int = config[&#39;max_iterations&#39;]
         self.min_avg_velocity: float = config[&#39;min_avg_velocity&#39;]

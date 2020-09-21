@@ -33,6 +33,8 @@ import numpy as np
 class Swarm:
 
     def __init__(self, num_particles, min_, max_):
+        &#34;&#34;&#34;Initialises swarm of n particles in random positions between the max 
+        and min search domains.&#34;&#34;&#34;
         self.particles = [particle.Particle() for _ in range(num_particles)]
         self.eval_count = 0
         np_vel = np.random.uniform(0, 0, len(min_))
@@ -67,7 +69,8 @@ if __name__ == &#34;__main__&#34;:
 <span>(</span><span>num_particles, min_, max_)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Initialises swarm of n particles in random positions between the max
+and min search domains.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -75,6 +78,8 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">class Swarm:
 
     def __init__(self, num_particles, min_, max_):
+        &#34;&#34;&#34;Initialises swarm of n particles in random positions between the max 
+        and min search domains.&#34;&#34;&#34;
         self.particles = [particle.Particle() for _ in range(num_particles)]
         self.eval_count = 0
         np_vel = np.random.uniform(0, 0, len(min_))

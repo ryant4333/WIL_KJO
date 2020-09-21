@@ -31,32 +31,47 @@ import numpy as np
 import datetime as dt
 import os
 import optimiser
-
+from mpl_toolkits.mplot3d import Axes3D
+import json
 
 def plot(title, opt, directory):
     if not directory[-1] in (&#39;/&#39;, &#39;\\&#39;):
         directory+=&#39;/&#39;
     time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
     dir_name = directory + &#34;logs/&#34; + time_now
-
     create_dir(dir_name)
-    create_fitness_log(opt, dir_name)
-    create_pos_log(opt, dir_name)
+    create_objectives_log(opt, dir_name)
+    create_sol_log(opt, dir_name)
+    front = np.loadtxt(dir_name + &#34;/objectives_log.txt&#34;)
 
-    front = np.loadtxt(dir_name + &#34;/front_log&#34;)
-    if len(front) &gt; 2:
-        plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
-    else:
+    if len(front) == 2:
         plt.scatter(front[0], front[1], c=&#39;b&#39;)
+    elif len(front) == 3:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        plt.scatter(front[0], front[1], front[2], c=&#39;b&#39;)
+
+    elif len(front[0]) == 3:
+         fig = plt.figure()
+         ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+         ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=&#39;b&#39;)
+    elif len(front[0]) == 2:
+        plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
+
+    elif ValueError:
+        print(&#34;Incorrect number of dims in solution to graph.&#34;)
+
     plt.title(title)
     plt.xlabel(r&#39;$f_1(x)$&#39;)
     plt.ylabel(r&#39;$f_2(x)$&#39;)
     plt.legend([&#34;Front&#34;])
-    plt.savefig(dir_name + &#34;/front.png&#34;)
+    plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
     plt.show()
 
 
 def create_dir(dir_name):
+    &#34;&#34;&#34;Creates the directory where the graph, solutions log and the objective
+    log is kept&#34;&#34;&#34;
     try:
         os.makedirs(dir_name)
         print(&#34;DIRECTORY CREATED: &#34;, dir_name)
@@ -64,38 +79,46 @@ def create_dir(dir_name):
         print(&#34;Directory &#34;, dir_name, &#34; already exists&#34;)
 
 
-def create_fitness_log(self, dir_name):
+def create_objectives_log(self, dir_name):
+    &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a 
+    solution by a space and each soluition by a new line.&#34;&#34;&#34;
     front = self.hypercubes.output_front()
     try:
-        output = open(dir_name + &#34;/front_log&#34;, &#34;w+&#34;)
+        output = open(dir_name + &#34;/objectives_log.txt&#34;, &#34;w+&#34;)
+
         for i in front:
-            print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
+            if len(i) &gt; 2:
+                print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
+            else:
+                print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
     except FileExistsError:
-        print(&#34;File &#34;, &#34;front_log&#34;, &#34; already exists&#34;)
+        print(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)
 
 
-def create_pos_log(self, dir_name):
+def create_sol_log(self, dir_name):
+    &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution 
+    objects from the pareto front.&#34;&#34;&#34;
     big_cube = self.hypercubes.cube_dict
-    count = 00000
+    data = {}
+    data[&#39;solutions&#39;] = []
     try:
-        output = open(dir_name + &#34;/N_D_Solutions&#34;, &#34;w+&#34;)
         for cube in big_cube:
             for sol in big_cube[cube]:
-                print(&#34;Solution ID: &#34;, count, file=output)
-                print(&#34;Fitness:{}&#34;.format(sol.objectives), file=output)
-                print(&#34;Position:{}&#34;.format(sol.x), file=output)
-                print(&#34;--------------------------------------------------------------------------------------&#34;, file=output)
-                count += 1
+                data[&#39;solutions&#39;].append(
+                    {
+                        &#39;position&#39;: sol.x.tolist(),
+                        &#39;objectives&#39;: sol.objectives.tolist()
+                    }
+                )
+        with open(dir_name + &#34;/solutions_log.json&#34;, &#34;w+&#34;) as outfile:
+            json.dump(data, outfile, indent=4)
+        
     except FileExistsError:
-        print(&#34;File &#34;, &#34;N_D_Solutions&#34;, &#34; already exists&#34;)
+        print(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)
 
 
 if __name__ == &#34;__main__&#34;:
-    optimiser = optimiser.Optimiser(&#34;config.json&#34;)
-    optimiser.run()
-
-    plot(r&#39;ZDT1 Search Domain: $0\leq x_i\leq1,1\leq i\leq30.\mathrm{}$&#39;, optimiser)
-    plt.show()</code></pre>
+    pass</code></pre>
 </details>
 </section>
 <section>
@@ -109,12 +132,15 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">create_dir</span></span>(<span>dir_name)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Creates the directory where the graph, solutions log and the objective
+log is kept</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def create_dir(dir_name):
+    &#34;&#34;&#34;Creates the directory where the graph, solutions log and the objective
+    log is kept&#34;&#34;&#34;
     try:
         os.makedirs(dir_name)
         print(&#34;DIRECTORY CREATED: &#34;, dir_name)
@@ -122,48 +148,62 @@ if __name__ == &#34;__main__&#34;:
         print(&#34;Directory &#34;, dir_name, &#34; already exists&#34;)</code></pre>
 </details>
 </dd>
-<dt id="WIL_KJO.src.plot_graph.create_fitness_log"><code class="name flex">
-<span>def <span class="ident">create_fitness_log</span></span>(<span>self, dir_name)</span>
+<dt id="WIL_KJO.src.plot_graph.create_objectives_log"><code class="name flex">
+<span>def <span class="ident">create_objectives_log</span></span>(<span>self, dir_name)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Creates objective log as a txt file by seperating each objective of a
+solution by a space and each soluition by a new line.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_fitness_log(self, dir_name):
+<pre><code class="python">def create_objectives_log(self, dir_name):
+    &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a 
+    solution by a space and each soluition by a new line.&#34;&#34;&#34;
     front = self.hypercubes.output_front()
     try:
-        output = open(dir_name + &#34;/front_log&#34;, &#34;w+&#34;)
+        output = open(dir_name + &#34;/objectives_log.txt&#34;, &#34;w+&#34;)
+
         for i in front:
-            print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
+            if len(i) &gt; 2:
+                print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
+            else:
+                print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
     except FileExistsError:
-        print(&#34;File &#34;, &#34;front_log&#34;, &#34; already exists&#34;)</code></pre>
+        print(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)</code></pre>
 </details>
 </dd>
-<dt id="WIL_KJO.src.plot_graph.create_pos_log"><code class="name flex">
-<span>def <span class="ident">create_pos_log</span></span>(<span>self, dir_name)</span>
+<dt id="WIL_KJO.src.plot_graph.create_sol_log"><code class="name flex">
+<span>def <span class="ident">create_sol_log</span></span>(<span>self, dir_name)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Creates a solution log by creating a json file with an array of solution
+objects from the pareto front.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_pos_log(self, dir_name):
+<pre><code class="python">def create_sol_log(self, dir_name):
+    &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution 
+    objects from the pareto front.&#34;&#34;&#34;
     big_cube = self.hypercubes.cube_dict
-    count = 00000
+    data = {}
+    data[&#39;solutions&#39;] = []
     try:
-        output = open(dir_name + &#34;/N_D_Solutions&#34;, &#34;w+&#34;)
         for cube in big_cube:
             for sol in big_cube[cube]:
-                print(&#34;Solution ID: &#34;, count, file=output)
-                print(&#34;Fitness:{}&#34;.format(sol.objectives), file=output)
-                print(&#34;Position:{}&#34;.format(sol.x), file=output)
-                print(&#34;--------------------------------------------------------------------------------------&#34;, file=output)
-                count += 1
+                data[&#39;solutions&#39;].append(
+                    {
+                        &#39;position&#39;: sol.x.tolist(),
+                        &#39;objectives&#39;: sol.objectives.tolist()
+                    }
+                )
+        with open(dir_name + &#34;/solutions_log.json&#34;, &#34;w+&#34;) as outfile:
+            json.dump(data, outfile, indent=4)
+        
     except FileExistsError:
-        print(&#34;File &#34;, &#34;N_D_Solutions&#34;, &#34; already exists&#34;)</code></pre>
+        print(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)</code></pre>
 </details>
 </dd>
 <dt id="WIL_KJO.src.plot_graph.plot"><code class="name flex">
@@ -180,21 +220,33 @@ if __name__ == &#34;__main__&#34;:
         directory+=&#39;/&#39;
     time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
     dir_name = directory + &#34;logs/&#34; + time_now
-
     create_dir(dir_name)
-    create_fitness_log(opt, dir_name)
-    create_pos_log(opt, dir_name)
+    create_objectives_log(opt, dir_name)
+    create_sol_log(opt, dir_name)
+    front = np.loadtxt(dir_name + &#34;/objectives_log.txt&#34;)
 
-    front = np.loadtxt(dir_name + &#34;/front_log&#34;)
-    if len(front) &gt; 2:
-        plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
-    else:
+    if len(front) == 2:
         plt.scatter(front[0], front[1], c=&#39;b&#39;)
+    elif len(front) == 3:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        plt.scatter(front[0], front[1], front[2], c=&#39;b&#39;)
+
+    elif len(front[0]) == 3:
+         fig = plt.figure()
+         ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+         ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=&#39;b&#39;)
+    elif len(front[0]) == 2:
+        plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
+
+    elif ValueError:
+        print(&#34;Incorrect number of dims in solution to graph.&#34;)
+
     plt.title(title)
     plt.xlabel(r&#39;$f_1(x)$&#39;)
     plt.ylabel(r&#39;$f_2(x)$&#39;)
     plt.legend([&#34;Front&#34;])
-    plt.savefig(dir_name + &#34;/front.png&#34;)
+    plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
     plt.show()</code></pre>
 </details>
 </dd>
@@ -217,8 +269,8 @@ if __name__ == &#34;__main__&#34;:
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="WIL_KJO.src.plot_graph.create_dir" href="#WIL_KJO.src.plot_graph.create_dir">create_dir</a></code></li>
-<li><code><a title="WIL_KJO.src.plot_graph.create_fitness_log" href="#WIL_KJO.src.plot_graph.create_fitness_log">create_fitness_log</a></code></li>
-<li><code><a title="WIL_KJO.src.plot_graph.create_pos_log" href="#WIL_KJO.src.plot_graph.create_pos_log">create_pos_log</a></code></li>
+<li><code><a title="WIL_KJO.src.plot_graph.create_objectives_log" href="#WIL_KJO.src.plot_graph.create_objectives_log">create_objectives_log</a></code></li>
+<li><code><a title="WIL_KJO.src.plot_graph.create_sol_log" href="#WIL_KJO.src.plot_graph.create_sol_log">create_sol_log</a></code></li>
 <li><code><a title="WIL_KJO.src.plot_graph.plot" href="#WIL_KJO.src.plot_graph.plot">plot</a></code></li>
 </ul>
 </li>

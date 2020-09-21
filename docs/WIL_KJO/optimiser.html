@@ -58,17 +58,22 @@ class Optimiser:
             self.problem.solution_count)
         &#34;&#34;&#34;Keeps instance of hypercubes which is responsible for storing the 
         pareto front.&#34;&#34;&#34;
-        self.weight = random.uniform(self.problem.max_w, self.problem.min_w)
-        &#34;&#34;&#34;Weight of inertia for all particles.&#34;&#34;&#34;
         self.iteration = 0
         &#34;&#34;&#34;Saves iteration step of the optimiser, increases at each iteration in
         run function.
         &#34;&#34;&#34;
+        self.weight = self.problem.max_w
+        &#34;&#34;&#34;Weight of inertia for all particles.&#34;&#34;&#34;
 
-    def weightRegression(self, max, min):
+    def weight_regression(self):
         &#34;&#34;&#34;Changes the value for the weight variable, current implementation 
-        is a random number between max and min.&#34;&#34;&#34;
-        self.weight = random.uniform(max, min)
+        is linear decreasing&#34;&#34;&#34;
+        nt = self.problem.max_iterations
+        t = self.iteration
+        w0 = self.problem.max_w
+        wnt = self.problem.min_w
+        wt = ((w0 - wnt) * ((nt - t)/nt)) + wnt
+        self.weight = wt
     
     def stop(self):
         &#34;&#34;&#34;Checks to see if iteration is greater or equal to the max iterations
@@ -141,7 +146,8 @@ class Optimiser:
                 gbest = self.hypercubes.select_gbest()
                 particle.s_best = gbest
             
-            #calc particles veloctiy
+            #calc particles veloctiy with new weight regression
+            self.weight_regression()
             vs = []
             for particle in self.swarm.particles:
                 vs.append(particle.calc_velocity(
@@ -231,17 +237,22 @@ if __name__ == &#34;__main__&#34;:
             self.problem.solution_count)
         &#34;&#34;&#34;Keeps instance of hypercubes which is responsible for storing the 
         pareto front.&#34;&#34;&#34;
-        self.weight = random.uniform(self.problem.max_w, self.problem.min_w)
-        &#34;&#34;&#34;Weight of inertia for all particles.&#34;&#34;&#34;
         self.iteration = 0
         &#34;&#34;&#34;Saves iteration step of the optimiser, increases at each iteration in
         run function.
         &#34;&#34;&#34;
+        self.weight = self.problem.max_w
+        &#34;&#34;&#34;Weight of inertia for all particles.&#34;&#34;&#34;
 
-    def weightRegression(self, max, min):
+    def weight_regression(self):
         &#34;&#34;&#34;Changes the value for the weight variable, current implementation 
-        is a random number between max and min.&#34;&#34;&#34;
-        self.weight = random.uniform(max, min)
+        is linear decreasing&#34;&#34;&#34;
+        nt = self.problem.max_iterations
+        t = self.iteration
+        w0 = self.problem.max_w
+        wnt = self.problem.min_w
+        wt = ((w0 - wnt) * ((nt - t)/nt)) + wnt
+        self.weight = wt
     
     def stop(self):
         &#34;&#34;&#34;Checks to see if iteration is greater or equal to the max iterations
@@ -314,7 +325,8 @@ if __name__ == &#34;__main__&#34;:
                 gbest = self.hypercubes.select_gbest()
                 particle.s_best = gbest
             
-            #calc particles veloctiy
+            #calc particles veloctiy with new weight regression
+            self.weight_regression()
             vs = []
             for particle in self.swarm.particles:
                 vs.append(particle.calc_velocity(
@@ -430,7 +442,8 @@ details.</p></div>
             gbest = self.hypercubes.select_gbest()
             particle.s_best = gbest
         
-        #calc particles veloctiy
+        #calc particles veloctiy with new weight regression
+        self.weight_regression()
         vs = []
         for particle in self.swarm.particles:
             vs.append(particle.calc_velocity(
@@ -484,20 +497,25 @@ config file and if true swarm will restart and return false.</p></div>
     return False</code></pre>
 </details>
 </dd>
-<dt id="WIL_KJO.optimiser.Optimiser.weightRegression"><code class="name flex">
-<span>def <span class="ident">weightRegression</span></span>(<span>self, max, min)</span>
+<dt id="WIL_KJO.optimiser.Optimiser.weight_regression"><code class="name flex">
+<span>def <span class="ident">weight_regression</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Changes the value for the weight variable, current implementation
-is a random number between max and min.</p></div>
+is linear decreasing</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def weightRegression(self, max, min):
+<pre><code class="python">def weight_regression(self):
     &#34;&#34;&#34;Changes the value for the weight variable, current implementation 
-    is a random number between max and min.&#34;&#34;&#34;
-    self.weight = random.uniform(max, min)</code></pre>
+    is linear decreasing&#34;&#34;&#34;
+    nt = self.problem.max_iterations
+    t = self.iteration
+    w0 = self.problem.max_w
+    wnt = self.problem.min_w
+    wt = ((w0 - wnt) * ((nt - t)/nt)) + wnt
+    self.weight = wt</code></pre>
 </details>
 </dd>
 </dl>
@@ -528,7 +546,7 @@ is a random number between max and min.</p></div>
 <li><code><a title="WIL_KJO.optimiser.Optimiser.stop" href="#WIL_KJO.optimiser.Optimiser.stop">stop</a></code></li>
 <li><code><a title="WIL_KJO.optimiser.Optimiser.swarm" href="#WIL_KJO.optimiser.Optimiser.swarm">swarm</a></code></li>
 <li><code><a title="WIL_KJO.optimiser.Optimiser.weight" href="#WIL_KJO.optimiser.Optimiser.weight">weight</a></code></li>
-<li><code><a title="WIL_KJO.optimiser.Optimiser.weightRegression" href="#WIL_KJO.optimiser.Optimiser.weightRegression">weightRegression</a></code></li>
+<li><code><a title="WIL_KJO.optimiser.Optimiser.weight_regression" href="#WIL_KJO.optimiser.Optimiser.weight_regression">weight_regression</a></code></li>
 </ul>
 </li>
 </ul>

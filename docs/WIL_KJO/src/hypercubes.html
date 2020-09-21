@@ -123,12 +123,19 @@ class Hypercubes:
         return True
 
     def select_gbest(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with LESS solutions more weight. A random solution in this 
+        hypercube is then selected. This is returned as the gbest.This 
+        promotes exploring hypercubes with less solutions.&#34;&#34;&#34;
         cube = self.select_min_cube()
 
         chosen = random.randrange(len(self.cube_dict[cube]))
         return self.cube_dict[cube][chosen]
 
     def select_min_cube(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with LESS solutions more weight. This hypercube is then 
+        returned&#34;&#34;&#34;
         cube_fitness = {}
         keys = self.cube_dict.keys()
         for cube in keys:
@@ -149,6 +156,9 @@ class Hypercubes:
         return keys[-1]
 
     def select_cube(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with MORE solutions more weight. This hypercube is then 
+        returned&#34;&#34;&#34;
         cube_fitness = {}
         keys = self.cube_dict.keys()
         for cube in keys:
@@ -167,6 +177,10 @@ class Hypercubes:
         return keys[-1]
             
     def delete_sol(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with MORE solutions more weight. A random solution in this 
+        hypercube is then selected. This is solution is then deleted. This 
+        promotes exploring hypercubes with less solutions.&#34;&#34;&#34;
         cube = self.select_cube()
         
         chosen = random.randrange(len(self.cube_dict[cube]))
@@ -177,14 +191,6 @@ class Hypercubes:
 
         self.sol_count -= 1
 
-    def output(self):
-        count = 0
-        for i in self.cube_dict.keys():
-            print(&#34;Cube:&#34;, i, &#34;Has count: &#34;, len(self.cube_dict[i]))
-            count += len(self.cube_dict[i])
-        print(&#34;Summed len: &#34;, count)
-        return
-
     def output_front(self):
         &#34;&#34;&#34;
         Return list of non dominated solutions
@@ -194,18 +200,10 @@ class Hypercubes:
             for sol in self.cube_dict[cube]:
                 front.append(sol.objectives)
         return front
-
-    def draw_front(self):
-        front = self.output_front()
-        x, y = [], []
-        for i in front:
-            x.append(i[0])
-            y.append(i[1])
-        
-        plt.scatter(x, y)
-        plt.savefig(&#39;front.png&#39;)
     
     def redo_dict(self, optimization_type):
+        &#34;&#34;&#34;Resizes the buckets of the hypercubes based on the max and min values
+        of the objectives&#34;&#34;&#34;
         buckets = list(self.cube_dict.values())
         self.cube_dict = {}
         self.sol_count = 0
@@ -221,6 +219,7 @@ class Hypercubes:
                 self.push_sol(sol, optimization_type, skipcheck=True)
 
     def update_bounds(self, sol):
+        &#34;&#34;&#34;Updates the bounds of the max and min values for the objectives&#34;&#34;&#34;
         updated = False
 
         if self.max == [] and self.min == []:
@@ -241,28 +240,7 @@ class Hypercubes:
         return updated
 
 if __name__ == &#34;__main__&#34;:
-    mini = np.zeros(30)
-    maxi = np.ones(30)
-
-    solutions = []
-    for i in range(1000):
-        x = zdt_test.genZDTInputs(30)
-        sol = zdt_test.ZDT1(x)
-        solutions.append(Solution(x, sol))
-        
-
-    cube = Hypercubes(mini, maxi, zdt_test.ZDT1, 5, 15)
-
-    for i in solutions:
-        cube.push_sol(i, [&#34;MIN&#34;, &#34;MIN&#34;])
-
-    # print(cube.select_min_cube())
-    # print(cube.output_front())
-    #cube.draw_front()
-    cube.output()
-    print(cube.sol_count)
-
-    </code></pre>
+    pass</code></pre>
 </details>
 </section>
 <section>
@@ -368,12 +346,19 @@ Bin size to calculate which sub-cube solution goes into</p></div>
         return True
 
     def select_gbest(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with LESS solutions more weight. A random solution in this 
+        hypercube is then selected. This is returned as the gbest.This 
+        promotes exploring hypercubes with less solutions.&#34;&#34;&#34;
         cube = self.select_min_cube()
 
         chosen = random.randrange(len(self.cube_dict[cube]))
         return self.cube_dict[cube][chosen]
 
     def select_min_cube(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with LESS solutions more weight. This hypercube is then 
+        returned&#34;&#34;&#34;
         cube_fitness = {}
         keys = self.cube_dict.keys()
         for cube in keys:
@@ -394,6 +379,9 @@ Bin size to calculate which sub-cube solution goes into</p></div>
         return keys[-1]
 
     def select_cube(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with MORE solutions more weight. This hypercube is then 
+        returned&#34;&#34;&#34;
         cube_fitness = {}
         keys = self.cube_dict.keys()
         for cube in keys:
@@ -412,6 +400,10 @@ Bin size to calculate which sub-cube solution goes into</p></div>
         return keys[-1]
             
     def delete_sol(self):
+        &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with MORE solutions more weight. A random solution in this 
+        hypercube is then selected. This is solution is then deleted. This 
+        promotes exploring hypercubes with less solutions.&#34;&#34;&#34;
         cube = self.select_cube()
         
         chosen = random.randrange(len(self.cube_dict[cube]))
@@ -422,14 +414,6 @@ Bin size to calculate which sub-cube solution goes into</p></div>
 
         self.sol_count -= 1
 
-    def output(self):
-        count = 0
-        for i in self.cube_dict.keys():
-            print(&#34;Cube:&#34;, i, &#34;Has count: &#34;, len(self.cube_dict[i]))
-            count += len(self.cube_dict[i])
-        print(&#34;Summed len: &#34;, count)
-        return
-
     def output_front(self):
         &#34;&#34;&#34;
         Return list of non dominated solutions
@@ -439,18 +423,10 @@ Bin size to calculate which sub-cube solution goes into</p></div>
             for sol in self.cube_dict[cube]:
                 front.append(sol.objectives)
         return front
-
-    def draw_front(self):
-        front = self.output_front()
-        x, y = [], []
-        for i in front:
-            x.append(i[0])
-            y.append(i[1])
-        
-        plt.scatter(x, y)
-        plt.savefig(&#39;front.png&#39;)
     
     def redo_dict(self, optimization_type):
+        &#34;&#34;&#34;Resizes the buckets of the hypercubes based on the max and min values
+        of the objectives&#34;&#34;&#34;
         buckets = list(self.cube_dict.values())
         self.cube_dict = {}
         self.sol_count = 0
@@ -466,6 +442,7 @@ Bin size to calculate which sub-cube solution goes into</p></div>
                 self.push_sol(sol, optimization_type, skipcheck=True)
 
     def update_bounds(self, sol):
+        &#34;&#34;&#34;Updates the bounds of the max and min values for the objectives&#34;&#34;&#34;
         updated = False
 
         if self.max == [] and self.min == []:
@@ -491,12 +468,19 @@ Bin size to calculate which sub-cube solution goes into</p></div>
 <span>def <span class="ident">delete_sol</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Uses roulette wheel selection to randomly choose a hypercube, giving
+hypercubes with MORE solutions more weight. A random solution in this
+hypercube is then selected. This is solution is then deleted. This
+promotes exploring hypercubes with less solutions.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def delete_sol(self):
+    &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+    hypercubes with MORE solutions more weight. A random solution in this 
+    hypercube is then selected. This is solution is then deleted. This 
+    promotes exploring hypercubes with less solutions.&#34;&#34;&#34;
     cube = self.select_cube()
     
     chosen = random.randrange(len(self.cube_dict[cube]))
@@ -506,26 +490,6 @@ Bin size to calculate which sub-cube solution goes into</p></div>
         del self.cube_dict[cube]
 
     self.sol_count -= 1</code></pre>
-</details>
-</dd>
-<dt id="WIL_KJO.src.hypercubes.Hypercubes.draw_front"><code class="name flex">
-<span>def <span class="ident">draw_front</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def draw_front(self):
-    front = self.output_front()
-    x, y = [], []
-    for i in front:
-        x.append(i[0])
-        y.append(i[1])
-    
-    plt.scatter(x, y)
-    plt.savefig(&#39;front.png&#39;)</code></pre>
 </details>
 </dd>
 <dt id="WIL_KJO.src.hypercubes.Hypercubes.get_bin_key"><code class="name flex">
@@ -601,24 +565,6 @@ return true if new solution is non-dom</p></div>
     return True</code></pre>
 </details>
 </dd>
-<dt id="WIL_KJO.src.hypercubes.Hypercubes.output"><code class="name flex">
-<span>def <span class="ident">output</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def output(self):
-    count = 0
-    for i in self.cube_dict.keys():
-        print(&#34;Cube:&#34;, i, &#34;Has count: &#34;, len(self.cube_dict[i]))
-        count += len(self.cube_dict[i])
-    print(&#34;Summed len: &#34;, count)
-    return</code></pre>
-</details>
-</dd>
 <dt id="WIL_KJO.src.hypercubes.Hypercubes.output_front"><code class="name flex">
 <span>def <span class="ident">output_front</span></span>(<span>self)</span>
 </code></dt>
@@ -673,12 +619,15 @@ add new solution to a cube</p></div>
 <span>def <span class="ident">redo_dict</span></span>(<span>self, optimization_type)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Resizes the buckets of the hypercubes based on the max and min values
+of the objectives</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def redo_dict(self, optimization_type):
+    &#34;&#34;&#34;Resizes the buckets of the hypercubes based on the max and min values
+    of the objectives&#34;&#34;&#34;
     buckets = list(self.cube_dict.values())
     self.cube_dict = {}
     self.sol_count = 0
@@ -698,12 +647,17 @@ add new solution to a cube</p></div>
 <span>def <span class="ident">select_cube</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Uses roulette wheel selection to randomly choose a hypercube, giving
+hypercubes with MORE solutions more weight. This hypercube is then
+returned</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def select_cube(self):
+    &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+    hypercubes with MORE solutions more weight. This hypercube is then 
+    returned&#34;&#34;&#34;
     cube_fitness = {}
     keys = self.cube_dict.keys()
     for cube in keys:
@@ -726,12 +680,19 @@ add new solution to a cube</p></div>
 <span>def <span class="ident">select_gbest</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Uses roulette wheel selection to randomly choose a hypercube, giving
+hypercubes with LESS solutions more weight. A random solution in this
+hypercube is then selected. This is returned as the gbest.This
+promotes exploring hypercubes with less solutions.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def select_gbest(self):
+    &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+    hypercubes with LESS solutions more weight. A random solution in this 
+    hypercube is then selected. This is returned as the gbest.This 
+    promotes exploring hypercubes with less solutions.&#34;&#34;&#34;
     cube = self.select_min_cube()
 
     chosen = random.randrange(len(self.cube_dict[cube]))
@@ -742,12 +703,17 @@ add new solution to a cube</p></div>
 <span>def <span class="ident">select_min_cube</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Uses roulette wheel selection to randomly choose a hypercube, giving
+hypercubes with LESS solutions more weight. This hypercube is then
+returned</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def select_min_cube(self):
+    &#34;&#34;&#34;Uses roulette wheel selection to randomly choose a hypercube, giving 
+    hypercubes with LESS solutions more weight. This hypercube is then 
+    returned&#34;&#34;&#34;
     cube_fitness = {}
     keys = self.cube_dict.keys()
     for cube in keys:
@@ -772,12 +738,13 @@ add new solution to a cube</p></div>
 <span>def <span class="ident">update_bounds</span></span>(<span>self, sol)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Updates the bounds of the max and min values for the objectives</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def update_bounds(self, sol):
+    &#34;&#34;&#34;Updates the bounds of the max and min values for the objectives&#34;&#34;&#34;
     updated = False
 
     if self.max == [] and self.min == []:
@@ -820,10 +787,8 @@ add new solution to a cube</p></div>
 <h4><code><a title="WIL_KJO.src.hypercubes.Hypercubes" href="#WIL_KJO.src.hypercubes.Hypercubes">Hypercubes</a></code></h4>
 <ul class="two-column">
 <li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.delete_sol" href="#WIL_KJO.src.hypercubes.Hypercubes.delete_sol">delete_sol</a></code></li>
-<li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.draw_front" href="#WIL_KJO.src.hypercubes.Hypercubes.draw_front">draw_front</a></code></li>
 <li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.get_bin_key" href="#WIL_KJO.src.hypercubes.Hypercubes.get_bin_key">get_bin_key</a></code></li>
 <li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.new_sol_check" href="#WIL_KJO.src.hypercubes.Hypercubes.new_sol_check">new_sol_check</a></code></li>
-<li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.output" href="#WIL_KJO.src.hypercubes.Hypercubes.output">output</a></code></li>
 <li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.output_front" href="#WIL_KJO.src.hypercubes.Hypercubes.output_front">output_front</a></code></li>
 <li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.push_sol" href="#WIL_KJO.src.hypercubes.Hypercubes.push_sol">push_sol</a></code></li>
 <li><code><a title="WIL_KJO.src.hypercubes.Hypercubes.redo_dict" href="#WIL_KJO.src.hypercubes.Hypercubes.redo_dict">redo_dict</a></code></li>

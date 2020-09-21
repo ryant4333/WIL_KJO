@@ -38,7 +38,7 @@ import optimiser
 class TestOptimiser(unittest.TestCase):
     def test_weight_regression(self):
         o = optimiser.Optimiser(&#34;test_config.json&#34;)
-        o.weightRegression(1,0)
+        o.weight_regression()
         boolean = 0 &lt;= o.weight &lt;= 1
         self.assertEqual(boolean, True)
     
@@ -122,7 +122,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">class TestOptimiser(unittest.TestCase):
     def test_weight_regression(self):
         o = optimiser.Optimiser(&#34;test_config.json&#34;)
-        o.weightRegression(1,0)
+        o.weight_regression()
         boolean = 0 &lt;= o.weight &lt;= 1
         self.assertEqual(boolean, True)
     
@@ -237,7 +237,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_weight_regression(self):
     o = optimiser.Optimiser(&#34;test_config.json&#34;)
-    o.weightRegression(1,0)
+    o.weight_regression()
     boolean = 0 &lt;= o.weight &lt;= 1
     self.assertEqual(boolean, True)</code></pre>
 </details>
