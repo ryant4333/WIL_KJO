@@ -51,23 +51,17 @@ class TestProblem(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
-    def test_max_type(self):
-        self.problem.max = 1
+    def test_variables_type(self):
+        self.problem.variables = 1
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
     def test_max_nested_type(self):
-        self.problem.max = [1, "1", 1]
-        with self.assertRaises(TypeError):
-            self.problem.validate_config()
-
-    def test_min_type(self):
-        self.problem.min = 1
-        with self.assertRaises(TypeError):
-            self.problem.validate_config()
-
-    def test_min_nested_type(self):
-        self.problem.min = [1, "1", 1]
+        self.problem.variables = [{
+            "name": "test",
+            "max": "3.1",
+            "min": "1.0"
+        }]
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
@@ -108,12 +102,6 @@ class TestProblem(unittest.TestCase):
 
     def test_solution_count_value(self):
         self.problem.solution_count = 0
-        with self.assertRaises(ValueError):
-            self.problem.validate_config()
-
-    def test_min_max_len_value(self):
-        self.problem.max = [1, 1, 1]
-        self.problem.min = [0, 0]
         with self.assertRaises(ValueError):
             self.problem.validate_config()
 

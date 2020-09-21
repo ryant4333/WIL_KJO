@@ -48,12 +48,16 @@ class Wizard:
                 continue
             else:
                 break
-        # Objective variables (max and min)
-        self.max_ = []
-        self.min_ = []
+        # Objective variables
+        self.variables = []
         for i in range(variable_count):
             while True:
-                print("Variable %s" % (i + 1))
+                print("Variable #%s" % (i + 1))
+                try:
+                    name = str(input("Variable name: "))
+                except ValueError:
+                    print("Must be type string. Please try again")
+                    continue
                 try:
                     max_value = float(input("Max: "))
                 except ValueError:
@@ -64,26 +68,14 @@ class Wizard:
                 except ValueError:
                     print("Must be type float. Please try again")
                     continue
-                if max_value <= min_value:
-                    print("Maximum (%s) should be greater than minimum (%s). "
-                          "Please try again." % (max_value, min_value))
-                    continue
                 else:
-                    self.max_.append(max_value)
-                    self.min_.append(min_value)
+                    variable = {
+                        "name": name,
+                        "max": max_value,
+                        "min": min_value
+                    }
+                    self.variables.append(variable)
                     break
-        # Swarm Distribution
-        while True:
-            try:
-                self.swarm_distribution = str(input('Enter swarm distribution type (EVEN or RANDOM): '))
-            except ValueError:
-                print("Must be type string. Please try again")
-                continue
-            if self.swarm_distribution != "EVEN" and self.swarm_distribution != "RANDOM":
-                print("Swarm distribution must be either 'EVEN' or 'RANDOM'. Please try again")
-                continue
-            else:
-                break
         # C1
         while True:
             try:
@@ -192,20 +184,18 @@ class Wizard:
         Convert the user input into a JSON config file
         """
         config = {
-          "objective": self.objective,
-          "c1": self.c1,
-          "c2": self.c2,
-          "min_w": self.min_w,
-          "max_w": self.max_w,
-          "particle_num": self.particle_num,
-          "max_iterations": self.max_iterations,
-          "min_avg_velocity": self.min_avg_velocity,
-          "max": self.max_,
-          "min": self.min_,
-          "cube_count":  self.cube_count,
-          "solution_count": self.solution_count,
-          "optimization_type": self.optimization_type,
-          "swarm_distribution": self.swarm_distribution,
+            "objective": self.objective,
+            "c1": self.c1,
+            "c2": self.c2,
+            "min_w": self.min_w,
+            "max_w": self.max_w,
+            "particle_num": self.particle_num,
+            "max_iterations": self.max_iterations,
+            "min_avg_velocity": self.min_avg_velocity,
+            "cube_count": self.cube_count,
+            "solution_count": self.solution_count,
+            "variables": self.variables,
+            "optimization_type": self.optimization_type,
         }
         # Create the JSON file
         with open('config.json', 'w') as out:
