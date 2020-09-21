@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class Wizard:
@@ -8,17 +9,23 @@ class Wizard:
     def __init__(self):
         # Objective (ignoring checks for this)
         self.objective = input('Enter path to objective function: ')
+        clear()
         # Objective Count
         while True:
             try:
                 objective_count = int(input('Enter number of objectives: '))
             except ValueError:
-                print("Must be type int. Please try again")
+                clear()
+                print("Must be type int. Please try again.")
                 continue
+
             if objective_count <= 0:
-                print("Value must be greater than 0.")
+                clear()
+                print("Value must be greater than 0. Please try again.")
                 continue
+                clear()
             else:
+                clear()
                 break
         # Optimization Type
         self.optimization_type = []
@@ -28,50 +35,66 @@ class Wizard:
                 try:
                     optimization = str(input("Objective %s: " % (i + 1)))
                 except ValueError:
+                    clear()
+                    print("Enter optimization types (MAX or MIN)")
                     print("Must be type string. Please try again")
                     continue
                 if optimization != "MAX" and optimization != "MIN":
+                    clear()
+                    print("Enter optimization types (MAX or MIN)")
                     print("Optimization type must be either 'MAX' or 'MIN'. Please try again.")
                     continue
                 else:
                     self.optimization_type.append(optimization)
+                    clear()
+                    print("Enter optimization types (MAX or MIN)")
                     break
+        clear()
         # Objective variables count
         while True:
             try:
                 variable_count = int(input("Enter number of objective variables: "))
             except ValueError:
-                print("Must be type int. Please try again")
+                clear()
+                print("Must be type int. Please try again.")
                 continue
             if variable_count <= 0:
-                print("Value must be greater than 0.")
+                clear()
+                print("Value must be greater than 0. Please try again.")
                 continue
             else:
+                clear()
                 break
         # Objective variables
-        print("NOTE: For infinite values use 'inf' or '-inf'.")
         self.variables = []
+        print("Enter variable values (For infinite values use 'inf' or '-inf').")
         for i in range(variable_count):
             while True:
                 print("Variable #%s" % (i + 1))
                 try:
-                    name = input("Variable name: ")
+                    name = input("Name: ")
                 except ValueError:
-                    print("Invalid input. Please try again")
+                    print("Enter variable values (For infinite values use 'inf' or '-inf').")
+                    print("Invalid input. Please try again.")
+                    clear()
                     continue
                 try:
                     max_value = input("Max: ")
                     if max_value != 'inf' and max_value != '-inf':
                         max_value = float(max_value)
                 except ValueError:
-                    print("Invalid input. Please try again")
+                    clear()
+                    print("Enter variable values (For infinite values use 'inf' or '-inf').")
+                    print("Invalid input. Please try again.")
                     continue
                 try:
                     min_value = input("Min: ")
                     if min_value != 'inf' and min_value != '-inf':
                         min_value = float(min_value)
                 except ValueError:
-                    print("Invalid input. Please try again")
+                    clear()
+                    print("Enter variable values (For infinite values use 'inf' or '-inf').")
+                    print("Invalid input. Please try again.")
                     continue
                 else:
                     variable = {
@@ -80,24 +103,31 @@ class Wizard:
                         "min": min_value
                     }
                     self.variables.append(variable)
+                    clear()
+                    print("Enter variable values (For infinite values use 'inf' or '-inf').")
                     break
+        clear()
         # C1
         while True:
             try:
                 self.c1 = float(input("Enter c1: "))
             except ValueError:
-                print("Must be type float. Please try again")
+                clear()
+                print("Must be type float. Please try again.")
                 continue
             else:
+                clear()
                 break
         # C2
         while True:
             try:
                 self.c2 = float(input("Enter c2: "))
             except ValueError:
-                print("Must be type float. Please try again")
+                clear()
+                print("Must be type float. Please try again.")
                 continue
             else:
+                clear()
                 break
         # Max W and MIN W
         while True:
@@ -105,84 +135,104 @@ class Wizard:
                 try:
                     self.max_w = float(input("Enter maximum weight: "))
                 except ValueError:
-                    print("Must be type float. Please try again")
+                    clear()
+                    print("Must be type float. Please try again.")
                     continue
                 else:
+                    clear()
                     break
             while True:
                 try:
                     self.min_w = float(input("Enter minimum weight: "))
                 except ValueError:
-                    print("Must be type float. Please try again")
+                    clear()
+                    print("Must be type float. Please try again.")
                     continue
                 else:
+                    clear()
                     break
             if self.max_w <= self.min_w:
+                clear()
                 print("Maximum (%s) should be greater than minimum (%s). "
                       "Please try again." % (self.max_w, self.min_w))
                 continue
             else:
+                clear()
                 break
         # Max Iterations
         while True:
             try:
                 self.max_iterations = int(input("Enter maximum iterations (stopping condition): "))
             except ValueError:
-                print("Must be type int. Please try again")
+                clear()
+                print("Must be type int. Please try again.")
                 continue
             if self.max_iterations <= 0:
-                print("Value must be greater than 0.")
+                clear()
+                print("Value must be greater than 0. Please try again.")
                 continue
             else:
+                clear()
                 break
         # Min Avg Velocity
         while True:
             try:
                 self.min_avg_velocity = float(input("Enter minimum average velocity (stopping condition): "))
             except ValueError:
-                print("Must be type float. Please try again")
+                clear()
+                print("Must be type float. Please try again.")
                 continue
             else:
+                clear()
                 break
         # Particle Number
         while True:
             try:
                 self.particle_num = int(input("Enter number of particles: "))
             except ValueError:
-                print("Must be type int. Please try again")
+                clear()
+                print("Must be type int. Please try again.")
                 continue
             if self.particle_num <= 0:
-                print("Value must be greater than 0.")
+                clear()
+                print("Value must be greater than 0. Please try again.")
                 continue
             else:
+                clear()
                 break
         # Cube Count
         while True:
             try:
                 self.cube_count = int(input("Enter number of cubes to be used in the hypercube: "))
             except ValueError:
-                print("Must be type int. Please try again")
+                clear()
+                print("Must be type int. Please try again.")
                 continue
             if self.cube_count <= 0:
-                print("Value must be greater than 0.")
+                clear()
+                print("Value must be greater than 0. Please try again.")
                 continue
             else:
+                clear()
                 break
         # Solution Count
         while True:
             try:
                 self.solution_count = int(input("Enter maximum number of solutions to store: "))
             except ValueError:
-                print("Must be type int. Please try again")
+                clear()
+                print("Must be type int. Please try again.")
                 continue
             if self.solution_count <= 0:
-                print("Value must be greater than 0.")
+                clear()
+                print("Value must be greater than 0. Please try again.")
                 continue
             else:
+                clear()
                 break
         # Create the JSON file
         self.create_config()
-        print("\nSuccessfully created config file!")
+        print("Successfully created config file!")
 
     def create_config(self):
         """
@@ -205,6 +255,14 @@ class Wizard:
         # Create the JSON file
         with open('config.json', 'w') as out:
             json.dump(config, out, indent=1)
+
+
+def clear():
+    """
+    Clears the CLI. Used to make the Wizard
+    experience more user-friendly.
+    """
+    os.system('cls||clear')
 
 
 if __name__ == "__main__":
