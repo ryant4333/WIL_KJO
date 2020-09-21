@@ -6,6 +6,7 @@ class Problem:
     Saves config file in the problem class.
     """
     def __init__(self, config_file):
+        """Initialises a problem class based on a config json file"""
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)

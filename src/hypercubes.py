@@ -95,12 +95,19 @@ class Hypercubes:
         return True
 
     def select_gbest(self):
+        """Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with LESS solutions more weight. A random solution in this 
+        hypercube is then selected. This is returned as the gbest.This 
+        promotes exploring hypercubes with less solutions."""
         cube = self.select_min_cube()
 
         chosen = random.randrange(len(self.cube_dict[cube]))
         return self.cube_dict[cube][chosen]
 
     def select_min_cube(self):
+        """Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with LESS solutions more weight. This hypercube is then 
+        returned"""
         cube_fitness = {}
         keys = self.cube_dict.keys()
         for cube in keys:
@@ -121,6 +128,9 @@ class Hypercubes:
         return keys[-1]
 
     def select_cube(self):
+        """Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with MORE solutions more weight. This hypercube is then 
+        returned"""
         cube_fitness = {}
         keys = self.cube_dict.keys()
         for cube in keys:
@@ -139,6 +149,10 @@ class Hypercubes:
         return keys[-1]
             
     def delete_sol(self):
+        """Uses roulette wheel selection to randomly choose a hypercube, giving 
+        hypercubes with MORE solutions more weight. A random solution in this 
+        hypercube is then selected. This is solution is then deleted. This 
+        promotes exploring hypercubes with less solutions."""
         cube = self.select_cube()
         
         chosen = random.randrange(len(self.cube_dict[cube]))
@@ -149,14 +163,6 @@ class Hypercubes:
 
         self.sol_count -= 1
 
-    def output(self):
-        count = 0
-        for i in self.cube_dict.keys():
-            print("Cube:", i, "Has count: ", len(self.cube_dict[i]))
-            count += len(self.cube_dict[i])
-        print("Summed len: ", count)
-        return
-
     def output_front(self):
         """
         Return list of non dominated solutions
@@ -166,18 +172,10 @@ class Hypercubes:
             for sol in self.cube_dict[cube]:
                 front.append(sol.objectives)
         return front
-
-    def draw_front(self):
-        front = self.output_front()
-        x, y = [], []
-        for i in front:
-            x.append(i[0])
-            y.append(i[1])
-        
-        plt.scatter(x, y)
-        plt.savefig('front.png')
     
     def redo_dict(self, optimization_type):
+        """Resizes the buckets of the hypercubes based on the max and min values
+        of the objectives"""
         buckets = list(self.cube_dict.values())
         self.cube_dict = {}
         self.sol_count = 0
@@ -193,6 +191,7 @@ class Hypercubes:
                 self.push_sol(sol, optimization_type, skipcheck=True)
 
     def update_bounds(self, sol):
+        """Updates the bounds of the max and min values for the objectives"""
         updated = False
 
         if self.max == [] and self.min == []:
@@ -213,25 +212,4 @@ class Hypercubes:
         return updated
 
 if __name__ == "__main__":
-    mini = np.zeros(30)
-    maxi = np.ones(30)
-
-    solutions = []
-    for i in range(1000):
-        x = zdt_test.genZDTInputs(30)
-        sol = zdt_test.ZDT1(x)
-        solutions.append(Solution(x, sol))
-        
-
-    cube = Hypercubes(mini, maxi, zdt_test.ZDT1, 5, 15)
-
-    for i in solutions:
-        cube.push_sol(i, ["MIN", "MIN"])
-
-    # print(cube.select_min_cube())
-    # print(cube.output_front())
-    #cube.draw_front()
-    cube.output()
-    print(cube.sol_count)
-
-    
+    pass
