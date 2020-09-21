@@ -6,6 +6,7 @@ sys.path.insert(1, "./src/")  # to import running in the test path
 from problem import Problem
 from zdt.zdt1.objectives import ZDT1
 
+
 class TestProblem(unittest.TestCase):
 
     def setUp(self):
@@ -56,12 +57,23 @@ class TestProblem(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
+    def test_max_type(self):
+        self.problem.max = 1
+        with self.assertRaises(TypeError):
+            self.problem.validate_config()
+
     def test_max_nested_type(self):
-        self.problem.variables = [{
-            "name": "test",
-            "max": "3.1",
-            "min": "1.0"
-        }]
+        self.problem.max = [1, "1", 1]
+        with self.assertRaises(TypeError):
+            self.problem.validate_config()
+
+    def test_min_type(self):
+        self.problem.min = 1
+        with self.assertRaises(TypeError):
+            self.problem.validate_config()
+
+    def test_min_nested_type(self):
+        self.problem.min = [1, "1", 1]
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 

@@ -22,8 +22,8 @@
   },
   {
    "name": "Height",
-   "max": 4.2,
-   "min": 1.0
+   "max": "inf",
+   "min": 0.1
   }
  ],
  "optimization_type": [

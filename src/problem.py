@@ -1,4 +1,5 @@
 import json
+import sys
 
 
 class Problem:
@@ -28,10 +29,10 @@ class Problem:
         self.max = []
         self.min = []
         self.split_variables_into_max_min()
+        # Convert the min / max values to include infinity
+        self.convert_min_max_to_inf()
         # Validation
         self.validate_config()
-        print(self.max)
-        print(self.min)
 
     def validate_config(self):
         """
@@ -69,14 +70,12 @@ class Problem:
         if type(self.optimization_type) != list:
             raise TypeError("optimization_type should be type: <list of strings>")
         # Checking list nested types
-        for i in range(len(self.variables)):
-            name, max_, min_ = [x[1] for x in self.variables[i].items()]
-            if type(name) != str:
-                raise TypeError("variables.name should be type: <string>")
-            if type(max_) != float and type(max_) != int:
-                raise TypeError("variables.max should be type: <float>")
-            if type(min_) != float and type(min_) != int:
-                raise TypeError("variables.min should be type: <float>")
+        for i in self.max:
+            if type(i) != float and type(i) != int:
+                raise TypeError("max values should be type: <float>")
+        for i in self.min:
+            if type(i) != float and type(i) != int:
+                raise TypeError("min values should be type: <float>")
         for i in self.optimization_type:
             if type(i) != str:
                 raise TypeError("optimization_type should be type: <list of strings>")
@@ -99,11 +98,10 @@ class Problem:
             if i != "MAX" and i != "MIN":
                 raise ValueError("optimization_type '%s' should be MAX or MIN" % i)
         # Are the min inputs less than the max outputs
-        for i in range(len(self.variables)):
-            _, max_, min_ = [x[1] for x in self.variables[i].items()]
-            if max_ <= min_:
+        for i in range(len(self.max)):
+            if self.max[i] <= self.min[i]:
                 raise ValueError("min values should be less than max values (%s not less than %s)"
-                                 % (self.min_, max_))
+                                 % (self.min[i], self.max[i]))
 
     def convert_to_method(self, objective):
         """
@@ -127,3 +125,15 @@ class Problem:
             _, max_, min_ = [x[1] for x in self.variables[i].items()]
             self.max.append(max_)
             self.min.append(min_)
+
+    def convert_min_max_to_inf(self):
+        """
+        Convert the min and max infinite
+        values (inf and -inf) to the maximum
+        and minimum float values.
+        """
+        for i in range(len(self.max)):
+            if self.max[i] == "inf":
+                self.max[i] = float(sys.float_info.max)
+            if self.min[i] == "-inf":
+                self.min[i] = float(sys.float_info.min)

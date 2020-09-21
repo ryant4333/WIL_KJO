@@ -49,24 +49,29 @@ class Wizard:
             else:
                 break
         # Objective variables
+        print("NOTE: For infinite values use 'inf' or '-inf'.")
         self.variables = []
         for i in range(variable_count):
             while True:
                 print("Variable #%s" % (i + 1))
                 try:
-                    name = str(input("Variable name: "))
+                    name = input("Variable name: ")
                 except ValueError:
-                    print("Must be type string. Please try again")
+                    print("Invalid input. Please try again")
                     continue
                 try:
-                    max_value = float(input("Max: "))
+                    max_value = input("Max: ")
+                    if max_value != 'inf' and max_value != '-inf':
+                        max_value = float(max_value)
                 except ValueError:
-                    print("Must be type float. Please try again")
+                    print("Invalid input. Please try again")
                     continue
                 try:
-                    min_value = float(input("Min: "))
+                    min_value = input("Min: ")
+                    if min_value != 'inf' and min_value != '-inf':
+                        min_value = float(min_value)
                 except ValueError:
-                    print("Must be type float. Please try again")
+                    print("Invalid input. Please try again")
                     continue
                 else:
                     variable = {
