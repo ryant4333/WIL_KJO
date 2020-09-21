@@ -5,20 +5,37 @@
 The optimiser uses a *config.json* file as input. 
 ```
 {
-  "objective": "zdt_test.ZDT1",
-  "c1": 2.0,
-  "c2": 1.0,
-  "min_w": 0.4,
-  "max_w": 0.7,
-  "particle_num": 30,
-  "max_iterations": 400,
-  "min_avg_velocity": 0.01,
-  "max":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  "min":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  "cube_count": 20,
-  "solution_count": 100,
-  "optimization_type": ["MIN", "MIN"]
-  "swarm_distribution": "RANDOM"
+ "objective": "objectives.ZDT1",
+ "c1": 1.1,
+ "c2": 2.2,
+ "min_w": 2.1,
+ "max_w": 9.3,
+ "particle_num": 70,
+ "max_iterations": 100,
+ "min_avg_velocity": 0.3,
+ "cube_count": 30,
+ "solution_count": 100,
+ "variables": [
+  {
+   "name": "Radius",
+   "max": 15.0,
+   "min": 3.0
+  },
+  {
+   "name": "Length",
+   "max": 5.0,
+   "min": 1.0
+  },
+  {
+   "name": "Height",
+   "max": "inf",
+   "min": 0.1
+  }
+ ],
+ "optimization_type": [
+  "MIN",
+  "MIN"
+ ]
 }
 ```
 This table describes the *config.json* file attributes:
@@ -33,9 +50,7 @@ This table describes the *config.json* file attributes:
 | particle_num      | int              | Number of particles to be used. |
 | max_iterations    | int              | Maximum number of iterations until the optimisation stops. |
 | min_avg_velocity  | float            | Minimum average velocity a particle can achieve until the optimisation stops. |
-| max               | array of floats  | Maximum input values to the objective funciton. Dimension size should be the same as the min. |
-| min               | array of floats  | Minimum input values to the objective funciton. Dimension size should be the same as the max. |
+| variables         | array of dicts   | The variable name, maximum value, and minimum value. (max and min are floats but can also be `inf` and `-inf`.)|
 | cube_count        | int              | Number of hypercubes. |
 | solution_count    | int              | Total number of solutions able to be kept in the hypercube (that is, all combined hypercubes). |
 | optimization_type | array of strings | Optimization type of the objective functions (either `MIN` or `MAX`). This denotes whether the objective function is seeking a minimum or maximum value. E.g. *ZDT1* has 2 objective functions: *F1* and *F2* which are both seeking minimization. Thus, I give the input `["MIN", "MIN"]`.
-| swarm_distribution| string           | Type of particle distribution used (either `EVEN` or `RANDOM`). |
