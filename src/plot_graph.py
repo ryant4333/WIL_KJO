@@ -13,7 +13,7 @@ def plot(title, opt, directory):
     dir_name = directory + "logs/" + time_now
     create_dir(dir_name)
     create_objectives_log(opt, dir_name)
-    create_sol_log(opt, dir_name)
+    create_sol_log(opt, dir_name, title)
     front = np.loadtxt(dir_name + "/objectives_log.txt")
 
     if len(front) == 2:
@@ -67,11 +67,12 @@ def create_objectives_log(self, dir_name):
         print("File ", "objectives_log", " already exists")
 
 
-def create_sol_log(self, dir_name):
+def create_sol_log(self, dir_name, title):
     """Creates a solution log by creating a json file with an array of solution 
     objects from the pareto front."""
     big_cube = self.hypercubes.cube_dict
     data = {}
+    data['title'] = title
     data['solutions'] = []
     try:
         for cube in big_cube:
