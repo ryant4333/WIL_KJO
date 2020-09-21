@@ -1,7 +1,7 @@
 import unittest
 import sys
 sys.path.insert(1, "./tests/")
-sys.path.insert(1, "./zdt/zdt1") 
+sys.path.insert(1, "./benchmarks/zdt/zdt1") 
 import test_particle
 import test_problem
 import test_solution

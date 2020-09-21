@@ -10,7 +10,7 @@ import optimiser
 class TestOptimiser(unittest.TestCase):
     def test_weight_regression(self):
         o = optimiser.Optimiser("test_config.json")
-        o.weightRegression(1,0)
+        o.weight_regression()
         boolean = 0 <= o.weight <= 1
         self.assertEqual(boolean, True)
     

@@ -4,7 +4,7 @@ import numpy as np
 
 sys.path.insert(1, "./src/")  # to import running in the test path
 from problem import Problem
-from zdt.zdt1.objectives import ZDT1
+from benchmarks.zdt.zdt1.objectives import ZDT1
 
 class TestProblem(unittest.TestCase):
 
