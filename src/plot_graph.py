@@ -4,6 +4,7 @@ import datetime as dt
 import os
 import optimiser
 from mpl_toolkits.mplot3d import Axes3D
+import json
 
 def plot(title, opt, directory):
     if not directory[-1] in ('/', '\\'):
@@ -13,7 +14,7 @@ def plot(title, opt, directory):
     create_dir(dir_name)
     create_fitness_log(opt, dir_name)
     create_pos_log(opt, dir_name)
-    front = np.loadtxt(dir_name + "/front_log")
+    front = np.loadtxt(dir_name + "/front_log.txt")
 
     if len(front) == 2:
         plt.scatter(front[0], front[1], c='b')
@@ -51,7 +52,7 @@ def create_dir(dir_name):
 def create_fitness_log(self, dir_name):
     front = self.hypercubes.output_front()
     try:
-        output = open(dir_name + "/front_log", "w+")
+        output = open(dir_name + "/front_log.txt", "w+")
 
         for i in front:
             if len(i) > 2:
@@ -64,25 +65,25 @@ def create_fitness_log(self, dir_name):
 
 def create_pos_log(self, dir_name):
     big_cube = self.hypercubes.cube_dict
-    count = 00000
+    data = {}
+    data['solutions'] = []
     try:
-        output = open(dir_name + "/N_D_Solutions", "w+")
         for cube in big_cube:
             for sol in big_cube[cube]:
-                print("Solution ID: ", count, file=output)
-                print("Fitness:{}".format(sol.objectives), file=output)
-                print("Position:{}".format(sol.x), file=output)
-                print("--------------------------------------------------------------------------------------", file=output)
-                count += 1
+                data['solutions'].append(
+                    {
+                        'position': sol.x.tolist(),
+                        'objectives': sol.objectives.tolist()
+                    }
+                )
+        with open(dir_name + "/solutions.json", "w+") as outfile:
+            json.dump(data, outfile, indent=4)
+        
     except FileExistsError:
         print("File ", "N_D_Solutions", " already exists")
 
 
 if __name__ == "__main__":
-    optimiser = optimiser.Optimiser("config.json")
-    optimiser.run()
-
-    plot(r'ZDT1 Search Domain: $0\leq x_i\leq1,1\leq i\leq30.\mathrm{}$', optimiser)
-    plt.show()
+    pass
 
 
