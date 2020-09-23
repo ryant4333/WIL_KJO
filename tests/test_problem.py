@@ -6,6 +6,7 @@ sys.path.insert(1, "./src/")  # to import running in the test path
 from problem import Problem
 from benchmarks.zdt.zdt1.objectives import ZDT1
 
+
 class TestProblem(unittest.TestCase):
 
     def setUp(self):
@@ -48,6 +49,11 @@ class TestProblem(unittest.TestCase):
 
     def test_validation_min_avg_velocity_type(self):
         self.problem.min_avg_velocity = "1.1"
+        with self.assertRaises(TypeError):
+            self.problem.validate_config()
+
+    def test_variables_type(self):
+        self.problem.variables = 1
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
@@ -108,12 +114,6 @@ class TestProblem(unittest.TestCase):
 
     def test_solution_count_value(self):
         self.problem.solution_count = 0
-        with self.assertRaises(ValueError):
-            self.problem.validate_config()
-
-    def test_min_max_len_value(self):
-        self.problem.max = [1, 1, 1]
-        self.problem.min = [0, 0]
         with self.assertRaises(ValueError):
             self.problem.validate_config()
 
