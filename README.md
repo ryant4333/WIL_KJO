@@ -5,16 +5,17 @@
 The optimiser uses a *config.json* file as input. 
 ```
 {
+ {
  "objective": "objectives.ZDT1",
  "c1": 1.1,
  "c2": 2.2,
- "min_w": 2.1,
- "max_w": 9.3,
- "particle_num": 70,
- "max_iterations": 100,
- "min_avg_velocity": 0.3,
- "cube_count": 30,
- "solution_count": 100,
+ "min_w": 0.4,
+ "max_w": 0.7,
+ "particle_num": 30,
+ "max_iterations": 400,
+ "min_avg_velocity": 0.1,
+ "cube_count": 10,
+ "solution_count": 1000,
  "variables": [
   {
    "name": "Radius",
