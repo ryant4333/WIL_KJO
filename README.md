@@ -5,7 +5,6 @@
 The optimiser uses a *config.json* file as input. 
 ```
 {
- {
  "objective": "objectives.ZDT1",
  "c1": 1.1,
  "c2": 2.2,
