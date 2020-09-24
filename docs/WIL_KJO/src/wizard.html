@@ -27,6 +27,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">import json
+import os
 
 
 class Wizard:
@@ -36,17 +37,23 @@ class Wizard:
     def __init__(self):
         # Objective (ignoring checks for this)
         self.objective = input(&#39;Enter path to objective function: &#39;)
+        clear()
         # Objective Count
         while True:
             try:
                 objective_count = int(input(&#39;Enter number of objectives: &#39;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
+
             if objective_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
+                clear()
             else:
+                clear()
                 break
         # Optimization Type
         self.optimization_type = []
@@ -56,79 +63,99 @@ class Wizard:
                 try:
                     optimization = str(input(&#34;Objective %s: &#34; % (i + 1)))
                 except ValueError:
+                    clear()
+                    print(&#34;Enter optimization types (MAX or MIN)&#34;)
                     print(&#34;Must be type string. Please try again&#34;)
                     continue
                 if optimization != &#34;MAX&#34; and optimization != &#34;MIN&#34;:
+                    clear()
+                    print(&#34;Enter optimization types (MAX or MIN)&#34;)
                     print(&#34;Optimization type must be either &#39;MAX&#39; or &#39;MIN&#39;. Please try again.&#34;)
                     continue
                 else:
                     self.optimization_type.append(optimization)
+                    clear()
+                    print(&#34;Enter optimization types (MAX or MIN)&#34;)
                     break
+        clear()
         # Objective variables count
         while True:
             try:
                 variable_count = int(input(&#34;Enter number of objective variables: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if variable_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
-        # Objective variables (max and min)
-        self.max_ = []
-        self.min_ = []
+        # Objective variables
+        self.variables = []
+        print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
         for i in range(variable_count):
             while True:
-                print(&#34;Variable %s&#34; % (i + 1))
+                print(&#34;Variable #%s&#34; % (i + 1))
                 try:
-                    max_value = float(input(&#34;Max: &#34;))
+                    name = input(&#34;Name: &#34;)
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
+                    print(&#34;Invalid input. Please try again.&#34;)
+                    clear()
                     continue
                 try:
-                    min_value = float(input(&#34;Min: &#34;))
+                    max_value = input(&#34;Max: &#34;)
+                    if max_value != &#39;inf&#39; and max_value != &#39;-inf&#39;:
+                        max_value = float(max_value)
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    clear()
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
+                    print(&#34;Invalid input. Please try again.&#34;)
                     continue
-                if max_value &lt;= min_value:
-                    print(&#34;Maximum (%s) should be greater than minimum (%s). &#34;
-                          &#34;Please try again.&#34; % (max_value, min_value))
+                try:
+                    min_value = input(&#34;Min: &#34;)
+                    if min_value != &#39;inf&#39; and min_value != &#39;-inf&#39;:
+                        min_value = float(min_value)
+                except ValueError:
+                    clear()
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
+                    print(&#34;Invalid input. Please try again.&#34;)
                     continue
                 else:
-                    self.max_.append(max_value)
-                    self.min_.append(min_value)
+                    variable = {
+                        &#34;name&#34;: name,
+                        &#34;max&#34;: max_value,
+                        &#34;min&#34;: min_value
+                    }
+                    self.variables.append(variable)
+                    clear()
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
                     break
-        # Swarm Distribution
-        while True:
-            try:
-                self.swarm_distribution = str(input(&#39;Enter swarm distribution type (EVEN or RANDOM): &#39;))
-            except ValueError:
-                print(&#34;Must be type string. Please try again&#34;)
-                continue
-            if self.swarm_distribution != &#34;EVEN&#34; and self.swarm_distribution != &#34;RANDOM&#34;:
-                print(&#34;Swarm distribution must be either &#39;EVEN&#39; or &#39;RANDOM&#39;. Please try again&#34;)
-                continue
-            else:
-                break
+        clear()
         # C1
         while True:
             try:
                 self.c1 = float(input(&#34;Enter c1: &#34;))
             except ValueError:
-                print(&#34;Must be type float. Please try again&#34;)
+                clear()
+                print(&#34;Must be type float. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # C2
         while True:
             try:
                 self.c2 = float(input(&#34;Enter c2: &#34;))
             except ValueError:
-                print(&#34;Must be type float. Please try again&#34;)
+                clear()
+                print(&#34;Must be type float. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Max W and MIN W
         while True:
@@ -136,108 +163,134 @@ class Wizard:
                 try:
                     self.max_w = float(input(&#34;Enter maximum weight: &#34;))
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    clear()
+                    print(&#34;Must be type float. Please try again.&#34;)
                     continue
                 else:
+                    clear()
                     break
             while True:
                 try:
                     self.min_w = float(input(&#34;Enter minimum weight: &#34;))
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    clear()
+                    print(&#34;Must be type float. Please try again.&#34;)
                     continue
                 else:
+                    clear()
                     break
             if self.max_w &lt;= self.min_w:
+                clear()
                 print(&#34;Maximum (%s) should be greater than minimum (%s). &#34;
                       &#34;Please try again.&#34; % (self.max_w, self.min_w))
                 continue
             else:
+                clear()
                 break
         # Max Iterations
         while True:
             try:
                 self.max_iterations = int(input(&#34;Enter maximum iterations (stopping condition): &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.max_iterations &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Min Avg Velocity
         while True:
             try:
                 self.min_avg_velocity = float(input(&#34;Enter minimum average velocity (stopping condition): &#34;))
             except ValueError:
-                print(&#34;Must be type float. Please try again&#34;)
+                clear()
+                print(&#34;Must be type float. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Particle Number
         while True:
             try:
                 self.particle_num = int(input(&#34;Enter number of particles: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.particle_num &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Cube Count
         while True:
             try:
                 self.cube_count = int(input(&#34;Enter number of cubes to be used in the hypercube: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.cube_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Solution Count
         while True:
             try:
                 self.solution_count = int(input(&#34;Enter maximum number of solutions to store: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.solution_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Create the JSON file
         self.create_config()
-        print(&#34;\nSuccessfully created config file!&#34;)
+        print(&#34;Successfully created config file!&#34;)
 
     def create_config(self):
         &#34;&#34;&#34;
         Convert the user input into a JSON config file
         &#34;&#34;&#34;
         config = {
-          &#34;objective&#34;: self.objective,
-          &#34;c1&#34;: self.c1,
-          &#34;c2&#34;: self.c2,
-          &#34;min_w&#34;: self.min_w,
-          &#34;max_w&#34;: self.max_w,
-          &#34;particle_num&#34;: self.particle_num,
-          &#34;max_iterations&#34;: self.max_iterations,
-          &#34;min_avg_velocity&#34;: self.min_avg_velocity,
-          &#34;max&#34;: self.max_,
-          &#34;min&#34;: self.min_,
-          &#34;cube_count&#34;:  self.cube_count,
-          &#34;solution_count&#34;: self.solution_count,
-          &#34;optimization_type&#34;: self.optimization_type,
-          &#34;swarm_distribution&#34;: self.swarm_distribution,
+            &#34;objective&#34;: self.objective,
+            &#34;c1&#34;: self.c1,
+            &#34;c2&#34;: self.c2,
+            &#34;min_w&#34;: self.min_w,
+            &#34;max_w&#34;: self.max_w,
+            &#34;particle_num&#34;: self.particle_num,
+            &#34;max_iterations&#34;: self.max_iterations,
+            &#34;min_avg_velocity&#34;: self.min_avg_velocity,
+            &#34;cube_count&#34;: self.cube_count,
+            &#34;solution_count&#34;: self.solution_count,
+            &#34;variables&#34;: self.variables,
+            &#34;optimization_type&#34;: self.optimization_type,
         }
         # Create the JSON file
         with open(&#39;config.json&#39;, &#39;w&#39;) as out:
             json.dump(config, out, indent=1)
+
+
+def clear():
+    &#34;&#34;&#34;
+    Clears the CLI. Used to make the Wizard
+    experience more user-friendly.
+    &#34;&#34;&#34;
+    os.system(&#39;cls||clear&#39;)
 
 
 if __name__ == &#34;__main__&#34;:
@@ -249,6 +302,27 @@ if __name__ == &#34;__main__&#34;:
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="WIL_KJO.src.wizard.clear"><code class="name flex">
+<span>def <span class="ident">clear</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Clears the CLI. Used to make the Wizard
+experience more user-friendly.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear():
+    &#34;&#34;&#34;
+    Clears the CLI. Used to make the Wizard
+    experience more user-friendly.
+    &#34;&#34;&#34;
+    os.system(&#39;cls||clear&#39;)</code></pre>
+</details>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -269,17 +343,23 @@ if __name__ == &#34;__main__&#34;:
     def __init__(self):
         # Objective (ignoring checks for this)
         self.objective = input(&#39;Enter path to objective function: &#39;)
+        clear()
         # Objective Count
         while True:
             try:
                 objective_count = int(input(&#39;Enter number of objectives: &#39;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
+
             if objective_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
+                clear()
             else:
+                clear()
                 break
         # Optimization Type
         self.optimization_type = []
@@ -289,79 +369,99 @@ if __name__ == &#34;__main__&#34;:
                 try:
                     optimization = str(input(&#34;Objective %s: &#34; % (i + 1)))
                 except ValueError:
+                    clear()
+                    print(&#34;Enter optimization types (MAX or MIN)&#34;)
                     print(&#34;Must be type string. Please try again&#34;)
                     continue
                 if optimization != &#34;MAX&#34; and optimization != &#34;MIN&#34;:
+                    clear()
+                    print(&#34;Enter optimization types (MAX or MIN)&#34;)
                     print(&#34;Optimization type must be either &#39;MAX&#39; or &#39;MIN&#39;. Please try again.&#34;)
                     continue
                 else:
                     self.optimization_type.append(optimization)
+                    clear()
+                    print(&#34;Enter optimization types (MAX or MIN)&#34;)
                     break
+        clear()
         # Objective variables count
         while True:
             try:
                 variable_count = int(input(&#34;Enter number of objective variables: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if variable_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
-        # Objective variables (max and min)
-        self.max_ = []
-        self.min_ = []
+        # Objective variables
+        self.variables = []
+        print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
         for i in range(variable_count):
             while True:
-                print(&#34;Variable %s&#34; % (i + 1))
+                print(&#34;Variable #%s&#34; % (i + 1))
                 try:
-                    max_value = float(input(&#34;Max: &#34;))
+                    name = input(&#34;Name: &#34;)
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
+                    print(&#34;Invalid input. Please try again.&#34;)
+                    clear()
                     continue
                 try:
-                    min_value = float(input(&#34;Min: &#34;))
+                    max_value = input(&#34;Max: &#34;)
+                    if max_value != &#39;inf&#39; and max_value != &#39;-inf&#39;:
+                        max_value = float(max_value)
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    clear()
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
+                    print(&#34;Invalid input. Please try again.&#34;)
                     continue
-                if max_value &lt;= min_value:
-                    print(&#34;Maximum (%s) should be greater than minimum (%s). &#34;
-                          &#34;Please try again.&#34; % (max_value, min_value))
+                try:
+                    min_value = input(&#34;Min: &#34;)
+                    if min_value != &#39;inf&#39; and min_value != &#39;-inf&#39;:
+                        min_value = float(min_value)
+                except ValueError:
+                    clear()
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
+                    print(&#34;Invalid input. Please try again.&#34;)
                     continue
                 else:
-                    self.max_.append(max_value)
-                    self.min_.append(min_value)
+                    variable = {
+                        &#34;name&#34;: name,
+                        &#34;max&#34;: max_value,
+                        &#34;min&#34;: min_value
+                    }
+                    self.variables.append(variable)
+                    clear()
+                    print(&#34;Enter variable values (For infinite values use &#39;inf&#39; or &#39;-inf&#39;).&#34;)
                     break
-        # Swarm Distribution
-        while True:
-            try:
-                self.swarm_distribution = str(input(&#39;Enter swarm distribution type (EVEN or RANDOM): &#39;))
-            except ValueError:
-                print(&#34;Must be type string. Please try again&#34;)
-                continue
-            if self.swarm_distribution != &#34;EVEN&#34; and self.swarm_distribution != &#34;RANDOM&#34;:
-                print(&#34;Swarm distribution must be either &#39;EVEN&#39; or &#39;RANDOM&#39;. Please try again&#34;)
-                continue
-            else:
-                break
+        clear()
         # C1
         while True:
             try:
                 self.c1 = float(input(&#34;Enter c1: &#34;))
             except ValueError:
-                print(&#34;Must be type float. Please try again&#34;)
+                clear()
+                print(&#34;Must be type float. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # C2
         while True:
             try:
                 self.c2 = float(input(&#34;Enter c2: &#34;))
             except ValueError:
-                print(&#34;Must be type float. Please try again&#34;)
+                clear()
+                print(&#34;Must be type float. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Max W and MIN W
         while True:
@@ -369,104 +469,122 @@ if __name__ == &#34;__main__&#34;:
                 try:
                     self.max_w = float(input(&#34;Enter maximum weight: &#34;))
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    clear()
+                    print(&#34;Must be type float. Please try again.&#34;)
                     continue
                 else:
+                    clear()
                     break
             while True:
                 try:
                     self.min_w = float(input(&#34;Enter minimum weight: &#34;))
                 except ValueError:
-                    print(&#34;Must be type float. Please try again&#34;)
+                    clear()
+                    print(&#34;Must be type float. Please try again.&#34;)
                     continue
                 else:
+                    clear()
                     break
             if self.max_w &lt;= self.min_w:
+                clear()
                 print(&#34;Maximum (%s) should be greater than minimum (%s). &#34;
                       &#34;Please try again.&#34; % (self.max_w, self.min_w))
                 continue
             else:
+                clear()
                 break
         # Max Iterations
         while True:
             try:
                 self.max_iterations = int(input(&#34;Enter maximum iterations (stopping condition): &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.max_iterations &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Min Avg Velocity
         while True:
             try:
                 self.min_avg_velocity = float(input(&#34;Enter minimum average velocity (stopping condition): &#34;))
             except ValueError:
-                print(&#34;Must be type float. Please try again&#34;)
+                clear()
+                print(&#34;Must be type float. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Particle Number
         while True:
             try:
                 self.particle_num = int(input(&#34;Enter number of particles: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.particle_num &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Cube Count
         while True:
             try:
                 self.cube_count = int(input(&#34;Enter number of cubes to be used in the hypercube: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.cube_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Solution Count
         while True:
             try:
                 self.solution_count = int(input(&#34;Enter maximum number of solutions to store: &#34;))
             except ValueError:
-                print(&#34;Must be type int. Please try again&#34;)
+                clear()
+                print(&#34;Must be type int. Please try again.&#34;)
                 continue
             if self.solution_count &lt;= 0:
-                print(&#34;Value must be greater than 0.&#34;)
+                clear()
+                print(&#34;Value must be greater than 0. Please try again.&#34;)
                 continue
             else:
+                clear()
                 break
         # Create the JSON file
         self.create_config()
-        print(&#34;\nSuccessfully created config file!&#34;)
+        print(&#34;Successfully created config file!&#34;)
 
     def create_config(self):
         &#34;&#34;&#34;
         Convert the user input into a JSON config file
         &#34;&#34;&#34;
         config = {
-          &#34;objective&#34;: self.objective,
-          &#34;c1&#34;: self.c1,
-          &#34;c2&#34;: self.c2,
-          &#34;min_w&#34;: self.min_w,
-          &#34;max_w&#34;: self.max_w,
-          &#34;particle_num&#34;: self.particle_num,
-          &#34;max_iterations&#34;: self.max_iterations,
-          &#34;min_avg_velocity&#34;: self.min_avg_velocity,
-          &#34;max&#34;: self.max_,
-          &#34;min&#34;: self.min_,
-          &#34;cube_count&#34;:  self.cube_count,
-          &#34;solution_count&#34;: self.solution_count,
-          &#34;optimization_type&#34;: self.optimization_type,
-          &#34;swarm_distribution&#34;: self.swarm_distribution,
+            &#34;objective&#34;: self.objective,
+            &#34;c1&#34;: self.c1,
+            &#34;c2&#34;: self.c2,
+            &#34;min_w&#34;: self.min_w,
+            &#34;max_w&#34;: self.max_w,
+            &#34;particle_num&#34;: self.particle_num,
+            &#34;max_iterations&#34;: self.max_iterations,
+            &#34;min_avg_velocity&#34;: self.min_avg_velocity,
+            &#34;cube_count&#34;: self.cube_count,
+            &#34;solution_count&#34;: self.solution_count,
+            &#34;variables&#34;: self.variables,
+            &#34;optimization_type&#34;: self.optimization_type,
         }
         # Create the JSON file
         with open(&#39;config.json&#39;, &#39;w&#39;) as out:
@@ -488,20 +606,18 @@ if __name__ == &#34;__main__&#34;:
     Convert the user input into a JSON config file
     &#34;&#34;&#34;
     config = {
-      &#34;objective&#34;: self.objective,
-      &#34;c1&#34;: self.c1,
-      &#34;c2&#34;: self.c2,
-      &#34;min_w&#34;: self.min_w,
-      &#34;max_w&#34;: self.max_w,
-      &#34;particle_num&#34;: self.particle_num,
-      &#34;max_iterations&#34;: self.max_iterations,
-      &#34;min_avg_velocity&#34;: self.min_avg_velocity,
-      &#34;max&#34;: self.max_,
-      &#34;min&#34;: self.min_,
-      &#34;cube_count&#34;:  self.cube_count,
-      &#34;solution_count&#34;: self.solution_count,
-      &#34;optimization_type&#34;: self.optimization_type,
-      &#34;swarm_distribution&#34;: self.swarm_distribution,
+        &#34;objective&#34;: self.objective,
+        &#34;c1&#34;: self.c1,
+        &#34;c2&#34;: self.c2,
+        &#34;min_w&#34;: self.min_w,
+        &#34;max_w&#34;: self.max_w,
+        &#34;particle_num&#34;: self.particle_num,
+        &#34;max_iterations&#34;: self.max_iterations,
+        &#34;min_avg_velocity&#34;: self.min_avg_velocity,
+        &#34;cube_count&#34;: self.cube_count,
+        &#34;solution_count&#34;: self.solution_count,
+        &#34;variables&#34;: self.variables,
+        &#34;optimization_type&#34;: self.optimization_type,
     }
     # Create the JSON file
     with open(&#39;config.json&#39;, &#39;w&#39;) as out:
@@ -522,6 +638,11 @@ if __name__ == &#34;__main__&#34;:
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="WIL_KJO.src" href="index.html">WIL_KJO.src</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="WIL_KJO.src.wizard.clear" href="#WIL_KJO.src.wizard.clear">clear</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

@@ -41,8 +41,15 @@ def plot(title, opt, directory):
     dir_name = directory + &#34;logs/&#34; + time_now
     create_dir(dir_name)
     create_objectives_log(opt, dir_name)
-    create_sol_log(opt, dir_name)
-    front = np.loadtxt(dir_name + &#34;/objectives_log.txt&#34;)
+    create_sol_log(opt, dir_name, title)
+    graph(dir_name + &#34;/objectives_log.txt&#34;, title)
+    plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
+    plt.show()
+
+def graph(file, title=None):
+    &#34;&#34;&#34;Graph function is used for adding all the plots and the title to the 
+    graph.&#34;&#34;&#34;
+    front = np.loadtxt(file)
 
     if len(front) == 2:
         plt.scatter(front[0], front[1], c=&#39;b&#39;)
@@ -61,12 +68,11 @@ def plot(title, opt, directory):
     elif ValueError:
         print(&#34;Incorrect number of dims in solution to graph.&#34;)
 
-    plt.title(title)
+    if title != None:
+        plt.title(title)
     plt.xlabel(r&#39;$f_1(x)$&#39;)
     plt.ylabel(r&#39;$f_2(x)$&#39;)
     plt.legend([&#34;Front&#34;])
-    plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
-    plt.show()
 
 
 def create_dir(dir_name):
@@ -95,11 +101,12 @@ def create_objectives_log(self, dir_name):
         print(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)
 
 
-def create_sol_log(self, dir_name):
+def create_sol_log(self, dir_name, title):
     &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution 
     objects from the pareto front.&#34;&#34;&#34;
     big_cube = self.hypercubes.cube_dict
     data = {}
+    data[&#39;title&#39;] = title
     data[&#39;solutions&#39;] = []
     try:
         for cube in big_cube:
@@ -175,7 +182,7 @@ solution by a space and each soluition by a new line.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.plot_graph.create_sol_log"><code class="name flex">
-<span>def <span class="ident">create_sol_log</span></span>(<span>self, dir_name)</span>
+<span>def <span class="ident">create_sol_log</span></span>(<span>self, dir_name, title)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a solution log by creating a json file with an array of solution
@@ -184,11 +191,12 @@ objects from the pareto front.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_sol_log(self, dir_name):
+<pre><code class="python">def create_sol_log(self, dir_name, title):
     &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution 
     objects from the pareto front.&#34;&#34;&#34;
     big_cube = self.hypercubes.cube_dict
     data = {}
+    data[&#39;title&#39;] = title
     data[&#39;solutions&#39;] = []
     try:
         for cube in big_cube:
@@ -206,24 +214,20 @@ objects from the pareto front.</p></div>
         print(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)</code></pre>
 </details>
 </dd>
-<dt id="WIL_KJO.src.plot_graph.plot"><code class="name flex">
-<span>def <span class="ident">plot</span></span>(<span>title, opt, directory)</span>
+<dt id="WIL_KJO.src.plot_graph.graph"><code class="name flex">
+<span>def <span class="ident">graph</span></span>(<span>file, title=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Graph function is used for adding all the plots and the title to the
+graph.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def plot(title, opt, directory):
-    if not directory[-1] in (&#39;/&#39;, &#39;\\&#39;):
-        directory+=&#39;/&#39;
-    time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
-    dir_name = directory + &#34;logs/&#34; + time_now
-    create_dir(dir_name)
-    create_objectives_log(opt, dir_name)
-    create_sol_log(opt, dir_name)
-    front = np.loadtxt(dir_name + &#34;/objectives_log.txt&#34;)
+<pre><code class="python">def graph(file, title=None):
+    &#34;&#34;&#34;Graph function is used for adding all the plots and the title to the 
+    graph.&#34;&#34;&#34;
+    front = np.loadtxt(file)
 
     if len(front) == 2:
         plt.scatter(front[0], front[1], c=&#39;b&#39;)
@@ -242,10 +246,31 @@ objects from the pareto front.</p></div>
     elif ValueError:
         print(&#34;Incorrect number of dims in solution to graph.&#34;)
 
-    plt.title(title)
+    if title != None:
+        plt.title(title)
     plt.xlabel(r&#39;$f_1(x)$&#39;)
     plt.ylabel(r&#39;$f_2(x)$&#39;)
-    plt.legend([&#34;Front&#34;])
+    plt.legend([&#34;Front&#34;])</code></pre>
+</details>
+</dd>
+<dt id="WIL_KJO.src.plot_graph.plot"><code class="name flex">
+<span>def <span class="ident">plot</span></span>(<span>title, opt, directory)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot(title, opt, directory):
+    if not directory[-1] in (&#39;/&#39;, &#39;\\&#39;):
+        directory+=&#39;/&#39;
+    time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
+    dir_name = directory + &#34;logs/&#34; + time_now
+    create_dir(dir_name)
+    create_objectives_log(opt, dir_name)
+    create_sol_log(opt, dir_name, title)
+    graph(dir_name + &#34;/objectives_log.txt&#34;, title)
     plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
     plt.show()</code></pre>
 </details>
@@ -271,6 +296,7 @@ objects from the pareto front.</p></div>
 <li><code><a title="WIL_KJO.src.plot_graph.create_dir" href="#WIL_KJO.src.plot_graph.create_dir">create_dir</a></code></li>
 <li><code><a title="WIL_KJO.src.plot_graph.create_objectives_log" href="#WIL_KJO.src.plot_graph.create_objectives_log">create_objectives_log</a></code></li>
 <li><code><a title="WIL_KJO.src.plot_graph.create_sol_log" href="#WIL_KJO.src.plot_graph.create_sol_log">create_sol_log</a></code></li>
+<li><code><a title="WIL_KJO.src.plot_graph.graph" href="#WIL_KJO.src.plot_graph.graph">graph</a></code></li>
 <li><code><a title="WIL_KJO.src.plot_graph.plot" href="#WIL_KJO.src.plot_graph.plot">plot</a></code></li>
 </ul>
 </li>

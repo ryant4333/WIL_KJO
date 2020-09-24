@@ -19,6 +19,8 @@ def plot(title, opt, directory):
     plt.show()
 
 def graph(file, title=None):
+    """Graph function is used for adding all the plots and the title to the 
+    graph."""
     front = np.loadtxt(file)
 
     if len(front) == 2:

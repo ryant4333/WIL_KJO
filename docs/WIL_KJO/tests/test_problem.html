@@ -34,6 +34,7 @@ sys.path.insert(1, &#34;./src/&#34;)  # to import running in the test path
 from problem import Problem
 from benchmarks.zdt.zdt1.objectives import ZDT1
 
+
 class TestProblem(unittest.TestCase):
 
     def setUp(self):
@@ -76,6 +77,11 @@ class TestProblem(unittest.TestCase):
 
     def test_validation_min_avg_velocity_type(self):
         self.problem.min_avg_velocity = &#34;1.1&#34;
+        with self.assertRaises(TypeError):
+            self.problem.validate_config()
+
+    def test_variables_type(self):
+        self.problem.variables = 1
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
@@ -136,12 +142,6 @@ class TestProblem(unittest.TestCase):
 
     def test_solution_count_value(self):
         self.problem.solution_count = 0
-        with self.assertRaises(ValueError):
-            self.problem.validate_config()
-
-    def test_min_max_len_value(self):
-        self.problem.max = [1, 1, 1]
-        self.problem.min = [0, 0]
         with self.assertRaises(ValueError):
             self.problem.validate_config()
 
@@ -254,6 +254,11 @@ not have a method with the specified name.</p></div>
         with self.assertRaises(TypeError):
             self.problem.validate_config()
 
+    def test_variables_type(self):
+        self.problem.variables = 1
+        with self.assertRaises(TypeError):
+            self.problem.validate_config()
+
     def test_max_type(self):
         self.problem.max = 1
         with self.assertRaises(TypeError):
@@ -311,12 +316,6 @@ not have a method with the specified name.</p></div>
 
     def test_solution_count_value(self):
         self.problem.solution_count = 0
-        with self.assertRaises(ValueError):
-            self.problem.validate_config()
-
-    def test_min_max_len_value(self):
-        self.problem.max = [1, 1, 1]
-        self.problem.min = [0, 0]
         with self.assertRaises(ValueError):
             self.problem.validate_config()
 
@@ -530,22 +529,6 @@ not have a method with the specified name.</p></div>
         self.problem.validate_config()</code></pre>
 </details>
 </dd>
-<dt id="WIL_KJO.tests.test_problem.TestProblem.test_min_max_len_value"><code class="name flex">
-<span>def <span class="ident">test_min_max_len_value</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def test_min_max_len_value(self):
-    self.problem.max = [1, 1, 1]
-    self.problem.min = [0, 0]
-    with self.assertRaises(ValueError):
-        self.problem.validate_config()</code></pre>
-</details>
-</dd>
 <dt id="WIL_KJO.tests.test_problem.TestProblem.test_min_nested_type"><code class="name flex">
 <span>def <span class="ident">test_min_nested_type</span></span>(<span>self)</span>
 </code></dt>
@@ -711,6 +694,21 @@ not have a method with the specified name.</p></div>
         self.problem.validate_config()</code></pre>
 </details>
 </dd>
+<dt id="WIL_KJO.tests.test_problem.TestProblem.test_variables_type"><code class="name flex">
+<span>def <span class="ident">test_variables_type</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_variables_type(self):
+    self.problem.variables = 1
+    with self.assertRaises(TypeError):
+        self.problem.validate_config()</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -745,7 +743,6 @@ not have a method with the specified name.</p></div>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_max_nested_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_max_nested_type">test_max_nested_type</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_max_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_max_type">test_max_type</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_max_w_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_max_w_type">test_max_w_type</a></code></li>
-<li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_min_max_len_value" href="#WIL_KJO.tests.test_problem.TestProblem.test_min_max_len_value">test_min_max_len_value</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_min_nested_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_min_nested_type">test_min_nested_type</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_min_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_min_type">test_min_type</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_min_w_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_min_w_type">test_min_w_type</a></code></li>
@@ -757,6 +754,7 @@ not have a method with the specified name.</p></div>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_solution_count_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_solution_count_type">test_solution_count_type</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_solution_count_value" href="#WIL_KJO.tests.test_problem.TestProblem.test_solution_count_value">test_solution_count_value</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_validation_min_avg_velocity_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_validation_min_avg_velocity_type">test_validation_min_avg_velocity_type</a></code></li>
+<li><code><a title="WIL_KJO.tests.test_problem.TestProblem.test_variables_type" href="#WIL_KJO.tests.test_problem.TestProblem.test_variables_type">test_variables_type</a></code></li>
 </ul>
 </li>
 </ul>
