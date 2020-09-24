@@ -14,7 +14,12 @@ def plot(title, opt, directory):
     create_dir(dir_name)
     create_objectives_log(opt, dir_name)
     create_sol_log(opt, dir_name, title)
-    front = np.loadtxt(dir_name + "/objectives_log.txt")
+    graph(dir_name + "/objectives_log.txt", title)
+    plt.savefig(dir_name + "/pareto_front.png")
+    plt.show()
+
+def graph(file, title=None):
+    front = np.loadtxt(file)
 
     if len(front) == 2:
         plt.scatter(front[0], front[1], c='b')
@@ -33,12 +38,11 @@ def plot(title, opt, directory):
     elif ValueError:
         print("Incorrect number of dims in solution to graph.")
 
-    plt.title(title)
+    if title != None:
+        plt.title(title)
     plt.xlabel(r'$f_1(x)$')
     plt.ylabel(r'$f_2(x)$')
     plt.legend(["Front"])
-    plt.savefig(dir_name + "/pareto_front.png")
-    plt.show()
 
 
 def create_dir(dir_name):
