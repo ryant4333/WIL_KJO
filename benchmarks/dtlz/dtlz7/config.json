@@ -17,7 +17,7 @@
         { "name": "v7", "max": 1, "min": 0}
        ],
     "cube_count": 30,
-    "solution_count": 200,
+    "solution_count": 500,
     "optimization_type": ["MIN", "MIN", "MIN"]
 }
   
