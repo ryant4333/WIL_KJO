@@ -130,16 +130,8 @@ class Optimiser:
             
             #calc particles veloctiy with new weight regression
             self.weight_regression()
-            # vs = []
-            # for particle in self.swarm.particles:
-            #     vs.append(particle.calc_velocity(
-            #         self.problem.c1,
-            #         self.problem.c2, 
-            #         self.weight
-            #     ))
-            
-            # vs = pool.map(move_func, self.swarm.particles)
-            pool.map(move_func, [(self.swarm.particles[i], i, self.weight) for i in range(len(self.swarm.particles))])
+            pool.map(move_func, [(self.swarm.particles[i], i, self.weight) 
+                for i in range(len(self.swarm.particles))])
 
             #move particles 
             for i in range(len(self.swarm.particles)):
