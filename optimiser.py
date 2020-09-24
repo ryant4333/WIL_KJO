@@ -84,6 +84,16 @@ class Optimiser:
             self.problem.objective
         )
 
+        manager = multiprocessing.Manager()
+        d = manager.dict()
+
+        move_func = partial(
+            _move_process, 
+            self.problem.c1,
+            self.problem.c2,
+            d
+        )
+
         while True:
             self.iteration+=1
             if verbose:
@@ -120,18 +130,21 @@ class Optimiser:
             
             #calc particles veloctiy with new weight regression
             self.weight_regression()
-            vs = []
-            for particle in self.swarm.particles:
-                vs.append(particle.calc_velocity(
-                    self.problem.c1,
-                    self.problem.c2, 
-                    self.weight
-                ))
+            # vs = []
+            # for particle in self.swarm.particles:
+            #     vs.append(particle.calc_velocity(
+            #         self.problem.c1,
+            #         self.problem.c2, 
+            #         self.weight
+            #     ))
+            
+            # vs = pool.map(move_func, self.swarm.particles)
+            pool.map(move_func, [(self.swarm.particles[i], i, self.weight) for i in range(len(self.swarm.particles))])
 
             #move particles 
             for i in range(len(self.swarm.particles)):
                 self.swarm.particles[i].move(
-                    vs[i], 
+                    d[i], 
                     self.problem.max, 
                     self.problem.min
                 )
@@ -149,6 +162,11 @@ def _eval_process(objective, particle):
     """
     return particle.evaluate(objective)
 
+def _move_process(c1, c2, manager, args):
+    """A global function which is used for wrapping the calc_velcoity function 
+    to be used by an instance of Pool from the mulitprocessing library"""
+    v = args[0].calc_velocity(c1, c2, args[2])
+    manager[args[1]] = v
 
 def _get_avg_velocity(particles):
     """Calculates the average velocity of the particles."""
