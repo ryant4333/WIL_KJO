@@ -1,5 +1,3 @@
-  GNU nano 2.3.1            File: test_batcher.sh                              
-
 #!/bin/bash
 #PBS -M ryan.taylor5@griffithuni.edu.au
 #PBS -N KJO1
