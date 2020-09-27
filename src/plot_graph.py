@@ -75,10 +75,12 @@ def create_objectives_log(self, dir_name):
         output = open(dir_name + "/objectives_log.txt", "w+")
 
         for i in front:
-            if len(i) == 3:
+            if len(i) == 4:
+                print("{} {} {} {}".format(i[0], i[1], i[2], i[3]), file=output)
+            elif len(i) == 3:
                 print("{} {} {}".format(i[0], i[1], i[2]), file=output)
             elif len(i) == 2:
-                print("{} {} {} {}".format(i[0], i[1], i[0], i[1]), file=output)
+                print("{} {}".format(i[0], i[1]), file=output)
     except FileExistsError:
         print("File ", "objectives_log", " already exists")
 
