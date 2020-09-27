@@ -29,7 +29,17 @@ def graph(file, title=None):
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
         plt.scatter(front[0], front[1], front[2], c='b')
+    elif len(front) == 4:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        img = ax.scatter(front[0], front[1], front[2], c=front[3], cmap=plt.cool())
+        fig.colorbar(img)
 
+    elif len(front[0]) == 4:
+         fig = plt.figure()
+         ax = fig.add_subplot(111, projection='3d')
+         img = ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=front[:, 3], cmap=plt.cool())
+         fig.colorbar(img)
     elif len(front[0]) == 3:
          fig = plt.figure()
          ax = fig.add_subplot(111, projection='3d')
@@ -65,10 +75,10 @@ def create_objectives_log(self, dir_name):
         output = open(dir_name + "/objectives_log.txt", "w+")
 
         for i in front:
-            if len(i) > 2:
+            if len(i) == 3:
                 print("{} {} {}".format(i[0], i[1], i[2]), file=output)
-            else:
-                print("{} {}".format(i[0], i[1]), file=output)
+            elif len(i) == 2:
+                print("{} {} {} {}".format(i[0], i[1], i[0], i[1]), file=output)
     except FileExistsError:
         print("File ", "objectives_log", " already exists")
 
