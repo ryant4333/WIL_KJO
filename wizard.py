@@ -230,6 +230,17 @@ class Wizard:
             else:
                 clear()
                 break
+        # File path to save the config.json
+        while True:
+            self.path = input("Enter file path to save config ( '.' for current dir): ")
+            exists = os.path.exists(self.path)
+            is_directory = os.path.isdir(self.path)
+            if not exists and not is_directory:
+                clear()
+                print("'%s' is an invalid directory. Please try again." % self.path)
+            else:
+                clear()
+                break
         # Create the JSON file
         self.create_config()
         print("Successfully created config file!")
@@ -252,8 +263,10 @@ class Wizard:
             "variables": self.variables,
             "optimization_type": self.optimization_type,
         }
+        # Path to save file
+        file = os.path.join(self.path, 'config.json')
         # Create the JSON file
-        with open('config.json', 'w') as out:
+        with open(file, 'w') as out:
             json.dump(config, out, indent=1)
 
 
