@@ -9,7 +9,7 @@ from scipy.optimize import minimize
 import scipy.optimize as optim
 import scipy.stats as stats
 from scipy import spatial
-from myMods.muscleWrappings import mtuInfo_os4
+import mtuInfo_os4
 import types
 
 import vtk
@@ -26,7 +26,7 @@ def ROMhip():
 
 def dirNames():
 	scenario = 6
-	modelDir = 'Raja_FAI.osim'
+	modelDir = './OpenSim/WrappingSurfaces/Raja_FAI.osim' #diretory not exact
 	if scenario == 2 or scenario == 3 or scenario == 4: #Knee
 		litValDir = '/export/home/s5165186/data/Knee/combLitVals.mat'
 		ModValDir = '/export/home/s5165186/data/Knee/combModVals.mat'
