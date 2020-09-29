@@ -1,5 +1,15 @@
 # KJO
 
+## Running MOPSO
+The program can run by running the optimiser.py script and passing a problem folder. The following is an example of running the zdt1 benchmark.
+```shell
+    python optimiser.py ./benchmarks/zdt/zdt1
+``` 
+IMPORTANT: Need to run script from the root directory of the project.
+
+## Problem Folder Structure
+A problem folder has an objective.py file which has an objective function which each particle uses to evaluate its position. The folder also has a config.json which changes settings of the MOPSO.
+
 ## Writing a config file
 
 The optimiser uses a *config.json* file as input. 
