@@ -9,5 +9,3 @@ def WrappingSurfaces(x):
 
 def get_bounds():
     return p.get_bounds()
-
-print(get_bounds())

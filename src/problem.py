@@ -30,6 +30,7 @@ class Problem:
         self.max = []
         self.min = []
         self.split_variables_into_max_min()
+        self.get_bounds(config)
         # Convert the min / max values to include infinity
         self.convert_min_max_to_inf()
         # Validation
@@ -138,3 +139,25 @@ class Problem:
                 self.max[i] = float(sys.float_info.max)
             if self.min[i] == "-inf":
                 self.min[i] = float(sys.float_info.min)
+    
+    def get_bounds(self, config):
+        """
+        Get min and max from a bounds function
+        """
+        if "get_bounds" in config:
+            print("this ran")
+            try:
+                get_bounds = config['get_bounds']
+                s = get_bounds.split(".")
+                module = __import__(s[0])
+                func = getattr(module, s[1])
+                bounds = func()
+                self.min = bounds[0]
+                self.max = bounds[1]
+                for i in range(len(self.min)):
+                    self.min[i] = float(self.min[i])
+                    self.max[i] = float(self.max[i])
+            except NameError:
+                raise NameError("Bounds function'%s' was not found" % get_bounds)
+            if not callable(self.get_bounds):
+                raise ValueError("Bounds function '%s' is not callable" % get_bounds)
