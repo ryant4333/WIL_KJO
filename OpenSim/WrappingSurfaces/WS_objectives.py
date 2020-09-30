@@ -40,8 +40,8 @@ def dirNames():
 		ModValDir = '/export/home/s5165186/data/Ankle/combModVals.mat'
 
 	else: 
-		litValDir = 'C:/PhD/FAI/HipMTUOptim/HPC/combLitVals.mat'
-		ModValDir = 'C:/PhD/repos/WrapOptim/HPC/combModVals.mat'
+		litValDir = './OpenSim/WrappingSurfaces/combLitVals.mat'
+		ModValDir = './OpenSim/WrappingSurfaces/combModVals.mat'
 	
 	if scenario == 6:
 		HipROMValDir = 'C:/PhD/repos/WrapOptim/HPC/HipROMPenetrationCheck_Comb.mat' 
