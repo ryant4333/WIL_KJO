@@ -106,25 +106,37 @@ class Analyser:
 
 
     def run(self):
-    
+        """Driver code, does most of writing to file"""
         f_names = self.get_f_names()
+        global_best = None
+        global_best_dist = float('Inf')
 
         for file in f_names:
             if (file[-4:] != 'json'):
                 pass
             else:
-                self.output_file.write(file + "\n")
+                self.output_file.write("\nFile name: {}\n".format(file))
                 data = self.get_raw_solutions(file)
+                self.output_file.write("# of Solutions: {}\n".format(len(data)))
                 self.summarize(data)
                 avg_dist, best_sol = self.get_avg_dist(data)
                 avg_dist_output = "Average dist: {:0.2f}\n".format(avg_dist)
                 self.output_file.write(avg_dist_output)
+
+                if self.calc_dist(best_sol) < global_best_dist:
+                    global_best = best_sol
 
                 best_sol['position'] = [round(num, 2) for num in best_sol['position']]
                 best_sol['objectives'] = [round(num, 2) for num in best_sol['objectives']]
                 
                 best_sol_output = "Best Solution:\n{}\n".format(best_sol)
                 self.output_file.write(best_sol_output)
+
+        global_best['position'] = [round(num, 2) for num in global_best['position']]
+        global_best['objectives'] = [round(num, 2) for num in global_best['objectives']]
+                
+        global_best_sol_output = "\nGlobal Best Solution:\n{}\n".format(global_best)
+        self.output_file.write(best_sol_output)
 
 
         
