@@ -1,0 +1,24 @@
+solutions_log copy.json
+Objective x: min,   mean,   max
+Objective 0: 0.00,  13.12,  38.30
+Objective 1: 0.00,  15.00,  39.72
+Objective 2: 0.00,  11.26,  32.98
+Average dist: 30.19
+Best Solution:
+{'position': [1.0, 0.78, 1.0, 0.39, 0.49, 0.4, 1.0], 'objectives': [36.77, 10.2, 0.0]}
+solutions_log copy 2.json
+Objective x: min,   mean,   max
+Objective 0: 0.00,  12.04,  39.07
+Objective 1: 0.00,  12.81,  35.49
+Objective 2: 0.00,  15.77,  34.73
+Average dist: 29.73
+Best Solution:
+{'position': [0.41, 0.9, 0.51, 1.0, 0.0, 0.4, 1.0], 'objectives': [17.68, 1.9, 27.62]}
+solutions_log.json
+Objective x: min,   mean,   max
+Objective 0: 0.00,  9.34,  37.07
+Objective 1: 0.00,  14.84,  58.47
+Objective 2: 0.00,  16.89,  54.72
+Average dist: 34.34
+Best Solution:
+{'position': [0.0, 0.73, 0.3, 1.0, 1.0, 0.0, 0.0], 'objectives': [0.0, 0.0, 54.72]}
