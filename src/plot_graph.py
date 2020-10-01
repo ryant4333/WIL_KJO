@@ -13,8 +13,8 @@ def plot(title, opt, directory):
     time_now = dt.datetime.now().strftime("%Y-%m-%d-%H%M%S")
     dir_name = directory + "logs/" + time_now
     create_dir(dir_name)
-    create_objectives_log(opt, dir_name)
-    create_sol_log(opt, dir_name, title)
+    create_objectives_log(opt.hypercubes.output_front(), dir_name)
+    create_sol_log(opt.hypercubes.cube_dict, dir_name, title)
     graph(dir_name + "/objectives_log.txt", title)
     plt.savefig(dir_name + "/pareto_front.png")
     plt.show()
@@ -24,8 +24,9 @@ def graph(file, title=None):
     """Graph function is used for adding all the plots and the title to the 
     graph."""
     front = np.loadtxt(file)
-
-    if len(front) == 2:
+    if len(front) == 0:
+        raise ValueError("File is empty")
+    elif len(front) == 2:
         plt.scatter(front[0], front[1], c='b')
     elif len(front) == 3:
         fig = plt.figure()
@@ -59,8 +60,8 @@ def graph(file, title=None):
     elif len(front[0]) == 2:
         plt.scatter(front[:, 0], front[:, 1], c='b')
 
-    elif ValueError:
-        print("Incorrect number of dims in solution to graph.")
+    else:
+        raise ValueError("Incorrect number of dims in solution to graph.")
 
     if title != None:
         plt.title(title)
@@ -76,50 +77,53 @@ def create_dir(dir_name):
         os.makedirs(dir_name)
         print("DIRECTORY CREATED: ", dir_name)
     except FileExistsError:
-        print("Directory ", dir_name, " already exists")
+        raise FileExistsError("Directory ", dir_name, " already exists")
 
 
 def create_objectives_log(self, dir_name):
     """Creates objective log as a txt file by seperating each objective of a
     solution by a space and each soluition by a new line."""
-    front = self.hypercubes.output_front()
-    try:
+    front = self
+
+    if not os.path.exists(dir_name + "/objectives_log.txt"):
         output = open(dir_name + "/objectives_log.txt", "w+")
+    else:
+        raise FileExistsError("File ", "objectives_log", " already exists")
 
-        for i in front:
-            if len(i) == 5:
-                print("{} {} {} {} {}".format(i[0], i[1], i[2], i[3], i[4]), file=output)
-            if len(i) == 4:
-                print("{} {} {} {}".format(i[0], i[1], i[2], i[3]), file=output)
-            elif len(i) == 3:
-                print("{} {} {}".format(i[0], i[1], i[2]), file=output)
-            elif len(i) == 2:
-                print("{} {}".format(i[0], i[1]), file=output)
-    except FileExistsError:
-        print("File ", "objectives_log", " already exists")
+    for i in front:
+        if len(i) == 5:
+            print("{} {} {} {} {}".format(i[0], i[1], i[2], i[3], i[4]), file=output)
+        if len(i) == 4:
+            print("{} {} {} {}".format(i[0], i[1], i[2], i[3]), file=output)
+        elif len(i) == 3:
+            print("{} {} {}".format(i[0], i[1], i[2]), file=output)
+        elif len(i) == 2:
+            print("{} {}".format(i[0], i[1]), file=output)
+        else:
+            raise ValueError("Invalid number of dimensions")
 
 
-def create_sol_log(self, dir_name, title):
+def create_sol_log(dict_, dir_name, title):
     """Creates a solution log by creating a json file with an array of solution
     objects from the pareto front."""
-    big_cube = self.hypercubes.cube_dict
+    big_cube = dict_
     data = {}
     data['title'] = title
     data['solutions'] = []
-    try:
-        for cube in big_cube:
-            for sol in big_cube[cube]:
-                data['solutions'].append(
-                    {
-                        'position': sol.x.tolist(),
-                        'objectives': sol.objectives.tolist()
-                    }
-                )
+
+    for cube in big_cube:
+        for sol in big_cube[cube]:
+            data['solutions'].append(
+                {
+                    'position': sol.x.tolist(),
+                    'objectives': sol.objectives.tolist()
+                }
+            )
+    if not os.path.exists(dir_name + "/solutions_log.json"):
         with open(dir_name + "/solutions_log.json", "w+") as outfile:
             json.dump(data, outfile, indent=4)
-
-    except FileExistsError:
-        print("File ", "solutions_log", " already exists")
+    else:
+        raise FileExistsError("File ", "solutions_log", " already exists")
 
 
 if __name__ == "__main__":

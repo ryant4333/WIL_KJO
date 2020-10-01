@@ -1,0 +1,25 @@
+{
+    "title": "test",
+    "solutions": [
+        {
+            "position": [
+                0,
+                1
+            ],
+            "objectives": [
+                0,
+                1
+            ]
+        },
+        {
+            "position": [
+                1,
+                0
+            ],
+            "objectives": [
+                1,
+                0
+            ]
+        }
+    ]
+}
