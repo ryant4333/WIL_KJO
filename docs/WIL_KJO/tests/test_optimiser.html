@@ -68,6 +68,19 @@ class TestOptimiser(unittest.TestCase):
             particle.velocity = np.random.uniform(1, 1, len(o.problem.min))
         boolean = o.stop() # assuming false if min_avg_v is lesser than 5.477225 
         self.assertEqual(boolean, False)
+    
+    def test_problem_folder(self):
+        args = [&#34;optimiser.py&#34;, &#34;./benchmarks/zdt/zdt1&#34;]
+        args2 = [&#34;optimiser.py&#34;, &#34;./benchmarks/zdt/zdt1/&#34;]
+        path = optimiser.get_problem(args)
+        path2 = optimiser.get_problem(args2)
+        self.assertEqual(path, &#34;./benchmarks/zdt/zdt1/&#34;)
+        self.assertEqual(path2, &#34;./benchmarks/zdt/zdt1/&#34;)
+    
+    def test_no_problem_folder(self):
+        args = [&#34;optimiser.py&#34;]
+        with self.assertRaises(AttributeError):
+            path = optimiser.get_problem(args)
 
 if __name__ == &#34;__main__&#34;:
     unittest.main()</code></pre>
@@ -151,7 +164,20 @@ not have a method with the specified name.</p></div>
         for particle in o.swarm.particles:
             particle.velocity = np.random.uniform(1, 1, len(o.problem.min))
         boolean = o.stop() # assuming false if min_avg_v is lesser than 5.477225 
-        self.assertEqual(boolean, False)</code></pre>
+        self.assertEqual(boolean, False)
+    
+    def test_problem_folder(self):
+        args = [&#34;optimiser.py&#34;, &#34;./benchmarks/zdt/zdt1&#34;]
+        args2 = [&#34;optimiser.py&#34;, &#34;./benchmarks/zdt/zdt1/&#34;]
+        path = optimiser.get_problem(args)
+        path2 = optimiser.get_problem(args2)
+        self.assertEqual(path, &#34;./benchmarks/zdt/zdt1/&#34;)
+        self.assertEqual(path2, &#34;./benchmarks/zdt/zdt1/&#34;)
+    
+    def test_no_problem_folder(self):
+        args = [&#34;optimiser.py&#34;]
+        with self.assertRaises(AttributeError):
+            path = optimiser.get_problem(args)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -191,6 +217,21 @@ not have a method with the specified name.</p></div>
     self.assertEqual(v, 0)</code></pre>
 </details>
 </dd>
+<dt id="WIL_KJO.tests.test_optimiser.TestOptimiser.test_no_problem_folder"><code class="name flex">
+<span>def <span class="ident">test_no_problem_folder</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_no_problem_folder(self):
+    args = [&#34;optimiser.py&#34;]
+    with self.assertRaises(AttributeError):
+        path = optimiser.get_problem(args)</code></pre>
+</details>
+</dd>
 <dt id="WIL_KJO.tests.test_optimiser.TestOptimiser.test_not_stop"><code class="name flex">
 <span>def <span class="ident">test_not_stop</span></span>(<span>self)</span>
 </code></dt>
@@ -206,6 +247,24 @@ not have a method with the specified name.</p></div>
         particle.velocity = np.random.uniform(1, 1, len(o.problem.min))
     boolean = o.stop() # assuming false if min_avg_v is lesser than 5.477225 
     self.assertEqual(boolean, False)</code></pre>
+</details>
+</dd>
+<dt id="WIL_KJO.tests.test_optimiser.TestOptimiser.test_problem_folder"><code class="name flex">
+<span>def <span class="ident">test_problem_folder</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_problem_folder(self):
+    args = [&#34;optimiser.py&#34;, &#34;./benchmarks/zdt/zdt1&#34;]
+    args2 = [&#34;optimiser.py&#34;, &#34;./benchmarks/zdt/zdt1/&#34;]
+    path = optimiser.get_problem(args)
+    path2 = optimiser.get_problem(args2)
+    self.assertEqual(path, &#34;./benchmarks/zdt/zdt1/&#34;)
+    self.assertEqual(path2, &#34;./benchmarks/zdt/zdt1/&#34;)</code></pre>
 </details>
 </dd>
 <dt id="WIL_KJO.tests.test_optimiser.TestOptimiser.test_stop_on_iter"><code class="name flex">
@@ -265,7 +324,9 @@ not have a method with the specified name.</p></div>
 <ul class="">
 <li><code><a title="WIL_KJO.tests.test_optimiser.TestOptimiser.test_avg_velocity_calculator" href="#WIL_KJO.tests.test_optimiser.TestOptimiser.test_avg_velocity_calculator">test_avg_velocity_calculator</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_optimiser.TestOptimiser.test_avg_velocity_calculator_init" href="#WIL_KJO.tests.test_optimiser.TestOptimiser.test_avg_velocity_calculator_init">test_avg_velocity_calculator_init</a></code></li>
+<li><code><a title="WIL_KJO.tests.test_optimiser.TestOptimiser.test_no_problem_folder" href="#WIL_KJO.tests.test_optimiser.TestOptimiser.test_no_problem_folder">test_no_problem_folder</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_optimiser.TestOptimiser.test_not_stop" href="#WIL_KJO.tests.test_optimiser.TestOptimiser.test_not_stop">test_not_stop</a></code></li>
+<li><code><a title="WIL_KJO.tests.test_optimiser.TestOptimiser.test_problem_folder" href="#WIL_KJO.tests.test_optimiser.TestOptimiser.test_problem_folder">test_problem_folder</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_optimiser.TestOptimiser.test_stop_on_iter" href="#WIL_KJO.tests.test_optimiser.TestOptimiser.test_stop_on_iter">test_stop_on_iter</a></code></li>
 <li><code><a title="WIL_KJO.tests.test_optimiser.TestOptimiser.test_weight_regression" href="#WIL_KJO.tests.test_optimiser.TestOptimiser.test_weight_regression">test_weight_regression</a></code></li>
 </ul>

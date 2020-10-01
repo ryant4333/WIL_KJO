@@ -189,13 +189,18 @@ def _get_avg_velocity(particles):
     v = math.sqrt(v2)
     return v
 
-if __name__ == &#34;__main__&#34;:
-    if len(sys.argv) &lt; 2:
+def get_problem(args):
+    &#34;&#34;&#34;Gets problem folder&#34;&#34;&#34;
+    if len(args) &lt; 2:
         raise AttributeError(&#34;Missing directory to problem folder&#34;)
-    d = sys.argv[1]
+    d = args[1]
     if not d[-1] in (&#39;/&#39;, &#39;\\&#39;):
         d+=&#39;/&#39;
+    
+    return d
 
+if __name__ == &#34;__main__&#34;:
+    d = get_problem(sys.argv)
     sys.path.insert(1, d)
     config = d+&#34;config.json&#34;
     optimiser = Optimiser(config)
@@ -208,6 +213,29 @@ if __name__ == &#34;__main__&#34;:
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="WIL_KJO.optimiser.get_problem"><code class="name flex">
+<span>def <span class="ident">get_problem</span></span>(<span>args)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets problem folder</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_problem(args):
+    &#34;&#34;&#34;Gets problem folder&#34;&#34;&#34;
+    if len(args) &lt; 2:
+        raise AttributeError(&#34;Missing directory to problem folder&#34;)
+    d = args[1]
+    if not d[-1] in (&#39;/&#39;, &#39;\\&#39;):
+        d+=&#39;/&#39;
+    
+    return d</code></pre>
+</details>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -532,6 +560,11 @@ is linear decreasing</p></div>
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="WIL_KJO" href="index.html">WIL_KJO</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="WIL_KJO.optimiser.get_problem" href="#WIL_KJO.optimiser.get_problem">get_problem</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

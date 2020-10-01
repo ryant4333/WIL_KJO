@@ -34,9 +34,10 @@ import optimiser
 from mpl_toolkits.mplot3d import Axes3D
 import json
 
+
 def plot(title, opt, directory):
     if not directory[-1] in (&#39;/&#39;, &#39;\\&#39;):
-        directory+=&#39;/&#39;
+        directory += &#39;/&#39;
     time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
     dir_name = directory + &#34;logs/&#34; + time_now
     create_dir(dir_name)
@@ -45,6 +46,7 @@ def plot(title, opt, directory):
     graph(dir_name + &#34;/objectives_log.txt&#34;, title)
     plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
     plt.show()
+
 
 def graph(file, title=None):
     &#34;&#34;&#34;Graph function is used for adding all the plots and the title to the 
@@ -57,11 +59,31 @@ def graph(file, title=None):
         fig = plt.figure()
         ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         plt.scatter(front[0], front[1], front[2], c=&#39;b&#39;)
+    elif len(front) == 4:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[0], front[1], front[2], c=front[3], cmap=plt.cool())
+        fig.colorbar(img)
+    elif len(front) == 5:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[0], front[1], front[2], c=front[3], s=front[4], cmap=plt.cool())
+        fig.colorbar(img)
 
+    elif len(front[0]) == 5:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=front[:, 3], s=front[:, 4] * 10, cmap=plt.cool())
+        fig.colorbar(img)
+    elif len(front[0]) == 4:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=front[:, 3], cmap=plt.cool())
+        fig.colorbar(img)
     elif len(front[0]) == 3:
-         fig = plt.figure()
-         ax = fig.add_subplot(111, projection=&#39;3d&#39;)
-         ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=&#39;b&#39;)
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=&#39;b&#39;)
     elif len(front[0]) == 2:
         plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
 
@@ -86,23 +108,27 @@ def create_dir(dir_name):
 
 
 def create_objectives_log(self, dir_name):
-    &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a 
+    &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a
     solution by a space and each soluition by a new line.&#34;&#34;&#34;
     front = self.hypercubes.output_front()
     try:
         output = open(dir_name + &#34;/objectives_log.txt&#34;, &#34;w+&#34;)
 
         for i in front:
-            if len(i) &gt; 2:
+            if len(i) == 5:
+                print(&#34;{} {} {} {} {}&#34;.format(i[0], i[1], i[2], i[3], i[4]), file=output)
+            if len(i) == 4:
+                print(&#34;{} {} {} {}&#34;.format(i[0], i[1], i[2], i[3]), file=output)
+            elif len(i) == 3:
                 print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
-            else:
+            elif len(i) == 2:
                 print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
     except FileExistsError:
         print(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)
 
 
 def create_sol_log(self, dir_name, title):
-    &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution 
+    &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution
     objects from the pareto front.&#34;&#34;&#34;
     big_cube = self.hypercubes.cube_dict
     data = {}
@@ -119,7 +145,7 @@ def create_sol_log(self, dir_name, title):
                 )
         with open(dir_name + &#34;/solutions_log.json&#34;, &#34;w+&#34;) as outfile:
             json.dump(data, outfile, indent=4)
-        
+
     except FileExistsError:
         print(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)
 
@@ -166,16 +192,20 @@ solution by a space and each soluition by a new line.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def create_objectives_log(self, dir_name):
-    &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a 
+    &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a
     solution by a space and each soluition by a new line.&#34;&#34;&#34;
     front = self.hypercubes.output_front()
     try:
         output = open(dir_name + &#34;/objectives_log.txt&#34;, &#34;w+&#34;)
 
         for i in front:
-            if len(i) &gt; 2:
+            if len(i) == 5:
+                print(&#34;{} {} {} {} {}&#34;.format(i[0], i[1], i[2], i[3], i[4]), file=output)
+            if len(i) == 4:
+                print(&#34;{} {} {} {}&#34;.format(i[0], i[1], i[2], i[3]), file=output)
+            elif len(i) == 3:
                 print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
-            else:
+            elif len(i) == 2:
                 print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
     except FileExistsError:
         print(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)</code></pre>
@@ -192,7 +222,7 @@ objects from the pareto front.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def create_sol_log(self, dir_name, title):
-    &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution 
+    &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution
     objects from the pareto front.&#34;&#34;&#34;
     big_cube = self.hypercubes.cube_dict
     data = {}
@@ -209,7 +239,7 @@ objects from the pareto front.</p></div>
                 )
         with open(dir_name + &#34;/solutions_log.json&#34;, &#34;w+&#34;) as outfile:
             json.dump(data, outfile, indent=4)
-        
+
     except FileExistsError:
         print(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)</code></pre>
 </details>
@@ -235,11 +265,31 @@ graph.</p></div>
         fig = plt.figure()
         ax = fig.add_subplot(111, projection=&#39;3d&#39;)
         plt.scatter(front[0], front[1], front[2], c=&#39;b&#39;)
+    elif len(front) == 4:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[0], front[1], front[2], c=front[3], cmap=plt.cool())
+        fig.colorbar(img)
+    elif len(front) == 5:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[0], front[1], front[2], c=front[3], s=front[4], cmap=plt.cool())
+        fig.colorbar(img)
 
+    elif len(front[0]) == 5:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=front[:, 3], s=front[:, 4] * 10, cmap=plt.cool())
+        fig.colorbar(img)
+    elif len(front[0]) == 4:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        img = ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=front[:, 3], cmap=plt.cool())
+        fig.colorbar(img)
     elif len(front[0]) == 3:
-         fig = plt.figure()
-         ax = fig.add_subplot(111, projection=&#39;3d&#39;)
-         ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=&#39;b&#39;)
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection=&#39;3d&#39;)
+        ax.scatter(front[:, 0], front[:, 1], front[:, 2], c=&#39;b&#39;)
     elif len(front[0]) == 2:
         plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
 
@@ -264,7 +314,7 @@ graph.</p></div>
 </summary>
 <pre><code class="python">def plot(title, opt, directory):
     if not directory[-1] in (&#39;/&#39;, &#39;\\&#39;):
-        directory+=&#39;/&#39;
+        directory += &#39;/&#39;
     time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
     dir_name = directory + &#34;logs/&#34; + time_now
     create_dir(dir_name)
