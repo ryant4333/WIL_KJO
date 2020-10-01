@@ -7,6 +7,23 @@ class Wizard:
     Wizard for setting up config file
     """
     def __init__(self):
+        self.objective = None
+        self.c1 = None
+        self.c2 = None
+        self.min_w = None
+        self.max_w = None
+        self.particle_num = None
+        self.max_iterations = None
+        self.min_avg_velocity = None
+        self.cube_count = None
+        self.solution_count = None
+        self.variables = None
+        self.optimization_type = None
+
+    def start(self):
+        """
+        Start the wizard.
+        """
         # Objective (ignoring checks for this)
         self.objective = input('Enter path to objective function: ')
         clear()
@@ -275,8 +292,9 @@ def clear():
     Clears the CLI. Used to make the Wizard
     experience more user-friendly.
     """
-    os.system('cls||clear')
+    os.system('cls' or 'clear')
 
 
 if __name__ == "__main__":
-    Wizard()
+    w = Wizard()
+    w.start()
