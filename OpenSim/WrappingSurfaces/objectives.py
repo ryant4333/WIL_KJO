@@ -22,8 +22,8 @@ if __name__ == "__main__":
     maximum = bounds[1]
     for i in range(10000):
         xs = []
-        for i in range(len(minimum)):
-            x = random.uniform(minimum[i], maximum[i])
+        for j in range(len(minimum)):
+            x = random.uniform(minimum[j], maximum[j])
             xs.append(x)
-        print(ws.objectives(xs))
+        print(i, ws.objectives(xs))
         gc.collect()
