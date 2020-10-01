@@ -161,13 +161,18 @@ def _get_avg_velocity(particles):
     v = math.sqrt(v2)
     return v
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
+def get_problem(args):
+    """Gets problem folder"""
+    if len(args) < 2:
         raise AttributeError("Missing directory to problem folder")
-    d = sys.argv[1]
+    d = args[1]
     if not d[-1] in ('/', '\\'):
         d+='/'
+    
+    return d
 
+if __name__ == "__main__":
+    d = get_problem(sys.argv)
     sys.path.insert(1, d)
     config = d+"config.json"
     optimiser = Optimiser(config)
