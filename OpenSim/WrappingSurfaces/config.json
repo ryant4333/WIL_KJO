@@ -1,18 +1,18 @@
 {
-    "objective": "objectives.WrappingSurfaces",
-    "get_bounds": "objectives.get_bounds",
+    "problem_class": "objectives.WrappingSurfaces",
+    "objective": "objectives",
+    "get_bounds": "get_bounds",
     "c1": 1,
     "c2": 1,
     "min_w": 0.4,
     "max_w": 0.7,
-    "particle_num": 30,
-    "max_iterations": 400,
+    "particle_num": 15,
+    "max_iterations": 100,
     "min_avg_velocity": 0.01,
     "variables": [
        ],
     "cube_count": 30,
-    "solution_count": 200,
-    "optimization_type": ["MIN", "MIN", "MIN", "MIN", "MIN"],
-    "swarm_distribution": "RANDOM"
+    "solution_count": 100,
+    "optimization_type": ["MIN", "MIN", "MIN", "MIN", "MIN"]
 }
   

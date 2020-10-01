@@ -67,8 +67,6 @@ class Optimiser:
     def run(self, verbose=False):
         """Runs MOPSO optimisation. If verbose is true, terminal will output 
         details."""
-        start = time.perf_counter()
-
         #initalise process pool and functions
         cores = multiprocessing.cpu_count()
         if verbose:
@@ -83,6 +81,8 @@ class Optimiser:
             _eval_process, 
             self.problem.objective
         )
+
+        start = time.perf_counter()
 
         while True:
             self.iteration+=1
@@ -147,7 +147,8 @@ def _eval_process(objective, particle):
     A global function which is used for wrapping the particle.evaluate function
     to be used by an instance of Pool from the multiprocess library.
     """
-    return particle.evaluate(objective)
+    x = particle.evaluate(objective)
+    return x
 
 
 def _get_avg_velocity(particles):

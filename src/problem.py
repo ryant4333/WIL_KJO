@@ -25,6 +25,7 @@ class Problem:
         self.variables: list[float] = config['variables']
         self.optimization_type: list = config['optimization_type']
         # Convert objective to method
+        self.problem = self.get_class(config)
         self.convert_to_method(self.objective)
         # Convert the variables to min/max lists
         self.max = []
@@ -109,14 +110,22 @@ class Problem:
         """
         Convert objective name to function reference
         """
-        try:
-            s = objective.split(".")
-            module = __import__(s[0])
-            self.objective = getattr(module, s[1])
-        except NameError:
-            raise NameError("Objective '%s' was not found" % objective)
-        if not callable(self.objective):
-            raise ValueError("Objective '%s' is not callable" % objective)
+        if self.problem == None:
+            try:
+                s = objective.split(".")
+                module = __import__(s[0])
+                self.objective = getattr(module, s[1])
+            except NameError:
+                raise NameError("Objective '%s' was not found" % objective)
+            if not callable(self.objective):
+                raise ValueError("Objective '%s' is not callable" % objective)
+        else:
+            try:
+                self.objective = getattr(self.problem, objective)
+            except NameError:
+                raise NameError("Objective '%s' was not found" % objective)
+            if not callable(self.objective):
+                raise ValueError("Objective '%s' is not callable" % objective)
 
     def split_variables_into_max_min(self):
         """
@@ -145,19 +154,51 @@ class Problem:
         Get min and max from a bounds function
         """
         if "get_bounds" in config:
-            print("this ran")
+            if self.problem == None:
+                try:
+                    get_bounds = config['get_bounds']
+                    s = get_bounds.split(".")
+                    module = __import__(s[0])
+                    func = getattr(module, s[1])
+                    bounds = func()
+                    self.min = bounds[0]
+                    self.max = bounds[1]
+                    for i in range(len(self.min)):
+                        self.min[i] = float(self.min[i])
+                        self.max[i] = float(self.max[i])
+                except NameError:
+                    raise NameError("Bounds function'%s' was not found" % get_bounds)
+                if not callable(self.get_bounds):
+                    raise ValueError("Bounds function '%s' is not callable" % get_bounds)
+            else:
+                try:
+                    get_bounds = config['get_bounds']
+                    func = getattr(self.problem, get_bounds)
+                    bounds = func()
+                    self.min = bounds[0]
+                    self.max = bounds[1]
+                    for i in range(len(self.min)):
+                        self.min[i] = float(self.min[i])
+                        self.max[i] = float(self.max[i])
+                except NameError:
+                    raise NameError("Bounds function'%s' was not found" % get_bounds)
+                if not callable(self.get_bounds):
+                    raise ValueError("Bounds function '%s' is not callable" % get_bounds)
+    
+    def get_class(self, config):
+        """Return class if being used"""
+        if "problem_class" in config:
             try:
-                get_bounds = config['get_bounds']
-                s = get_bounds.split(".")
+                c = config['problem_class']
+                s = c.split(".")
                 module = __import__(s[0])
-                func = getattr(module, s[1])
-                bounds = func()
-                self.min = bounds[0]
-                self.max = bounds[1]
-                for i in range(len(self.min)):
-                    self.min[i] = float(self.min[i])
-                    self.max[i] = float(self.max[i])
+                constructor = getattr(module, s[1])
+                p = constructor()
+                return p
             except NameError:
-                raise NameError("Bounds function'%s' was not found" % get_bounds)
-            if not callable(self.get_bounds):
-                raise ValueError("Bounds function '%s' is not callable" % get_bounds)
+                raise NameError("constructor function'%s' was not found" % c)
+            if not callable(constructor):
+                raise ValueError("constructor function '%s' is not callable" % c)
+        else:
+            return None
+                
