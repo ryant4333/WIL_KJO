@@ -1,0 +1,23 @@
+{
+    "objective": "objectives.WrappingSurfaces",
+    "c1": 1,
+    "c2": 1,
+    "min_w": 0.4,
+    "max_w": 0.7,
+    "particle_num": 30,
+    "max_iterations": 400,
+    "min_avg_velocity": 0.01,
+    "variables": [
+        { "name": "v1", "max": 0.025300000000000003, "min": -0.17470000000000002},
+        { "name": "v2", "max": -0.002799999999999997, "min": -0.1028},
+        { "name": "v3", "max": 0.1177, "min": 0.017699999999999994},
+        { "name": "v4", "max": 0.033, "min": 0.022},
+        { "name": "v5", "max": -0.8754670748005671, "min": -1.224532925199433},
+        { "name": "v6", "max": 0.714532925199433, "min": 0.36546707480056706}
+       ],
+    "cube_count": 30,
+    "solution_count": 200,
+    "optimization_type": ["MIN", "MIN", "MIN", "MIN", "MIN"],
+    "swarm_distribution": "RANDOM"
+}
+  

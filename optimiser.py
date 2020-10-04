@@ -140,6 +140,8 @@ class Optimiser:
                 end = time.perf_counter()
                 if verbose:
                     print("RUNNING TIME: ", end - start, " seconds")
+                pool.close()
+                pool.join()
                 break
 
 def _eval_process(objective, particle):
@@ -171,10 +173,13 @@ def get_problem(args):
     
     return d
 
-if __name__ == "__main__":
+def main():
     d = get_problem(sys.argv)
     sys.path.insert(1, d)
     config = d+"config.json"
     optimiser = Optimiser(config)
     optimiser.run(verbose=True)
     plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)
+
+if __name__ == "__main__":
+    main()

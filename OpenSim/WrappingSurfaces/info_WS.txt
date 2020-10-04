@@ -1,0 +1,31 @@
+Wrapping surface (WS) info:
+
+Optim_Thresholds = boundaries for WS position, orientation, etc. 
+
+bounds = initial condition - lb || + ub 
+
+torus(input = 12) -> 
+0-1) lb/ub translation x,
+2-3) lb/ub translation y, 
+4-5) lb/ub translation z, 
+6)   lb/ub orientation xyz in deg, 
+7-8) lb/ub outer radius,
+9-10)lb/ub difference inner and outer radius (inner radius = outer radius - diff)
+11)  initial radius difference
+
+cylinder (input = 9)
+0-1) lb/ub translation x,
+2-3) lb/ub translation y, 
+4-5) lb/ub translation z, 
+6)   lb/ub orientation xy in deg, 
+7-8) lb/ub outer radius (fraction) 
+
+sphere (input = 8)
+0-1) lb/ub translation x,
+2-3) lb/ub translation y, 
+4-5) lb/ub translation z, 
+6-7) lb/ub outer radius,
+
+
+ellipsoid(input: ) -> hard coded: orientation xyz 10 deg change, dimension xyz 0.02 change (lowerbound cannot <0, if so use inital condition)
+
