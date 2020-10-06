@@ -4,10 +4,20 @@ import sys
 
 class Problem:
     """
-    Saves config file in the problem class.
+    The problem class is used to store the input values
+    given in the config.json file.
+
+    It follows the following process:
+        1. Values are read from the config.json file.
+        2. The objective is converted into an evaluable Python method.
+        3. Variables are converted into easier to parse arrays max[] and min[].
+        4. Infinite values written as "inf" or "-inf" in the max[] and min[]
+           arrays are converted to float values.
+        5. The variables are validated to ensure correct types and values have
+           been used.
     """
     def __init__(self, config_file):
-        """Initialises a problem class based on a config json file"""
+        """Initialises a problem class based on a config.json file"""
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)
