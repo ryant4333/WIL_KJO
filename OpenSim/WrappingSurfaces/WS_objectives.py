@@ -15,6 +15,7 @@ import types
 import vtk
 import matplotlib.pyplot as plt
 import numpy as np
+import gc
 ##################################################################
 # Functions to change
 ################################################################  
@@ -56,6 +57,75 @@ def getInfo():
 	state = model.initSystem()
 	return model, state
 
+## to visualize penetration function
+def addPoint2Ren(ren,point2add):
+    ## adds points to renderer
+    vtkpoints = vtk.vtkPoints()
+    # Create the topology of the point (a vertex)
+    vertices = vtk.vtkCellArray()
+
+    id = vtkpoints.InsertNextPoint(point2add)
+    vertices.InsertNextCell(1)
+    vertices.InsertCellPoint(id)
+
+    # Create a polydata object
+    point = vtk.vtkPolyData()
+
+    # Set the points and vertices we created as the geometry and topology of the polydata
+    point.SetPoints(vtkpoints)
+    point.SetVerts(vertices)
+
+    # Visualize
+    mapper_p1 = vtk.vtkPolyDataMapper()
+    mapper_p1.SetInputData(point)
+    actor_p1 = vtk.vtkActor()
+    actor_p1.SetMapper(mapper_p1)
+    actor_p1.GetProperty().SetPointSize(20)
+
+    ren.AddActor(actor_p1)
+    return ren
+
+def visualiseVTK(meshFile, points):
+    reader = vtk.vtkXMLPolyDataReader() 
+    reader.SetFileName(meshFile)
+    reader.Update()
+    polydata = reader.GetOutput()
+
+    # transform to a mm CS i/o meters
+    transform = vtk.vtkTransform()
+    transformFilter = vtk.vtkTransformPolyDataFilter()
+    transform.Scale(1000, 1000, 1000)
+                
+    if vtk.VTK_MAJOR_VERSION <= 5:
+        transformFilter.SetInput(polydata)
+    else:
+        transformFilter.SetInputData(polydata)
+
+    transformFilter.SetTransform(transform)
+    transformFilter.Update()
+    polydata_scaled = transformFilter.GetOutput() #mesh in PolyData structure
+
+    # visualisation test
+    ren = vtk.vtkRenderer()
+    renWin = vtk.vtkRenderWindow()
+    renWin.AddRenderer(ren)
+    WIDTH=640
+    HEIGHT=480
+    renWin.SetSize(WIDTH,HEIGHT)
+    iren = vtk.vtkRenderWindowInteractor()
+    iren.SetRenderWindow(renWin)
+
+    meshMapper = vtk.vtkPolyDataMapper()
+    meshMapper.SetInputData(polydata_scaled)
+    meshActor = vtk.vtkActor()
+    meshActor.SetMapper(meshMapper)
+    ren.AddActor(meshActor)
+    for p in points:
+        addPoint2Ren(ren, p)
+
+    iren.Initialize()
+    renWin.Render()
+    iren.Start()
 ##################################################################
 # Penalty Functions
 ################################################################    
@@ -116,7 +186,7 @@ def checkPenetrationUpd(model, state, muscName):
 	distanceRaytoMesh_in = 0 # inside mesh
 	distanceRaytoMesh_in_max = 0 
 	# distanceRaytoMesh_max = 0 # outside mesh
-	distanceRaytoMesh_Threshold = 4 # Simao 4
+	distanceRaytoMesh_Threshold = 3 # Simao 4
 	nseg_in = 0
 	musc = model.getMuscles().get(muscName) 
 	simEng = model.getSimbodyEngine()
@@ -180,8 +250,8 @@ def checkPenetrationUpd(model, state, muscName):
 			for k in range(pathPoints.getSize()-1):
 				# test whether the muscle points are on wrapping surface (wrap points) or fixed. If on the same wrapping surface, points not taken into account for check bone penetration. 
 				# with the idea that muscle sliding over WS is not worst case scenario   
-				p0T = pathPoints.get(k).getWrapObject() == None # if the points are wrap points, the type returned will be opensim.opensim.WrapObject
-				p1T = pathPoints.get(k+1).getWrapObject() == None # if it is not a wrap point, the function will return an array of type NoneType
+				# p0T = pathPoints.get(k).getWrapObject() == None # if the points are wrap points, the type returned will be opensim.opensim.WrapObject
+				# p1T = pathPoints.get(k+1).getWrapObject() == None # if it is not a wrap point, the function will return an array of type NoneType
 
 				pt0LV = osim.Vec3()
 				pt1LV = osim.Vec3()
@@ -193,19 +263,19 @@ def checkPenetrationUpd(model, state, muscName):
 				#3d points of 2 consecutive points of muscle path 
 				pt0 = np.array(( pt0LV.get(0), pt0LV.get(1), pt0LV.get(2) )) * 1000 
 				pt1 = np.array(( pt1LV.get(0), pt1LV.get(1), pt1LV.get(2) )) * 1000
-
+	
 				# checks whether muscle path points are related to wrappingsurface, if consecutive points are related to the same wrappingsurface
 				# then these points not taken into account.
-				if p0T == False: 
-					# point 1 is a wrap points					
-					if p1T == False: 
-						# point 1 and 2 are wrap points					
-						# now check the name of each of the wrap objects
-						p0N = pathPoints.get(k).getWrapObject().getName()
-						p1N = pathPoints.get(k+1).getWrapObject().getName()						
-						if p0N == p1N:
-							# means point 1 and point 2 both belong to the same wrap surface, therefore skip - until wrapLine implemented(?)
-							continue # skip this point (back to for loop)
+				# if p0T == False: 
+				# 	# point 1 is a wrap points					
+				# 	if p1T == False: 
+				# 		# point 1 and 2 are wrap points					
+				# 		# now check the name of each of the wrap objects
+				# 		p0N = pathPoints.get(k).getWrapObject().getName()
+				# 		p1N = pathPoints.get(k+1).getWrapObject().getName()						
+				# 		if p0N == p1N:
+				# 			# means point 1 and point 2 both belong to the same wrap surface, therefore skip - until wrapLine implemented(?)
+				# 			continue # skip this point (back to for loop)
 				
 				# check whether line between pt0 to pt1 intersects with mesh
 				ObbTree.IntersectWithLine(pt0,pt1,vtkpoints,vtkcellIds)
@@ -213,11 +283,19 @@ def checkPenetrationUpd(model, state, muscName):
 
 				if pointsIntersection:					
 					distanceRaytoMesh_in = distanceRayMesh(pointsIntersection, if_distance, pt0, pt1)
+
 					# if distance in mesh > threshold add up to penalty.					
 					if distanceRaytoMesh_in > distanceRaytoMesh_Threshold:
-						distanceRaytoMesh_in_max += distanceRaytoMesh_in
+						# if angle > 14:
+						# 	print(testAngles[angle])
+						# 	points = [pt0,pt1]
+						# 	visualiseVTK(GeomMeshFile, points)
+
+
+						distanceRaytoMesh_in_max = distanceRaytoMesh_in_max + distanceRaytoMesh_in
 						nseg_in +=1
-	
+
+
 	# define penalty function -> exponential increase the more penetration. 
 	a = 2 # the higher the steeper the exponential
 	c = distanceRaytoMesh_Threshold # cutoff - penalty = 1
@@ -319,7 +397,7 @@ def calcNormalizedError(target, test):
 
 def penDistanceWrapMesh(model, state, muscName, Wrap2opt):
 	# calculate shortest distance from (center) wrap to mesh - hopefully to avoid the wrap to be fitted to far from the mesh.
-	WrapDict = mtuInfo_os4.getMuscWrapObjectInfo(model, muscName, state)
+	WrapDict = mtuInfo_os4.getMuscWrapObjectInfo(model, muscName)
 	wrap_opt = wrap2optimise(muscName, Wrap2opt, WrapDict)
 
 	dWarpMesh = 0
@@ -409,6 +487,7 @@ def calcArcLengthFFTem(signal):
 ###########################################################################
 def loadCombLitValsHPC():
 	# this function loads MAT files with Literature Data on MA and MTU length
+
 	litValDir,_,_,_ = dirNames()
 
 	litValsMat = scipy.io.loadmat(litValDir)
@@ -555,7 +634,7 @@ def editMuscWraps(vals, model, muscName, wrapDict, Wrap2opt):
 
 			# adjust the starting index for the next object
 			startInd = startInd + 4
-			# state = model.updWorkingState()
+			model.updWorkingState()
 
 		if type == 'cylinder':
 			# Tx Ty Tz R Ox Oy Oz
@@ -574,7 +653,7 @@ def editMuscWraps(vals, model, muscName, wrapDict, Wrap2opt):
 			
 			# adjust the starting index for the next object
 			startInd = startInd + 6
-			# state = model.updWorkingState()
+			model.updWorkingState()
 			
 		if type == 'ellipsoid':
 			# Tx Ty Tz Ox Oy Oz Dx Dy Dz
@@ -611,9 +690,10 @@ def editMuscWraps(vals, model, muscName, wrapDict, Wrap2opt):
 
 			# adjust the starting index for the next object
 			startInd = startInd + 7
-			# state = model.updWorkingState()	
-	state = model.initSystem()
-	return model, state        
+			model.updWorkingState()	
+	# model.initSystem()
+	# gc.collect()
+	return model
 
 def collectOptimVals(x0, sol, model, muscName, wrapDict, Wrap2opt):
 
@@ -862,7 +942,7 @@ def checkROM(init, fin, data):
 
     return init_index, fin_index
 
-def getBoundaries(currModel, muscName, currState, Optim_Thresholds, Wrap2opt):
+def getBoundaries(currModel, muscName, Optim_Thresholds, Wrap2opt):
 	# previously called "editWrapSurfHPC"
 	# This function is used to edit the properties of wrapping surfaces 
 	# remove any discontinuties in the MTU length or MA
@@ -870,7 +950,7 @@ def getBoundaries(currModel, muscName, currState, Optim_Thresholds, Wrap2opt):
 	################################################################################    
     # call wrap objects associated with muscles
 	################################################################################
-	wrapObjmodel=mtuInfo_os4.getMuscWrapObjectInfo(currModel, muscName, currState)
+	wrapObjmodel=mtuInfo_os4.getMuscWrapObjectInfo(currModel, muscName)
 
 	# check whether all wrapping surfaces need to be optimised - defined in Wrap2opt
 	# if Wrap2opt is empty, then all wrapping surfaces related to muscle optimised.
@@ -1044,7 +1124,7 @@ def getModelInformation(model, state, dof, muscName, litMA_range):
 	return MuscLen, MA, MA_litrange, radRange
 
 def getGeometryFile(muscName, Geom):
-	initDir = './OpenSim/WrappingSurfaces/geom/'
+	initDir = 'C:/PhD/FAI/HipMTUOptim/HPC/models/geom/'
 	if Geom == 'pelvis':
 		GeomMeshFile = initDir + muscName[-1] + '_' + Geom + '.vtp'
 	else:
@@ -1066,10 +1146,11 @@ def getNderivGenModel(muscName, dof, osim2Lit):
 		init_index, fin_index = checkROM(init,fin, modData[modelName][muscName]['length'])
 
 		g2392MA = modData[modelName][muscName]['momentArm'][1,init_index:fin_index]
-		g2392Len = modData[modelName][muscName]['length'][1,init_index:fin_index]
+		# g2392Len = modData[modelName][muscName]['length'][1,init_index:fin_index]
+		gMA_range = np.arange(int(init), int(fin), step = (int(fin)-int(init))/len(g2392MA))
 
-		gLenN = nNumDeriv(g2392Len, 6, 59)
-		gMaN = nNumDeriv(g2392MA, 5, 3)  
+		# gLenN = nNumDeriv(g2392Len, 6, 59)
+		# gMaN = nNumDeriv(g2392MA, 5, 3)  
 
 		# extract literature data
 		litVals = loadCombLitValsHPC() # literature data
@@ -1084,5 +1165,5 @@ def getNderivGenModel(muscName, dof, osim2Lit):
 		litMA = targetLitVals[1,init_index_Lit:fin_index_Lit]    
 		litMA_range = targetLitVals[0,init_index_Lit:fin_index_Lit]    
 
-		return gLenN, gMaN, litMA, litMA_range
+		return g2392MA, gMA_range, litMA, litMA_range
 

@@ -3,22 +3,35 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-"""
-Problems/todo:
-In random selection sometimes nothing is deleated as random value is
-larger than any of the probablilities
 
-Remove cube when empty
-figure out why solution count wrong
-"""
 
 
 class Hypercubes:
+    """
+    Hypercubes is a class to store non dominated solutions using pareto dominance.
+    It works by dividing the solution space into sub-cubes based on the cube count.
+    A high cube count means each sub-cube covers smaller space. Each sub-cube is 
+    a list of solutions. These lists are stored in a dictionary with their 
+    location in the solution space as the key. 
+
+    For example a cube count of 10 in a 2d solution space, the bottom left sub
+    - cube key will be 0 0, the top right will be 9 9.
+    
+    To decide what 
+    sub-cube a solution belongs in, it's values are compared to the max and min
+    values of the solution space.
+
+    Each non dominated solution added to the hypercube updates the solution space
+    dynamically, however when a solution is removed, that space is not adjusted.
+    When solution space is adjusted, hypercube is remade.
+    """
     def __init__(self,cube_count, max_solutions):
         """
-        Init dict to hold solutions, keys will be sub-cubes
-        Counter to keep track of # solutions
-        Bin size to calculate which sub-cube solution goes into
+        Solutions are kept in a dictionary and keys will be sub-cubes which 
+        contain a list of solutions in that area in the hypercube.
+        The hypercube object has a counter to keep track of the sum of solutions 
+        inside each of the sub-cubes.
+        Each sub-cube has a bin size which dictates the key it will have. 
         """
         self.cube_dict = {}
         self.sol_count = 0
@@ -32,7 +45,7 @@ class Hypercubes:
         """
         input is solution object
         returns a string of which bin each of its values fall into
-        Used as key for dictionary
+        Used as key for dictionary to say which sub-cube the solution goes into.
         """
         key_list = []
         for i in range(len(sol.objectives)):
@@ -62,9 +75,9 @@ class Hypercubes:
     def new_sol_check(self, new_solution, optimizaton_type):
         """
         Checks new sol against all items
-        return False if new solution dominated
-        If new sol dominates sol in hypercube:
-            store in to_del then deleate once done in that cube
+        return False if new solution dominated by any solution.
+        If new sol dominates a sol in hypercube:
+            sol in hypercube is stored in to_del list then deleted after for loop.
         return true if new solution is non-dom
         """
         
@@ -151,8 +164,8 @@ class Hypercubes:
     def delete_sol(self):
         """Uses roulette wheel selection to randomly choose a hypercube, giving 
         hypercubes with MORE solutions more weight. A random solution in this 
-        hypercube is then selected. This is solution is then deleted. This 
-        promotes exploring hypercubes with less solutions."""
+        hypercube is then selected. This solution is then deleted. This 
+        promotes deleting solutions in dense hypercubes."""
         cube = self.select_cube()
         
         chosen = random.randrange(len(self.cube_dict[cube]))

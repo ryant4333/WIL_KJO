@@ -70,7 +70,7 @@ def getMTULengths(currModel, currState, refDOF, muscName, ranges):
     fibreLengths = np.zeros((np.size(radRange)))
     momentarm = np.zeros((np.size(radRange)))
 
-    i=0;
+    i=0
     # Loop through each 
     for rad in radRange:
         # set position / angle of refDOF, enforceContraints = False "set coordinates even if model constraints cannot be hold"
@@ -291,7 +291,7 @@ def getJointsSpannedByMusc(currModel, muscName):
 
     return joints_spanned, bodies_spanned   
     
-def getMuscWrapObjectInfo(currModel, muscName, currState):    
+def getMuscWrapObjectInfo(currModel, muscName):    
     # initialize info
     muscObj=currModel.getMuscles().get(muscName)
     geomPath=muscObj.getGeometryPath()
