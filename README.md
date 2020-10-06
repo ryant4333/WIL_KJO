@@ -65,7 +65,7 @@ This table describes the *config.json* file attributes:
 | optimization_type | array of strings | Optimization type of the objective functions (either `MIN` or `MAX`). This denotes whether the objective function is seeking a minimum or maximum value. E.g. *ZDT1* has 2 objective functions: *F1* and *F2* which are both seeking minimization. Thus, I give the input `["MIN", "MIN"]`.
 
 ## Using the Wizard for building config files
-The Wizard is CLI tool for building config.json files.
+The Wizard is a CLI tool for building config.json files.
 
 Steps:  
 - Run the wizard.py file (`python -m wizard.py`).
