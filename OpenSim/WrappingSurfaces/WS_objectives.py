@@ -1124,7 +1124,7 @@ def getModelInformation(model, state, dof, muscName, litMA_range):
 	return MuscLen, MA, MA_litrange, radRange
 
 def getGeometryFile(muscName, Geom):
-	initDir = 'C:/PhD/FAI/HipMTUOptim/HPC/models/geom/'
+	initDir = './OpenSim/WrappingSurfaces/geom/'
 	if Geom == 'pelvis':
 		GeomMeshFile = initDir + muscName[-1] + '_' + Geom + '.vtp'
 	else:

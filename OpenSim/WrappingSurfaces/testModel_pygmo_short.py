@@ -51,7 +51,7 @@ class my_problem ():
     def fitness(self, vals):
         # change wrapping surfaces
         muscName = self.muscName
-        gModel = osim.Model('Raja_FAI.osim')
+        gModel = osim.Model('./OpenSim/WrappingSurfaces/Raja_FAI.osim')
         gModel.initSystem()
         wrapDict = mtuInfo_os4.getMuscWrapObjectInfo(gModel, muscName)
         updModel = objfun.editMuscWraps(vals, gModel, muscName, wrapDict, Wrap2opt) 
@@ -132,75 +132,75 @@ def randomvals(lb, ub):
 
 # objfun.checkPenetrationUpd(testModel, testState, 'piri_r')
 # # optimise WS
-muscNames = {'piri_r'} #, 'glmed3_r', 'piri_r'}
+# muscNames = {'piri_r'} #, 'glmed3_r', 'piri_r'}
 
-vals_opt = {musc:[] for musc in muscNames}
-f_opt = {musc:[] for musc in muscNames}
+# vals_opt = {musc:[] for musc in muscNames}
+# f_opt = {musc:[] for musc in muscNames}
 
-for musc in muscNames:
-	dof = 'hip_flexion_r'
-	t = time.time()
-	prob = pg.problem(my_problem(1, muscName = musc, dof = dof))
+# for musc in muscNames:
+# 	dof = 'hip_flexion_r'
+# 	t = time.time()
+# 	prob = pg.problem(my_problem(1, muscName = musc, dof = dof))
 
-	print(prob)
-	# algo = pg.algorithm(pg.nsga2(gen=100))  
-	algo = pg.algorithm(pg.nspso(gen=100))  
+# 	print(prob)
+# 	# algo = pg.algorithm(pg.nsga2(gen=100))  
+# 	algo = pg.algorithm(pg.nspso(gen=100))  
 
-	algo.set_verbosity(2)
+# 	algo.set_verbosity(2)
 
-	pop = pg.population(prob, 300)
-	# use of island archipelago - parallelisation
+# 	pop = pg.population(prob, 300)
+# 	# use of island archipelago - parallelisation
 
-	pop = algo.evolve(pop)
-	uda = algo.extract(pg.nspso)
-	log = uda.get_log()
+# 	pop = algo.evolve(pop)
+# 	uda = algo.extract(pg.nspso)
+# 	log = uda.get_log()
 
-	plt.figure()
-	fnds = pg.fast_non_dominated_sorting(pop.get_f())	
+# 	plt.figure()
+# 	fnds = pg.fast_non_dominated_sorting(pop.get_f())	
 
-	vals_opt[musc],f_opt[musc] = choose_best_solution(fnds, pop) #choose one of the solution on pareto front !! need to find a good way to choose 'best' solution.
-	# vals_opt[musc] = pop.get_x()[fnds[0][0][0]]
+# 	vals_opt[musc],f_opt[musc] = choose_best_solution(fnds, pop) #choose one of the solution on pareto front !! need to find a good way to choose 'best' solution.
+# 	# vals_opt[musc] = pop.get_x()[fnds[0][0][0]]
 
-## update model
-model, state = objfun.getInfo() 
+# ## update model
+# model, state = objfun.getInfo() 
 
-for musc1 in muscNames:
-	wrapDict = mtuInfo_os4.getMuscWrapObjectInfo(model, musc1)
-	model  = objfun.editMuscWraps(vals_opt[musc1], model, musc1, wrapDict, Wrap2opt)
+# for musc1 in muscNames:
+# 	wrapDict = mtuInfo_os4.getMuscWrapObjectInfo(model, musc1)
+# 	model  = objfun.editMuscWraps(vals_opt[musc1], model, musc1, wrapDict, Wrap2opt)
 
-# save model
-model.printToXML('Raja_FAI_opt.osim')
-model3 = osim.Model('Raja_FAI.osim')
+# # save model
+# model.printToXML('Raja_FAI_opt.osim')
+# model3 = osim.Model('Raja_FAI.osim')
 
-# plot moment arm literature, generic model and optimised model.
-for musc2 in muscNames:
-	gMa, gMA_range, litMA, litMA_range = objfun.getNderivGenModel(musc2, 'hip_flexion_r', osim2Lit)
-	len_optmodel,_,MA_optmodel, radRange = objfun.getModelInformation(model, state, dof, musc2, litMA_range)
-	len_osimmodel,_,MA_osimmodel, _ = objfun.getModelInformation(model3, model3.initSystem(), dof, musc2, litMA_range)
-	plt.figure()
-	plt.subplot(2,1,1)
-	plt.plot(MA_optmodel)
-	plt.plot(MA_osimmodel)
-	plt.plot(litMA)
-	plt.legend(('model_opt','osim','lit'))
-	plt.ylabel('moment arm[m]')
-	plt.subplot(2,1,2)
-	plt.plot(radRange, len_optmodel)
-	plt.plot(radRange, len_osimmodel)
-	plt.ylabel('mtu length[m]')
-	plt.xlabel(dof)
-	plt.legend(('model_opt','osim'))
+# # plot moment arm literature, generic model and optimised model.
+# for musc2 in muscNames:
+# 	gMa, gMA_range, litMA, litMA_range = objfun.getNderivGenModel(musc2, 'hip_flexion_r', osim2Lit)
+# 	len_optmodel,_,MA_optmodel, radRange = objfun.getModelInformation(model, state, dof, musc2, litMA_range)
+# 	len_osimmodel,_,MA_osimmodel, _ = objfun.getModelInformation(model3, model3.initSystem(), dof, musc2, litMA_range)
+# 	plt.figure()
+# 	plt.subplot(2,1,1)
+# 	plt.plot(MA_optmodel)
+# 	plt.plot(MA_osimmodel)
+# 	plt.plot(litMA)
+# 	plt.legend(('model_opt','osim','lit'))
+# 	plt.ylabel('moment arm[m]')
+# 	plt.subplot(2,1,2)
+# 	plt.plot(radRange, len_optmodel)
+# 	plt.plot(radRange, len_osimmodel)
+# 	plt.ylabel('mtu length[m]')
+# 	plt.xlabel(dof)
+# 	plt.legend(('model_opt','osim'))
 
-	plt.suptitle(musc2)
-	plt.savefig('./plots/' + musc2 + '.png')
-	## o_functions
-	print('inmesh? opt: ' + str(objfun.penDistanceWrapMesh(model, state, musc2, Wrap2opt) ))
-	print('inmesh? gen: ' + str(objfun.penDistanceWrapMesh(model3, model3.initSystem(), musc2, Wrap2opt) ))
+# 	plt.suptitle(musc2)
+# 	plt.savefig('./plots/' + musc2 + '.png')
+# 	## o_functions
+# 	print('inmesh? opt: ' + str(objfun.penDistanceWrapMesh(model, state, musc2, Wrap2opt) ))
+# 	print('inmesh? gen: ' + str(objfun.penDistanceWrapMesh(model3, model3.initSystem(), musc2, Wrap2opt) ))
 
-	print(objfun.calcArcLengthFFTem(MA_optmodel))
-	print(objfun.calcArcLengthFFTem(MA_osimmodel))
+# 	print(objfun.calcArcLengthFFTem(MA_optmodel))
+# 	print(objfun.calcArcLengthFFTem(MA_osimmodel))
 	
-plt.show()
+# plt.show()
 
 
 # ## test

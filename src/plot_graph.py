@@ -13,8 +13,8 @@ def plot(title, opt, directory):
     time_now = dt.datetime.now().strftime("%Y-%m-%d-%H%M%S")
     dir_name = directory + "logs/" + time_now
     create_dir(dir_name)
-    create_objectives_log(opt.hypercubes.output_front(), dir_name)
     create_sol_log(opt.hypercubes.cube_dict, dir_name, title)
+    create_objectives_log(opt.hypercubes.output_front(), dir_name)
     graph(dir_name + "/objectives_log.txt", title)
     plt.savefig(dir_name + "/pareto_front.png")
     plt.show()
@@ -80,10 +80,9 @@ def create_dir(dir_name):
         raise FileExistsError("Directory ", dir_name, " already exists")
 
 
-def create_objectives_log(self, dir_name):
+def create_objectives_log(front, dir_name):
     """Creates objective log as a txt file by seperating each objective of a
     solution by a space and each soluition by a new line."""
-    front = self
 
     if not os.path.exists(dir_name + "/objectives_log.txt"):
         output = open(dir_name + "/objectives_log.txt", "w+")
@@ -101,6 +100,8 @@ def create_objectives_log(self, dir_name):
             print("{} {}".format(i[0], i[1]), file=output)
         else:
             raise ValueError("Invalid number of dimensions")
+        # s = " ".join(map(str, i))
+        # print(s, file=output)
 
 
 def create_sol_log(dict_, dir_name, title):

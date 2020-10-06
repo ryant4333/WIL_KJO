@@ -151,7 +151,6 @@ def _eval_process(objective, particle):
     """
     return particle.evaluate(objective)
 
-
 def _get_avg_velocity(particles):
     """Calculates the average velocity of the particles."""
     v_sum = np.random.uniform(0, 0, len(particles[0].velocity))
