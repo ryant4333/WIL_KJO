@@ -1,11 +1,11 @@
 {
     "objective": "objectives.WrappingSurfaces",
-    "c1": 1,
-    "c2": 1,
-    "min_w": 0.1,
+    "c1": 2,
+    "c2": 2,
+    "min_w": 0.4,
     "max_w": 0.9,
-    "particle_num": 30,
-    "max_iterations": 400,
+    "particle_num": 50,
+    "max_iterations": 1000,
     "min_avg_velocity": 0.01,
     "variables": [
         { "name": "v1", "max": 0.025300000000000003, "min": -0.17470000000000002},

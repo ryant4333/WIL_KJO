@@ -90,18 +90,8 @@ def create_objectives_log(front, dir_name):
         raise FileExistsError("File ", "objectives_log", " already exists")
 
     for i in front:
-        if len(i) == 5:
-            print("{} {} {} {} {}".format(i[0], i[1], i[2], i[3], i[4]), file=output)
-        if len(i) == 4:
-            print("{} {} {} {}".format(i[0], i[1], i[2], i[3]), file=output)
-        elif len(i) == 3:
-            print("{} {} {}".format(i[0], i[1], i[2]), file=output)
-        elif len(i) == 2:
-            print("{} {}".format(i[0], i[1]), file=output)
-        else:
-            raise ValueError("Invalid number of dimensions")
-        # s = " ".join(map(str, i))
-        # print(s, file=output)
+        s = " ".join(map(str, i))
+        print(s, file=output)
 
 
 def create_sol_log(dict_, dir_name, title):
