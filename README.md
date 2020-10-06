@@ -1,7 +1,7 @@
 # KJO
 
 ## Running MOPSO
-The program can run by running the optimiser.py script and passing a problem folder. The following is an example of running the zdt1 benchmark.
+The program can runs by starting the optimiser.py script and passing a problem folder. The following is an example of running the zdt1 benchmark.
 ```shell
     python optimiser.py ./benchmarks/zdt/zdt1
 ``` 
