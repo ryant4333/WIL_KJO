@@ -41,8 +41,8 @@ def plot(title, opt, directory):
     time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
     dir_name = directory + &#34;logs/&#34; + time_now
     create_dir(dir_name)
-    create_objectives_log(opt, dir_name)
-    create_sol_log(opt, dir_name, title)
+    create_objectives_log(opt.hypercubes.output_front(), dir_name)
+    create_sol_log(opt.hypercubes.cube_dict, dir_name, title)
     graph(dir_name + &#34;/objectives_log.txt&#34;, title)
     plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
     plt.show()
@@ -52,8 +52,9 @@ def graph(file, title=None):
     &#34;&#34;&#34;Graph function is used for adding all the plots and the title to the 
     graph.&#34;&#34;&#34;
     front = np.loadtxt(file)
-
-    if len(front) == 2:
+    if len(front) == 0:
+        raise ValueError(&#34;File is empty&#34;)
+    elif len(front) == 2:
         plt.scatter(front[0], front[1], c=&#39;b&#39;)
     elif len(front) == 3:
         fig = plt.figure()
@@ -87,8 +88,8 @@ def graph(file, title=None):
     elif len(front[0]) == 2:
         plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
 
-    elif ValueError:
-        print(&#34;Incorrect number of dims in solution to graph.&#34;)
+    else:
+        raise ValueError(&#34;Incorrect number of dims in solution to graph.&#34;)
 
     if title != None:
         plt.title(title)
@@ -104,50 +105,53 @@ def create_dir(dir_name):
         os.makedirs(dir_name)
         print(&#34;DIRECTORY CREATED: &#34;, dir_name)
     except FileExistsError:
-        print(&#34;Directory &#34;, dir_name, &#34; already exists&#34;)
+        raise FileExistsError(&#34;Directory &#34;, dir_name, &#34; already exists&#34;)
 
 
 def create_objectives_log(self, dir_name):
     &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a
     solution by a space and each soluition by a new line.&#34;&#34;&#34;
-    front = self.hypercubes.output_front()
-    try:
+    front = self
+
+    if not os.path.exists(dir_name + &#34;/objectives_log.txt&#34;):
         output = open(dir_name + &#34;/objectives_log.txt&#34;, &#34;w+&#34;)
+    else:
+        raise FileExistsError(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)
 
-        for i in front:
-            if len(i) == 5:
-                print(&#34;{} {} {} {} {}&#34;.format(i[0], i[1], i[2], i[3], i[4]), file=output)
-            if len(i) == 4:
-                print(&#34;{} {} {} {}&#34;.format(i[0], i[1], i[2], i[3]), file=output)
-            elif len(i) == 3:
-                print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
-            elif len(i) == 2:
-                print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
-    except FileExistsError:
-        print(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)
+    for i in front:
+        if len(i) == 5:
+            print(&#34;{} {} {} {} {}&#34;.format(i[0], i[1], i[2], i[3], i[4]), file=output)
+        if len(i) == 4:
+            print(&#34;{} {} {} {}&#34;.format(i[0], i[1], i[2], i[3]), file=output)
+        elif len(i) == 3:
+            print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
+        elif len(i) == 2:
+            print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
+        else:
+            raise ValueError(&#34;Invalid number of dimensions&#34;)
 
 
-def create_sol_log(self, dir_name, title):
+def create_sol_log(dict_, dir_name, title):
     &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution
     objects from the pareto front.&#34;&#34;&#34;
-    big_cube = self.hypercubes.cube_dict
+    big_cube = dict_
     data = {}
     data[&#39;title&#39;] = title
     data[&#39;solutions&#39;] = []
-    try:
-        for cube in big_cube:
-            for sol in big_cube[cube]:
-                data[&#39;solutions&#39;].append(
-                    {
-                        &#39;position&#39;: sol.x.tolist(),
-                        &#39;objectives&#39;: sol.objectives.tolist()
-                    }
-                )
+
+    for cube in big_cube:
+        for sol in big_cube[cube]:
+            data[&#39;solutions&#39;].append(
+                {
+                    &#39;position&#39;: sol.x.tolist(),
+                    &#39;objectives&#39;: sol.objectives.tolist()
+                }
+            )
+    if not os.path.exists(dir_name + &#34;/solutions_log.json&#34;):
         with open(dir_name + &#34;/solutions_log.json&#34;, &#34;w+&#34;) as outfile:
             json.dump(data, outfile, indent=4)
-
-    except FileExistsError:
-        print(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)
+    else:
+        raise FileExistsError(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)
 
 
 if __name__ == &#34;__main__&#34;:
@@ -178,7 +182,7 @@ log is kept</p></div>
         os.makedirs(dir_name)
         print(&#34;DIRECTORY CREATED: &#34;, dir_name)
     except FileExistsError:
-        print(&#34;Directory &#34;, dir_name, &#34; already exists&#34;)</code></pre>
+        raise FileExistsError(&#34;Directory &#34;, dir_name, &#34; already exists&#34;)</code></pre>
 </details>
 </dd>
 <dt id="WIL_KJO.src.plot_graph.create_objectives_log"><code class="name flex">
@@ -194,25 +198,28 @@ solution by a space and each soluition by a new line.</p></div>
 <pre><code class="python">def create_objectives_log(self, dir_name):
     &#34;&#34;&#34;Creates objective log as a txt file by seperating each objective of a
     solution by a space and each soluition by a new line.&#34;&#34;&#34;
-    front = self.hypercubes.output_front()
-    try:
-        output = open(dir_name + &#34;/objectives_log.txt&#34;, &#34;w+&#34;)
+    front = self
 
-        for i in front:
-            if len(i) == 5:
-                print(&#34;{} {} {} {} {}&#34;.format(i[0], i[1], i[2], i[3], i[4]), file=output)
-            if len(i) == 4:
-                print(&#34;{} {} {} {}&#34;.format(i[0], i[1], i[2], i[3]), file=output)
-            elif len(i) == 3:
-                print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
-            elif len(i) == 2:
-                print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
-    except FileExistsError:
-        print(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)</code></pre>
+    if not os.path.exists(dir_name + &#34;/objectives_log.txt&#34;):
+        output = open(dir_name + &#34;/objectives_log.txt&#34;, &#34;w+&#34;)
+    else:
+        raise FileExistsError(&#34;File &#34;, &#34;objectives_log&#34;, &#34; already exists&#34;)
+
+    for i in front:
+        if len(i) == 5:
+            print(&#34;{} {} {} {} {}&#34;.format(i[0], i[1], i[2], i[3], i[4]), file=output)
+        if len(i) == 4:
+            print(&#34;{} {} {} {}&#34;.format(i[0], i[1], i[2], i[3]), file=output)
+        elif len(i) == 3:
+            print(&#34;{} {} {}&#34;.format(i[0], i[1], i[2]), file=output)
+        elif len(i) == 2:
+            print(&#34;{} {}&#34;.format(i[0], i[1]), file=output)
+        else:
+            raise ValueError(&#34;Invalid number of dimensions&#34;)</code></pre>
 </details>
 </dd>
 <dt id="WIL_KJO.src.plot_graph.create_sol_log"><code class="name flex">
-<span>def <span class="ident">create_sol_log</span></span>(<span>self, dir_name, title)</span>
+<span>def <span class="ident">create_sol_log</span></span>(<span>dict_, dir_name, title)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a solution log by creating a json file with an array of solution
@@ -221,27 +228,27 @@ objects from the pareto front.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_sol_log(self, dir_name, title):
+<pre><code class="python">def create_sol_log(dict_, dir_name, title):
     &#34;&#34;&#34;Creates a solution log by creating a json file with an array of solution
     objects from the pareto front.&#34;&#34;&#34;
-    big_cube = self.hypercubes.cube_dict
+    big_cube = dict_
     data = {}
     data[&#39;title&#39;] = title
     data[&#39;solutions&#39;] = []
-    try:
-        for cube in big_cube:
-            for sol in big_cube[cube]:
-                data[&#39;solutions&#39;].append(
-                    {
-                        &#39;position&#39;: sol.x.tolist(),
-                        &#39;objectives&#39;: sol.objectives.tolist()
-                    }
-                )
+
+    for cube in big_cube:
+        for sol in big_cube[cube]:
+            data[&#39;solutions&#39;].append(
+                {
+                    &#39;position&#39;: sol.x.tolist(),
+                    &#39;objectives&#39;: sol.objectives.tolist()
+                }
+            )
+    if not os.path.exists(dir_name + &#34;/solutions_log.json&#34;):
         with open(dir_name + &#34;/solutions_log.json&#34;, &#34;w+&#34;) as outfile:
             json.dump(data, outfile, indent=4)
-
-    except FileExistsError:
-        print(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)</code></pre>
+    else:
+        raise FileExistsError(&#34;File &#34;, &#34;solutions_log&#34;, &#34; already exists&#34;)</code></pre>
 </details>
 </dd>
 <dt id="WIL_KJO.src.plot_graph.graph"><code class="name flex">
@@ -258,8 +265,9 @@ graph.</p></div>
     &#34;&#34;&#34;Graph function is used for adding all the plots and the title to the 
     graph.&#34;&#34;&#34;
     front = np.loadtxt(file)
-
-    if len(front) == 2:
+    if len(front) == 0:
+        raise ValueError(&#34;File is empty&#34;)
+    elif len(front) == 2:
         plt.scatter(front[0], front[1], c=&#39;b&#39;)
     elif len(front) == 3:
         fig = plt.figure()
@@ -293,8 +301,8 @@ graph.</p></div>
     elif len(front[0]) == 2:
         plt.scatter(front[:, 0], front[:, 1], c=&#39;b&#39;)
 
-    elif ValueError:
-        print(&#34;Incorrect number of dims in solution to graph.&#34;)
+    else:
+        raise ValueError(&#34;Incorrect number of dims in solution to graph.&#34;)
 
     if title != None:
         plt.title(title)
@@ -318,8 +326,8 @@ graph.</p></div>
     time_now = dt.datetime.now().strftime(&#34;%Y-%m-%d-%H%M%S&#34;)
     dir_name = directory + &#34;logs/&#34; + time_now
     create_dir(dir_name)
-    create_objectives_log(opt, dir_name)
-    create_sol_log(opt, dir_name, title)
+    create_objectives_log(opt.hypercubes.output_front(), dir_name)
+    create_sol_log(opt.hypercubes.cube_dict, dir_name, title)
     graph(dir_name + &#34;/objectives_log.txt&#34;, title)
     plt.savefig(dir_name + &#34;/pareto_front.png&#34;)
     plt.show()</code></pre>

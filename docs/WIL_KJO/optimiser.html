@@ -168,6 +168,8 @@ class Optimiser:
                 end = time.perf_counter()
                 if verbose:
                     print(&#34;RUNNING TIME: &#34;, end - start, &#34; seconds&#34;)
+                pool.close()
+                pool.join()
                 break
 
 def _eval_process(objective, particle):
@@ -199,13 +201,16 @@ def get_problem(args):
     
     return d
 
-if __name__ == &#34;__main__&#34;:
+def main():
     d = get_problem(sys.argv)
     sys.path.insert(1, d)
     config = d+&#34;config.json&#34;
     optimiser = Optimiser(config)
     optimiser.run(verbose=True)
-    plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)</code></pre>
+    plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)
+
+if __name__ == &#34;__main__&#34;:
+    main()</code></pre>
 </details>
 </section>
 <section>
@@ -233,6 +238,24 @@ if __name__ == &#34;__main__&#34;:
         d+=&#39;/&#39;
     
     return d</code></pre>
+</details>
+</dd>
+<dt id="WIL_KJO.optimiser.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main():
+    d = get_problem(sys.argv)
+    sys.path.insert(1, d)
+    config = d+&#34;config.json&#34;
+    optimiser = Optimiser(config)
+    optimiser.run(verbose=True)
+    plot_graph.plot(optimiser.problem.objective.__name__, optimiser, d)</code></pre>
 </details>
 </dd>
 </dl>
@@ -375,6 +398,8 @@ if __name__ == &#34;__main__&#34;:
                 end = time.perf_counter()
                 if verbose:
                     print(&#34;RUNNING TIME: &#34;, end - start, &#34; seconds&#34;)
+                pool.close()
+                pool.join()
                 break</code></pre>
 </details>
 <h3>Instance variables</h3>
@@ -492,6 +517,8 @@ details.</p></div>
             end = time.perf_counter()
             if verbose:
                 print(&#34;RUNNING TIME: &#34;, end - start, &#34; seconds&#34;)
+            pool.close()
+            pool.join()
             break</code></pre>
 </details>
 </dd>
@@ -565,6 +592,7 @@ is linear decreasing</p></div>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="WIL_KJO.optimiser.get_problem" href="#WIL_KJO.optimiser.get_problem">get_problem</a></code></li>
+<li><code><a title="WIL_KJO.optimiser.main" href="#WIL_KJO.optimiser.main">main</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
