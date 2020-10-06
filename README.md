@@ -64,3 +64,12 @@ This table describes the *config.json* file attributes:
 | cube_count        | int              | Number of hypercubes. |
 | solution_count    | int              | Total number of solutions able to be kept in the hypercube (that is, all combined hypercubes). |
 | optimization_type | array of strings | Optimization type of the objective functions (either `MIN` or `MAX`). This denotes whether the objective function is seeking a minimum or maximum value. E.g. *ZDT1* has 2 objective functions: *F1* and *F2* which are both seeking minimization. Thus, I give the input `["MIN", "MIN"]`.
+
+
+## Running log_analyser
+
+<ol>
+    <li> Copy solution log .json file from output folder into top level analyse folder </li>
+    <li> Run log_analyser.py, it will analyse all files in analyse folder. </li>
+    <li> Output printed in a results text file, viewable form command line if run remotely. </li>
+</ol>
