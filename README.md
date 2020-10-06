@@ -11,8 +11,7 @@ IMPORTANT: Need to run script from the root directory of the project.
 A problem folder has an objective.py file which has an objective function which each particle uses to evaluate its position. The folder also has a config.json which changes settings of the MOPSO.
 
 ## Writing a config file
-
-The optimiser uses a *config.json* file as input. 
+The optimiser uses a *config.json* file as input. This process can be done using the Wizard.
 ```
 {
  "objective": "objectives.ZDT1",
@@ -65,6 +64,13 @@ This table describes the *config.json* file attributes:
 | solution_count    | int              | Total number of solutions able to be kept in the hypercube (that is, all combined hypercubes). |
 | optimization_type | array of strings | Optimization type of the objective functions (either `MIN` or `MAX`). This denotes whether the objective function is seeking a minimum or maximum value. E.g. *ZDT1* has 2 objective functions: *F1* and *F2* which are both seeking minimization. Thus, I give the input `["MIN", "MIN"]`.
 
+## Using the Wizard for building config files
+The Wizard is CLI tool for building config.json files.
+
+Steps:  
+- Run the wizard.py file (`python -m wizard.py`).
+- Enter input to the prompts.
+- The config.json file should now be saved in the directory you have specified.
 
 ## Running log_analyser
 
