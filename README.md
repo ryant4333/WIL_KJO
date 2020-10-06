@@ -79,3 +79,13 @@ Steps:
     <li> Run log_analyser.py, it will analyse all files in analyse folder. </li>
     <li> Output printed in a results text file, viewable form command line if run remotely. </li>
 </ol>
+
+## Recommendations for further development
+A limitation with the current implementation is how the hypercube dynamically updates. 
+It can update successful by extending the minimum and maximum points in the objective space. However,
+it cannot shrink when solutions are removed. By doing this, you can remove hypercubes that are potential
+unused and are not near the optimal pereto front.
+<br/><br/>
+Another recommendation is to add a way for a researcher to define the bounds of a problem's search space
+via a function in the objectives.py script, instead of manually entering it in the config file.
+
