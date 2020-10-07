@@ -4,7 +4,7 @@ import numpy as np
 
 class Swarm:
 
-    def __init__(self, num_particles, min_, max_):
+    def __init__(self, num_particles: int, min_: list, max_: list):
         """Initialises swarm of n particles in random positions between the max 
         and min search domains."""
         self.particles = [particle.Particle() for _ in range(num_particles)]

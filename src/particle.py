@@ -14,7 +14,7 @@ class Particle:
         self.velocity = []
         """Inertia of particle."""
 
-    def evaluate(self, objectives):
+    def evaluate(self, objectives: callable) -> Solution:
         """
         Gets objectives based on the particles current position. Uses these 
         objectives and the particles position to return a new solution.
@@ -23,7 +23,7 @@ class Particle:
         solution = Solution(self.x, obj)        
         return solution
   
-    def move(self, velocity, maximum, minimum):
+    def move(self, velocity: list, maximum: list, minimum: list) -> None:
         """Changes the position of the particle, maintains search space 
         constraints, and saves velocity."""
         if len(self.x) != len(maximum) or len(self.x) != len(minimum):
@@ -43,7 +43,7 @@ class Particle:
         self.x = x
         self.velocity = velocity
     
-    def calc_velocity(self, c1, c2, w):
+    def calc_velocity(self, c1: float, c2: float, w: float) -> list:
         """Calculates the velocity of the particle with cognitive, social and 
         inertia weight."""
         inertia = np.array(self.velocity) * w
@@ -52,7 +52,7 @@ class Particle:
         velocity = inertia + cognitive + social
         return velocity
     
-    def update_pbest(self, solution, optimization_type):
+    def update_pbest(self, solution: Solution, optimization_type: list) -> None:
         """Determines if new solution fully dominates personal best. If it does,
         it becomes new personal best. If new solution is not fully dominated by
         personal best, it updates it with a %50 chance."""

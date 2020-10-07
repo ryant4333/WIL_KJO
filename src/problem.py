@@ -16,8 +16,8 @@ class Problem:
         5. The variables are validated to ensure correct types and values have
            been used.
     """
-    def __init__(self, config_file):
-        """Initialises a problem class based on a config.json file"""
+    def __init__(self, config_file: str):
+        """Initialise a problem class based on a config.json file"""
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)
@@ -45,7 +45,7 @@ class Problem:
         # Validation
         self.validate_config()
 
-    def validate_config(self):
+    def validate_config(self) -> None:
         """
         Perform validation on the config file
         - Checking types
@@ -54,7 +54,7 @@ class Problem:
         self.validate_types()
         self.validate_values()
 
-    def validate_types(self):
+    def validate_types(self) -> None:
         """
         Validates the config file types
         """
@@ -91,7 +91,7 @@ class Problem:
             if type(i) != str:
                 raise TypeError("optimization_type should be type: <list of strings>")
 
-    def validate_values(self):
+    def validate_values(self) -> None:
         """
         Validates specific config file values
         """
@@ -114,7 +114,7 @@ class Problem:
                 raise ValueError("min values should be less than max values (%s not less than %s)"
                                  % (self.min[i], self.max[i]))
 
-    def convert_to_method(self, objective):
+    def convert_to_method(self, objective: str) -> None:
         """
         Convert objective name to function reference
         """
@@ -127,7 +127,7 @@ class Problem:
         if not callable(self.objective):
             raise ValueError("Objective '%s' is not callable" % objective)
 
-    def split_variables_into_max_min(self):
+    def split_variables_into_max_min(self) -> None:
         """
         Convert the dict form of displaying the min and max into
         an easier to work with min and max array.
@@ -137,7 +137,7 @@ class Problem:
             self.max.append(max_)
             self.min.append(min_)
 
-    def convert_min_max_to_inf(self):
+    def convert_min_max_to_inf(self) -> None:
         """
         Convert the min and max infinite
         values (inf and -inf) to the maximum

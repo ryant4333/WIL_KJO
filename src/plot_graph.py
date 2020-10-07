@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime as dt
 import os
-import optimiser
+from optimiser import *
 from mpl_toolkits.mplot3d import Axes3D
 import json
 
 
-def plot(title, opt, directory):
+def plot(title: str, opt, directory: str) -> None:
     if not directory[-1] in ('/', '\\'):
         directory += '/'
     time_now = dt.datetime.now().strftime("%Y-%m-%d-%H%M%S")
@@ -20,7 +20,7 @@ def plot(title, opt, directory):
     plt.show()
 
 
-def graph(file, title=None):
+def graph(file: str, title: str = None) -> None:
     """Graph function is used for adding all the plots and the title to the 
     graph."""
     front = np.loadtxt(file)
@@ -70,7 +70,7 @@ def graph(file, title=None):
     plt.legend(["Front"])
 
 
-def create_dir(dir_name):
+def create_dir(dir_name: str) -> None:
     """Creates the directory where the graph, solutions log and the objective
     log is kept"""
     try:
@@ -80,7 +80,7 @@ def create_dir(dir_name):
         raise FileExistsError("Directory ", dir_name, " already exists")
 
 
-def create_objectives_log(front, dir_name):
+def create_objectives_log(front: list, dir_name: str) -> None:
     """Creates objective log as a txt file by seperating each objective of a
     solution by a space and each soluition by a new line."""
 
@@ -94,10 +94,9 @@ def create_objectives_log(front, dir_name):
         print(s, file=output)
 
 
-def create_sol_log(dict_, dir_name, title):
+def create_sol_log(big_cube: dict, dir_name: str, title: str) -> None:
     """Creates a solution log by creating a json file with an array of solution
     objects from the pareto front."""
-    big_cube = dict_
     data = {}
     data['title'] = title
     data['solutions'] = []

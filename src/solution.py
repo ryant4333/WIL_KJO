@@ -14,7 +14,7 @@ class Solution:
     
     # returns 1 if self dominates, -1 is param solution dominates 
     # and 0 if neither dominate 
-    def dominated(self, solution, optimization_type):
+    def dominated(self, solution, optimization_type: list) -> int:
         """Determines which solution dominates which. Returns 1 if self 
         instance dominates, -1 if param sol dominates and 0 if neither. Unlikely
         edge case where both solutions equal each other returns 1"""

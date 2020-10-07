@@ -41,7 +41,7 @@ class Hypercubes:
         self.min: list = []
         self.cube_count: int = cube_count
 
-    def get_bin_key(self, sol: Solution):
+    def get_bin_key(self, sol: Solution) -> str:
         """
         input is solution object
         returns a string of which bin each of its values fall into
@@ -53,7 +53,7 @@ class Hypercubes:
             key_list.append(key_val)
         return str(key_list)
 
-    def push_sol(self, new_solution, optimizaton_type: list, skipcheck: bool = False):
+    def push_sol(self, new_solution, optimizaton_type: list, skipcheck: bool = False) -> None:
         """
         If new solution check == True
         add new solution to a cube
@@ -72,7 +72,7 @@ class Hypercubes:
         
         return
 
-    def new_sol_check(self, new_solution: Solution, optimizaton_type: list):
+    def new_sol_check(self, new_solution: Solution, optimizaton_type: list) -> bool:
         """
         Checks new sol against all items
         return False if new solution dominated by any solution.
@@ -107,7 +107,7 @@ class Hypercubes:
 
         return True
 
-    def select_gbest(self):
+    def select_gbest(self) -> Solution:
         """Uses roulette wheel selection to randomly choose a hypercube, giving 
         hypercubes with LESS solutions more weight. A random solution in this 
         hypercube is then selected. This is returned as the gbest.This 
@@ -117,7 +117,7 @@ class Hypercubes:
         chosen = random.randrange(len(self.cube_dict[cube]))
         return self.cube_dict[cube][chosen]
 
-    def select_min_cube(self):
+    def select_min_cube(self) -> str:
         """Uses roulette wheel selection to randomly choose a hypercube, giving 
         hypercubes with LESS solutions more weight. This hypercube is then 
         returned"""
@@ -140,7 +140,7 @@ class Hypercubes:
                 return key
         return keys[-1]
 
-    def select_cube(self):
+    def select_cube(self) -> str:
         """Uses roulette wheel selection to randomly choose a hypercube, giving 
         hypercubes with MORE solutions more weight. This hypercube is then 
         returned"""
@@ -161,7 +161,7 @@ class Hypercubes:
                 return key
         return keys[-1]
             
-    def delete_sol(self):
+    def delete_sol(self) -> None:
         """Uses roulette wheel selection to randomly choose a hypercube, giving 
         hypercubes with MORE solutions more weight. A random solution in this 
         hypercube is then selected. This solution is then deleted. This 
@@ -176,7 +176,7 @@ class Hypercubes:
 
         self.sol_count -= 1
 
-    def output_front(self):
+    def output_front(self) -> list:
         """
         Return list of non dominated solutions
         """
@@ -186,7 +186,7 @@ class Hypercubes:
                 front.append(sol.objectives)
         return front
     
-    def redo_dict(self, optimization_type: list):
+    def redo_dict(self, optimization_type: list) -> None:
         """Resizes the buckets of the hypercubes based on the max and min values
         of the objectives"""
         buckets = list(self.cube_dict.values())
@@ -203,7 +203,7 @@ class Hypercubes:
             for sol in sols:
                 self.push_sol(sol, optimization_type, skipcheck=True)
 
-    def update_bounds(self, sol: Solution):
+    def update_bounds(self, sol: Solution) -> bool:
         """Updates the bounds of the max and min values for the objectives"""
         updated = False
 

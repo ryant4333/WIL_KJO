@@ -1,5 +1,6 @@
 from testModel_pygmo_short import my_problem
 import os
+
 musc = 'piri_r'
 dof = 'hip_flexion_r'
 p = my_problem(1, muscName = musc, dof = dof)
