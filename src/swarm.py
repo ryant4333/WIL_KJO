@@ -3,7 +3,10 @@ import numpy as np
 
 
 class Swarm:
-
+    """
+    Swarm is a class called by the optimiser.py to create an array of particles with randomised positions and velocities
+    within the boundaries set by the user in the config file.
+    """
     def __init__(self, num_particles: int, min_: list, max_: list):
         """Initialises swarm of n particles in random positions between the max 
         and min search domains."""
