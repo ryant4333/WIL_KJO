@@ -1,7 +1,7 @@
 # KJO
 
 ## Running MOPSO
-The program can run by running the optimiser.py script and passing a problem folder. The following is an example of running the zdt1 benchmark.
+The program can run by starting the optimiser.py script and passing a problem folder. The following is an example of running the zdt1 benchmark.
 ```shell
     python optimiser.py ./benchmarks/zdt/zdt1
 ``` 
@@ -11,8 +11,7 @@ IMPORTANT: Need to run script from the root directory of the project.
 A problem folder has an objective.py file which has an objective function which each particle uses to evaluate its position. The folder also has a config.json which changes settings of the MOPSO.
 
 ## Writing a config file
-
-The optimiser uses a *config.json* file as input. 
+The optimiser uses a *config.json* file as input. This process can be done using the Wizard.
 ```
 {
  "objective": "objectives.ZDT1",
@@ -64,3 +63,29 @@ This table describes the *config.json* file attributes:
 | cube_count        | int              | Number of hypercubes. |
 | solution_count    | int              | Total number of solutions able to be kept in the hypercube (that is, all combined hypercubes). |
 | optimization_type | array of strings | Optimization type of the objective functions (either `MIN` or `MAX`). This denotes whether the objective function is seeking a minimum or maximum value. E.g. *ZDT1* has 2 objective functions: *F1* and *F2* which are both seeking minimization. Thus, I give the input `["MIN", "MIN"]`.
+
+## Using the Wizard for building config files
+The Wizard is a CLI tool for building config.json files.
+
+Steps:  
+- Run the wizard.py file (`python -m wizard.py`).
+- Enter input to the prompts.
+- The config.json file should now be saved in the directory you have specified.
+
+## Running log_analyser
+
+<ol>
+    <li> Copy solution log .json file from output folder into top level analyse folder. </li>
+    <li> Run log_analyser.py, it will analyse all files in analyse folder. </li>
+    <li> Output printed in a results text file, viewable form command line if run remotely. </li>
+</ol>
+
+## Recommendations for further development
+A limitation with the current implementation is how the hypercube dynamically updates. 
+It can update successful by extending the minimum and maximum points in the objective space. However,
+it cannot shrink when solutions are removed. By doing this, you can remove hypercubes that are potential
+unused and are not near the optimal pereto front.
+<br/><br/>
+Another recommendation is to add a way for a researcher to define the bounds of a problem's search space
+via a function in the objectives.py script, instead of manually entering it in the config file.
+

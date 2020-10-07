@@ -4,6 +4,14 @@ import os
 import numpy as np
 
 class Analyser:
+    """
+    Compares found pareto fronts between different runs of the optimiser.
+    Looks in analyse folder for .json result files, outputs a text file comparing
+    the fronts.
+    Basic comparisons include min, mean, max in each dimension.
+    Total distance to common minimum.
+    Best solution found.
+    """
     def __init__(self):
         self.output_file = open('./analyse/results.txt', 'w')
         """Handler for output file"""

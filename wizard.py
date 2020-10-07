@@ -4,7 +4,29 @@ import os
 
 class Wizard:
     """
-    Wizard for setting up config file
+    The Wizard is a CLI (Command Line Interface) used for building
+    a config file. It is an independent program separate from
+    the optimiser.
+
+    Inputs the Wizard requests from the user:
+        - Path to the objective function
+        - Number of objectives
+        - Optimisation types (for given number of objectives)
+        - Number of variables
+        - Name, maximum, and minimum for each variable
+        - C1 value
+        - C2 value
+        - Maximum weight value
+        - Minimum weight value
+        - Max iterations
+        - Minimum Average Velocity value
+        - Particle count
+        - Cube count
+        - Solution count
+        - Directory where the config.json should be saved
+
+    Once these inputs are given, the Wizard will create a JSON file
+    in the specified directory. It will be named 'config.json'.
     """
     def __init__(self):
         self.objective = None
@@ -19,6 +41,7 @@ class Wizard:
         self.solution_count = None
         self.variables = None
         self.optimization_type = None
+        self.path = None
 
     def start(self):
         """
@@ -264,7 +287,8 @@ class Wizard:
 
     def create_config(self):
         """
-        Convert the user input into a JSON config file
+        Converts the user input into a config.json file.
+        This file will be saved in the specified directory path.
         """
         config = {
             "objective": self.objective,
@@ -289,8 +313,8 @@ class Wizard:
 
 def clear():
     """
-    Clears the CLI. Used to make the Wizard
-    experience more user-friendly.
+    Clears the CLI. Used to make the Wizard experience more user-friendly.
+    This should work in both a Windows or Unix environment.
     """
     os.system('cls' or 'clear')
 
