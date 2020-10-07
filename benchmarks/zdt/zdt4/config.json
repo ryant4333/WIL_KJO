@@ -2,7 +2,7 @@
     "objective": "objectives.ZDT4",
     "c1": 1.5,
     "c2": 1,
-    "min_w": 0.1,
+    "min_w": 0.4,
     "max_w": 0.9,
     "particle_num": 100,
     "max_iterations": 600,
@@ -19,8 +19,8 @@
         { "name": "v9", "max": 5, "min": -5},
         { "name": "v10", "max": 5, "min": -5}
        ],
-    "cube_count": 20,
-    "solution_count": 200,
+    "cube_count": 50,
+    "solution_count": 1000,
     "optimization_type": ["MIN", "MIN"],
     "swarm_distribution": "RANDOM"
 }

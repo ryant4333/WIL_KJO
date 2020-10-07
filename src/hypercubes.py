@@ -33,15 +33,15 @@ class Hypercubes:
         inside each of the sub-cubes.
         Each sub-cube has a bin size which dictates the key it will have. 
         """
-        self.cube_dict = {}
-        self.sol_count = 0
-        self.max_sol_count = max_solutions
-        self.bin_size = []
-        self.max = []
-        self.min = []
-        self.cube_count = cube_count
+        self.cube_dict: dict = {}
+        self.sol_count: int = 0
+        self.max_sol_count: int = max_solutions
+        self.bin_size: list = []
+        self.max: list = []
+        self.min: list = []
+        self.cube_count: int = cube_count
 
-    def get_bin_key(self, sol):
+    def get_bin_key(self, sol: Solution):
         """
         input is solution object
         returns a string of which bin each of its values fall into
@@ -53,7 +53,7 @@ class Hypercubes:
             key_list.append(key_val)
         return str(key_list)
 
-    def push_sol(self, new_solution, optimizaton_type, skipcheck=False):
+    def push_sol(self, new_solution, optimizaton_type: list, skipcheck: bool = False):
         """
         If new solution check == True
         add new solution to a cube
@@ -72,7 +72,7 @@ class Hypercubes:
         
         return
 
-    def new_sol_check(self, new_solution, optimizaton_type):
+    def new_sol_check(self, new_solution: Solution, optimizaton_type: list):
         """
         Checks new sol against all items
         return False if new solution dominated by any solution.
@@ -186,7 +186,7 @@ class Hypercubes:
                 front.append(sol.objectives)
         return front
     
-    def redo_dict(self, optimization_type):
+    def redo_dict(self, optimization_type: list):
         """Resizes the buckets of the hypercubes based on the max and min values
         of the objectives"""
         buckets = list(self.cube_dict.values())
@@ -203,7 +203,7 @@ class Hypercubes:
             for sol in sols:
                 self.push_sol(sol, optimization_type, skipcheck=True)
 
-    def update_bounds(self, sol):
+    def update_bounds(self, sol: Solution):
         """Updates the bounds of the max and min values for the objectives"""
         updated = False
 

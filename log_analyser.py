@@ -129,13 +129,13 @@ class Analyser:
                 best_sol['position'] = [round(num, 2) for num in best_sol['position']]
                 best_sol['objectives'] = [round(num, 2) for num in best_sol['objectives']]
                 
-                best_sol_output = "Best Solution:\n{}\n".format(best_sol)
+                best_sol_output = "Min distance Solution:\n{}\n".format(best_sol)
                 self.output_file.write(best_sol_output)
 
         global_best['position'] = [round(num, 2) for num in global_best['position']]
         global_best['objectives'] = [round(num, 2) for num in global_best['objectives']]
                 
-        global_best_sol_output = "\nGlobal Best Solution:\n{}\n".format(global_best)
+        global_best_sol_output = "\nGlobal Min Distance Solution:\n{}\n".format(global_best)
         self.output_file.write(best_sol_output)
 
 
