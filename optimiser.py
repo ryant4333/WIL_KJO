@@ -37,7 +37,7 @@ class Optimiser:
         self.weight = self.problem.max_w
         """Weight of inertia for all particles."""
 
-    def weight_regression(self):
+    def weight_regression(self) -> None:
         """Changes the value for the weight variable, current implementation 
         is linear decreasing"""
         nt = self.problem.max_iterations
@@ -47,7 +47,7 @@ class Optimiser:
         wt = ((w0 - wnt) * ((nt - t)/nt)) + wnt
         self.weight = wt
     
-    def stop(self):
+    def stop(self) -> bool:
         """Checks to see if iteration is greater or equal to the max iterations
         in config file. If true, function returns true. If false, function
         checks if average velocity is less than min average velocity in the 
@@ -64,7 +64,7 @@ class Optimiser:
 
         return False
 
-    def run(self, verbose=False):
+    def run(self, verbose: bool = False) -> None:
         """Runs MOPSO optimisation. If verbose is true, terminal will output 
         details."""
         start = time.perf_counter()
@@ -144,14 +144,14 @@ class Optimiser:
                 pool.join()
                 break
 
-def _eval_process(objective, particle):
+def _eval_process(objective: list, particle: particle) -> solution:
     """
     A global function which is used for wrapping the particle.evaluate function
     to be used by an instance of Pool from the multiprocess library.
     """
     return particle.evaluate(objective)
 
-def _get_avg_velocity(particles):
+def _get_avg_velocity(particles: list):
     """Calculates the average velocity of the particles."""
     v_sum = np.random.uniform(0, 0, len(particles[0].velocity))
     for particle in particles:
@@ -162,7 +162,7 @@ def _get_avg_velocity(particles):
     v = math.sqrt(v2)
     return v
 
-def get_problem(args):
+def get_problem(args: list):
     """Gets problem folder"""
     if len(args) < 2:
         raise AttributeError("Missing directory to problem folder")

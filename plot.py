@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(1, "./src/")
 import plot_graph
 
-def wrapper(f, title=None):
+def wrapper(f: str, title: str = None) -> None:
     """Used for the user to graph objective logs.\n
     First variable is required and its the path to the objective log.\n
     Second variable is the title of the graph and is optional."""
