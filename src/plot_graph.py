@@ -5,7 +5,16 @@ import os
 from optimiser import *
 from mpl_toolkits.mplot3d import Axes3D
 import json
-
+"""
+ plot_graph.py is used for logging and plotting the non dominated solutions found by the optimiser.
+ When the optimiser reaches a stopping condition and stops running, it calls on the plotter to create a timestamped
+ in the the chosen path. Each timestamped directory contains 3 files.
+ 
+ objectives_log.txt:    A collection of non-dominated solutions. This file is mainly for plotting purposes.
+ pareto_front.png:      All solutions in the objectives_log.txt graphed into matplotlib.
+ solutions_log.json:    A full json log of found non-dominated solutions with relative fitness and positions.
+   
+"""
 
 def plot(title: str, opt, directory: str) -> None:
     if not directory[-1] in ('/', '\\'):

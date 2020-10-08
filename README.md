@@ -68,7 +68,7 @@ This table describes the *config.json* file attributes:
 The Wizard is a CLI tool for building config.json files.
 
 Steps:  
-- Run the wizard.py file (`python -m wizard.py`).
+- Run the wizard.py file (`python wizard.py`).
 - Enter input to the prompts.
 - The config.json file should now be saved in the directory you have specified.
 
