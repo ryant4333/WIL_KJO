@@ -25,13 +25,10 @@ class TestPlotgraph(unittest.TestCase):
 
     def test_create_objectives_log(self):
         testdir = "./tests/test/"
-        testbad = "./tests/test/test_bad"
         testgood = [[1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3]]
         with self.assertRaises(FileExistsError):
             plot_graph.create_objectives_log(testgood, testdir)
-        with self.assertRaises(ValueError):
-            os.remove("tests/test/objectives_log.txt")
-            plot_graph.create_objectives_log(testbad, testdir)
+
 
     def test_create_sol_log(self):
         testdir = "./tests/test/"
