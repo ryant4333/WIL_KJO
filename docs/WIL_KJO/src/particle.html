@@ -42,7 +42,7 @@ class Particle:
         self.velocity = []
         &#34;&#34;&#34;Inertia of particle.&#34;&#34;&#34;
 
-    def evaluate(self, objectives):
+    def evaluate(self, objectives: callable) -&gt; Solution:
         &#34;&#34;&#34;
         Gets objectives based on the particles current position. Uses these 
         objectives and the particles position to return a new solution.
@@ -51,7 +51,7 @@ class Particle:
         solution = Solution(self.x, obj)        
         return solution
   
-    def move(self, velocity, maximum, minimum):
+    def move(self, velocity: list, maximum: list, minimum: list) -&gt; None:
         &#34;&#34;&#34;Changes the position of the particle, maintains search space 
         constraints, and saves velocity.&#34;&#34;&#34;
         if len(self.x) != len(maximum) or len(self.x) != len(minimum):
@@ -71,7 +71,7 @@ class Particle:
         self.x = x
         self.velocity = velocity
     
-    def calc_velocity(self, c1, c2, w):
+    def calc_velocity(self, c1: float, c2: float, w: float) -&gt; list:
         &#34;&#34;&#34;Calculates the velocity of the particle with cognitive, social and 
         inertia weight.&#34;&#34;&#34;
         inertia = np.array(self.velocity) * w
@@ -80,7 +80,7 @@ class Particle:
         velocity = inertia + cognitive + social
         return velocity
     
-    def update_pbest(self, solution, optimization_type):
+    def update_pbest(self, solution: Solution, optimization_type: list) -&gt; None:
         &#34;&#34;&#34;Determines if new solution fully dominates personal best. If it does,
         it becomes new personal best. If new solution is not fully dominated by
         personal best, it updates it with a %50 chance.&#34;&#34;&#34;
@@ -130,7 +130,7 @@ if __name__ == &#34;__main__&#34;:
         self.velocity = []
         &#34;&#34;&#34;Inertia of particle.&#34;&#34;&#34;
 
-    def evaluate(self, objectives):
+    def evaluate(self, objectives: callable) -&gt; Solution:
         &#34;&#34;&#34;
         Gets objectives based on the particles current position. Uses these 
         objectives and the particles position to return a new solution.
@@ -139,7 +139,7 @@ if __name__ == &#34;__main__&#34;:
         solution = Solution(self.x, obj)        
         return solution
   
-    def move(self, velocity, maximum, minimum):
+    def move(self, velocity: list, maximum: list, minimum: list) -&gt; None:
         &#34;&#34;&#34;Changes the position of the particle, maintains search space 
         constraints, and saves velocity.&#34;&#34;&#34;
         if len(self.x) != len(maximum) or len(self.x) != len(minimum):
@@ -159,7 +159,7 @@ if __name__ == &#34;__main__&#34;:
         self.x = x
         self.velocity = velocity
     
-    def calc_velocity(self, c1, c2, w):
+    def calc_velocity(self, c1: float, c2: float, w: float) -&gt; list:
         &#34;&#34;&#34;Calculates the velocity of the particle with cognitive, social and 
         inertia weight.&#34;&#34;&#34;
         inertia = np.array(self.velocity) * w
@@ -168,7 +168,7 @@ if __name__ == &#34;__main__&#34;:
         velocity = inertia + cognitive + social
         return velocity
     
-    def update_pbest(self, solution, optimization_type):
+    def update_pbest(self, solution: Solution, optimization_type: list) -&gt; None:
         &#34;&#34;&#34;Determines if new solution fully dominates personal best. If it does,
         it becomes new personal best. If new solution is not fully dominated by
         personal best, it updates it with a %50 chance.&#34;&#34;&#34;
@@ -205,7 +205,7 @@ if __name__ == &#34;__main__&#34;:
 <h3>Methods</h3>
 <dl>
 <dt id="WIL_KJO.src.particle.Particle.calc_velocity"><code class="name flex">
-<span>def <span class="ident">calc_velocity</span></span>(<span>self, c1, c2, w)</span>
+<span>def <span class="ident">calc_velocity</span></span>(<span>self, c1: float, c2: float, w: float) ‑> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Calculates the velocity of the particle with cognitive, social and
@@ -214,7 +214,7 @@ inertia weight.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def calc_velocity(self, c1, c2, w):
+<pre><code class="python">def calc_velocity(self, c1: float, c2: float, w: float) -&gt; list:
     &#34;&#34;&#34;Calculates the velocity of the particle with cognitive, social and 
     inertia weight.&#34;&#34;&#34;
     inertia = np.array(self.velocity) * w
@@ -225,7 +225,7 @@ inertia weight.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.particle.Particle.evaluate"><code class="name flex">
-<span>def <span class="ident">evaluate</span></span>(<span>self, objectives)</span>
+<span>def <span class="ident">evaluate</span></span>(<span>self, objectives: <built-in function callable>) ‑> solution.Solution</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets objectives based on the particles current position. Uses these
@@ -234,7 +234,7 @@ objectives and the particles position to return a new solution.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def evaluate(self, objectives):
+<pre><code class="python">def evaluate(self, objectives: callable) -&gt; Solution:
     &#34;&#34;&#34;
     Gets objectives based on the particles current position. Uses these 
     objectives and the particles position to return a new solution.
@@ -245,7 +245,7 @@ objectives and the particles position to return a new solution.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.particle.Particle.move"><code class="name flex">
-<span>def <span class="ident">move</span></span>(<span>self, velocity, maximum, minimum)</span>
+<span>def <span class="ident">move</span></span>(<span>self, velocity: list, maximum: list, minimum: list) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Changes the position of the particle, maintains search space
@@ -254,7 +254,7 @@ constraints, and saves velocity.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def move(self, velocity, maximum, minimum):
+<pre><code class="python">def move(self, velocity: list, maximum: list, minimum: list) -&gt; None:
     &#34;&#34;&#34;Changes the position of the particle, maintains search space 
     constraints, and saves velocity.&#34;&#34;&#34;
     if len(self.x) != len(maximum) or len(self.x) != len(minimum):
@@ -276,7 +276,7 @@ constraints, and saves velocity.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.particle.Particle.update_pbest"><code class="name flex">
-<span>def <span class="ident">update_pbest</span></span>(<span>self, solution, optimization_type)</span>
+<span>def <span class="ident">update_pbest</span></span>(<span>self, solution: solution.Solution, optimization_type: list) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Determines if new solution fully dominates personal best. If it does,
@@ -286,7 +286,7 @@ personal best, it updates it with a %50 chance.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def update_pbest(self, solution, optimization_type):
+<pre><code class="python">def update_pbest(self, solution: Solution, optimization_type: list) -&gt; None:
     &#34;&#34;&#34;Determines if new solution fully dominates personal best. If it does,
     it becomes new personal best. If new solution is not fully dominated by
     personal best, it updates it with a %50 chance.&#34;&#34;&#34;

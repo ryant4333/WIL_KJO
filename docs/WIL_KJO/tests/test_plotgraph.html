@@ -53,13 +53,10 @@ class TestPlotgraph(unittest.TestCase):
 
     def test_create_objectives_log(self):
         testdir = &#34;./tests/test/&#34;
-        testbad = &#34;./tests/test/test_bad&#34;
         testgood = [[1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3]]
         with self.assertRaises(FileExistsError):
             plot_graph.create_objectives_log(testgood, testdir)
-        with self.assertRaises(ValueError):
-            os.remove(&#34;tests/test/objectives_log.txt&#34;)
-            plot_graph.create_objectives_log(testbad, testdir)
+
 
     def test_create_sol_log(self):
         testdir = &#34;./tests/test/&#34;
@@ -142,13 +139,10 @@ not have a method with the specified name.</p></div>
 
     def test_create_objectives_log(self):
         testdir = &#34;./tests/test/&#34;
-        testbad = &#34;./tests/test/test_bad&#34;
         testgood = [[1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3]]
         with self.assertRaises(FileExistsError):
             plot_graph.create_objectives_log(testgood, testdir)
-        with self.assertRaises(ValueError):
-            os.remove(&#34;tests/test/objectives_log.txt&#34;)
-            plot_graph.create_objectives_log(testbad, testdir)
+
 
     def test_create_sol_log(self):
         testdir = &#34;./tests/test/&#34;
@@ -194,13 +188,9 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_create_objectives_log(self):
     testdir = &#34;./tests/test/&#34;
-    testbad = &#34;./tests/test/test_bad&#34;
     testgood = [[1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3]]
     with self.assertRaises(FileExistsError):
-        plot_graph.create_objectives_log(testgood, testdir)
-    with self.assertRaises(ValueError):
-        os.remove(&#34;tests/test/objectives_log.txt&#34;)
-        plot_graph.create_objectives_log(testbad, testdir)</code></pre>
+        plot_graph.create_objectives_log(testgood, testdir)</code></pre>
 </details>
 </dd>
 <dt id="WIL_KJO.tests.test_plotgraph.TestPlotgraph.test_create_sol_log"><code class="name flex">

@@ -31,8 +31,11 @@ import numpy as np
 
 
 class Swarm:
-
-    def __init__(self, num_particles, min_, max_):
+    &#34;&#34;&#34;
+    Swarm is a class called by the optimiser.py to create an array of particles with randomised positions and velocities
+    within the boundaries set by the user in the config file.
+    &#34;&#34;&#34;
+    def __init__(self, num_particles: int, min_: list, max_: list):
         &#34;&#34;&#34;Initialises swarm of n particles in random positions between the max 
         and min search domains.&#34;&#34;&#34;
         self.particles = [particle.Particle() for _ in range(num_particles)]
@@ -66,18 +69,23 @@ if __name__ == &#34;__main__&#34;:
 <dl>
 <dt id="WIL_KJO.src.swarm.Swarm"><code class="flex name class">
 <span>class <span class="ident">Swarm</span></span>
-<span>(</span><span>num_particles, min_, max_)</span>
+<span>(</span><span>num_particles: int, min_: list, max_: list)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Initialises swarm of n particles in random positions between the max
+<div class="desc"><p>Swarm is a class called by the optimiser.py to create an array of particles with randomised positions and velocities
+within the boundaries set by the user in the config file.</p>
+<p>Initialises swarm of n particles in random positions between the max
 and min search domains.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Swarm:
-
-    def __init__(self, num_particles, min_, max_):
+    &#34;&#34;&#34;
+    Swarm is a class called by the optimiser.py to create an array of particles with randomised positions and velocities
+    within the boundaries set by the user in the config file.
+    &#34;&#34;&#34;
+    def __init__(self, num_particles: int, min_: list, max_: list):
         &#34;&#34;&#34;Initialises swarm of n particles in random positions between the max 
         and min search domains.&#34;&#34;&#34;
         self.particles = [particle.Particle() for _ in range(num_particles)]

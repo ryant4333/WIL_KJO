@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(1, &#34;./src/&#34;)
 import plot_graph
 
-def wrapper(f, title=None):
+def wrapper(f: str, title: str = None) -&gt; None:
     &#34;&#34;&#34;Used for the user to graph objective logs.\n
     First variable is required and its the path to the objective log.\n
     Second variable is the title of the graph and is optional.&#34;&#34;&#34;
@@ -61,7 +61,7 @@ if __name__ == &#34;__main__&#34;:
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="WIL_KJO.plot.wrapper"><code class="name flex">
-<span>def <span class="ident">wrapper</span></span>(<span>f, title=None)</span>
+<span>def <span class="ident">wrapper</span></span>(<span>f: str, title: str = None) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Used for the user to graph objective logs.</p>
@@ -71,7 +71,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def wrapper(f, title=None):
+<pre><code class="python">def wrapper(f: str, title: str = None) -&gt; None:
     &#34;&#34;&#34;Used for the user to graph objective logs.\n
     First variable is required and its the path to the objective log.\n
     Second variable is the title of the graph and is optional.&#34;&#34;&#34;

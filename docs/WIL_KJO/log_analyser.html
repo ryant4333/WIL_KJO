@@ -32,6 +32,14 @@ import os
 import numpy as np
 
 class Analyser:
+    &#34;&#34;&#34;
+    Compares found pareto fronts between different runs of the optimiser.
+    Looks in analyse folder for .json result files, outputs a text file comparing
+    the fronts.
+    Basic comparisons include min, mean, max in each dimension.
+    Total distance to common minimum.
+    Best solution found.
+    &#34;&#34;&#34;
     def __init__(self):
         self.output_file = open(&#39;./analyse/results.txt&#39;, &#39;w&#39;)
         &#34;&#34;&#34;Handler for output file&#34;&#34;&#34;
@@ -157,13 +165,13 @@ class Analyser:
                 best_sol[&#39;position&#39;] = [round(num, 2) for num in best_sol[&#39;position&#39;]]
                 best_sol[&#39;objectives&#39;] = [round(num, 2) for num in best_sol[&#39;objectives&#39;]]
                 
-                best_sol_output = &#34;Best Solution:\n{}\n&#34;.format(best_sol)
+                best_sol_output = &#34;Min distance Solution:\n{}\n&#34;.format(best_sol)
                 self.output_file.write(best_sol_output)
 
         global_best[&#39;position&#39;] = [round(num, 2) for num in global_best[&#39;position&#39;]]
         global_best[&#39;objectives&#39;] = [round(num, 2) for num in global_best[&#39;objectives&#39;]]
                 
-        global_best_sol_output = &#34;\nGlobal Best Solution:\n{}\n&#34;.format(global_best)
+        global_best_sol_output = &#34;\nGlobal Min Distance Solution:\n{}\n&#34;.format(global_best)
         self.output_file.write(best_sol_output)
 
 
@@ -190,12 +198,25 @@ if __name__ == &#34;__main__&#34;:
 <span>class <span class="ident">Analyser</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Compares found pareto fronts between different runs of the optimiser.
+Looks in analyse folder for .json result files, outputs a text file comparing
+the fronts.
+Basic comparisons include min, mean, max in each dimension.
+Total distance to common minimum.
+Best solution found.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Analyser:
+    &#34;&#34;&#34;
+    Compares found pareto fronts between different runs of the optimiser.
+    Looks in analyse folder for .json result files, outputs a text file comparing
+    the fronts.
+    Basic comparisons include min, mean, max in each dimension.
+    Total distance to common minimum.
+    Best solution found.
+    &#34;&#34;&#34;
     def __init__(self):
         self.output_file = open(&#39;./analyse/results.txt&#39;, &#39;w&#39;)
         &#34;&#34;&#34;Handler for output file&#34;&#34;&#34;
@@ -321,13 +342,13 @@ if __name__ == &#34;__main__&#34;:
                 best_sol[&#39;position&#39;] = [round(num, 2) for num in best_sol[&#39;position&#39;]]
                 best_sol[&#39;objectives&#39;] = [round(num, 2) for num in best_sol[&#39;objectives&#39;]]
                 
-                best_sol_output = &#34;Best Solution:\n{}\n&#34;.format(best_sol)
+                best_sol_output = &#34;Min distance Solution:\n{}\n&#34;.format(best_sol)
                 self.output_file.write(best_sol_output)
 
         global_best[&#39;position&#39;] = [round(num, 2) for num in global_best[&#39;position&#39;]]
         global_best[&#39;objectives&#39;] = [round(num, 2) for num in global_best[&#39;objectives&#39;]]
                 
-        global_best_sol_output = &#34;\nGlobal Best Solution:\n{}\n&#34;.format(global_best)
+        global_best_sol_output = &#34;\nGlobal Min Distance Solution:\n{}\n&#34;.format(global_best)
         self.output_file.write(best_sol_output)
 
 
@@ -512,13 +533,13 @@ Each time this is run checks for new global minimums</p></div>
             best_sol[&#39;position&#39;] = [round(num, 2) for num in best_sol[&#39;position&#39;]]
             best_sol[&#39;objectives&#39;] = [round(num, 2) for num in best_sol[&#39;objectives&#39;]]
             
-            best_sol_output = &#34;Best Solution:\n{}\n&#34;.format(best_sol)
+            best_sol_output = &#34;Min distance Solution:\n{}\n&#34;.format(best_sol)
             self.output_file.write(best_sol_output)
 
     global_best[&#39;position&#39;] = [round(num, 2) for num in global_best[&#39;position&#39;]]
     global_best[&#39;objectives&#39;] = [round(num, 2) for num in global_best[&#39;objectives&#39;]]
             
-    global_best_sol_output = &#34;\nGlobal Best Solution:\n{}\n&#34;.format(global_best)
+    global_best_sol_output = &#34;\nGlobal Min Distance Solution:\n{}\n&#34;.format(global_best)
     self.output_file.write(best_sol_output)
 
 

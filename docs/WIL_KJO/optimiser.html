@@ -65,7 +65,7 @@ class Optimiser:
         self.weight = self.problem.max_w
         &#34;&#34;&#34;Weight of inertia for all particles.&#34;&#34;&#34;
 
-    def weight_regression(self):
+    def weight_regression(self) -&gt; None:
         &#34;&#34;&#34;Changes the value for the weight variable, current implementation 
         is linear decreasing&#34;&#34;&#34;
         nt = self.problem.max_iterations
@@ -75,7 +75,7 @@ class Optimiser:
         wt = ((w0 - wnt) * ((nt - t)/nt)) + wnt
         self.weight = wt
     
-    def stop(self):
+    def stop(self) -&gt; bool:
         &#34;&#34;&#34;Checks to see if iteration is greater or equal to the max iterations
         in config file. If true, function returns true. If false, function
         checks if average velocity is less than min average velocity in the 
@@ -92,7 +92,7 @@ class Optimiser:
 
         return False
 
-    def run(self, verbose=False):
+    def run(self, verbose: bool = False) -&gt; None:
         &#34;&#34;&#34;Runs MOPSO optimisation. If verbose is true, terminal will output 
         details.&#34;&#34;&#34;
         start = time.perf_counter()
@@ -172,15 +172,14 @@ class Optimiser:
                 pool.join()
                 break
 
-def _eval_process(objective, particle):
+def _eval_process(objective: list, particle: particle) -&gt; solution:
     &#34;&#34;&#34;
     A global function which is used for wrapping the particle.evaluate function
     to be used by an instance of Pool from the multiprocess library.
     &#34;&#34;&#34;
     return particle.evaluate(objective)
 
-
-def _get_avg_velocity(particles):
+def _get_avg_velocity(particles: list):
     &#34;&#34;&#34;Calculates the average velocity of the particles.&#34;&#34;&#34;
     v_sum = np.random.uniform(0, 0, len(particles[0].velocity))
     for particle in particles:
@@ -191,7 +190,7 @@ def _get_avg_velocity(particles):
     v = math.sqrt(v2)
     return v
 
-def get_problem(args):
+def get_problem(args: list):
     &#34;&#34;&#34;Gets problem folder&#34;&#34;&#34;
     if len(args) &lt; 2:
         raise AttributeError(&#34;Missing directory to problem folder&#34;)
@@ -221,7 +220,7 @@ if __name__ == &#34;__main__&#34;:
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="WIL_KJO.optimiser.get_problem"><code class="name flex">
-<span>def <span class="ident">get_problem</span></span>(<span>args)</span>
+<span>def <span class="ident">get_problem</span></span>(<span>args: list)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets problem folder</p></div>
@@ -229,7 +228,7 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_problem(args):
+<pre><code class="python">def get_problem(args: list):
     &#34;&#34;&#34;Gets problem folder&#34;&#34;&#34;
     if len(args) &lt; 2:
         raise AttributeError(&#34;Missing directory to problem folder&#34;)
@@ -295,7 +294,7 @@ if __name__ == &#34;__main__&#34;:
         self.weight = self.problem.max_w
         &#34;&#34;&#34;Weight of inertia for all particles.&#34;&#34;&#34;
 
-    def weight_regression(self):
+    def weight_regression(self) -&gt; None:
         &#34;&#34;&#34;Changes the value for the weight variable, current implementation 
         is linear decreasing&#34;&#34;&#34;
         nt = self.problem.max_iterations
@@ -305,7 +304,7 @@ if __name__ == &#34;__main__&#34;:
         wt = ((w0 - wnt) * ((nt - t)/nt)) + wnt
         self.weight = wt
     
-    def stop(self):
+    def stop(self) -&gt; bool:
         &#34;&#34;&#34;Checks to see if iteration is greater or equal to the max iterations
         in config file. If true, function returns true. If false, function
         checks if average velocity is less than min average velocity in the 
@@ -322,7 +321,7 @@ if __name__ == &#34;__main__&#34;:
 
         return False
 
-    def run(self, verbose=False):
+    def run(self, verbose: bool = False) -&gt; None:
         &#34;&#34;&#34;Runs MOPSO optimisation. If verbose is true, terminal will output 
         details.&#34;&#34;&#34;
         start = time.perf_counter()
@@ -432,7 +431,7 @@ particles.</p></div>
 <h3>Methods</h3>
 <dl>
 <dt id="WIL_KJO.optimiser.Optimiser.run"><code class="name flex">
-<span>def <span class="ident">run</span></span>(<span>self, verbose=False)</span>
+<span>def <span class="ident">run</span></span>(<span>self, verbose: bool = False) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Runs MOPSO optimisation. If verbose is true, terminal will output
@@ -441,7 +440,7 @@ details.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def run(self, verbose=False):
+<pre><code class="python">def run(self, verbose: bool = False) -&gt; None:
     &#34;&#34;&#34;Runs MOPSO optimisation. If verbose is true, terminal will output 
     details.&#34;&#34;&#34;
     start = time.perf_counter()
@@ -523,7 +522,7 @@ details.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.optimiser.Optimiser.stop"><code class="name flex">
-<span>def <span class="ident">stop</span></span>(<span>self)</span>
+<span>def <span class="ident">stop</span></span>(<span>self) ‑> bool</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Checks to see if iteration is greater or equal to the max iterations
@@ -534,7 +533,7 @@ config file and if true swarm will restart and return false.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def stop(self):
+<pre><code class="python">def stop(self) -&gt; bool:
     &#34;&#34;&#34;Checks to see if iteration is greater or equal to the max iterations
     in config file. If true, function returns true. If false, function
     checks if average velocity is less than min average velocity in the 
@@ -553,7 +552,7 @@ config file and if true swarm will restart and return false.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.optimiser.Optimiser.weight_regression"><code class="name flex">
-<span>def <span class="ident">weight_regression</span></span>(<span>self)</span>
+<span>def <span class="ident">weight_regression</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Changes the value for the weight variable, current implementation
@@ -562,7 +561,7 @@ is linear decreasing</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def weight_regression(self):
+<pre><code class="python">def weight_regression(self) -&gt; None:
     &#34;&#34;&#34;Changes the value for the weight variable, current implementation 
     is linear decreasing&#34;&#34;&#34;
     nt = self.problem.max_iterations

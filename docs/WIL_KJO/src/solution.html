@@ -42,7 +42,7 @@ class Solution:
     
     # returns 1 if self dominates, -1 is param solution dominates 
     # and 0 if neither dominate 
-    def dominated(self, solution, optimization_type):
+    def dominated(self, solution, optimization_type: list) -&gt; int:
         &#34;&#34;&#34;Determines which solution dominates which. Returns 1 if self 
         instance dominates, -1 if param sol dominates and 0 if neither. Unlikely
         edge case where both solutions equal each other returns 1&#34;&#34;&#34;
@@ -116,7 +116,7 @@ if __name__ == &#34;__main__&#34;:
     
     # returns 1 if self dominates, -1 is param solution dominates 
     # and 0 if neither dominate 
-    def dominated(self, solution, optimization_type):
+    def dominated(self, solution, optimization_type: list) -&gt; int:
         &#34;&#34;&#34;Determines which solution dominates which. Returns 1 if self 
         instance dominates, -1 if param sol dominates and 0 if neither. Unlikely
         edge case where both solutions equal each other returns 1&#34;&#34;&#34;
@@ -166,7 +166,7 @@ if __name__ == &#34;__main__&#34;:
 <h3>Methods</h3>
 <dl>
 <dt id="WIL_KJO.src.solution.Solution.dominated"><code class="name flex">
-<span>def <span class="ident">dominated</span></span>(<span>self, solution, optimization_type)</span>
+<span>def <span class="ident">dominated</span></span>(<span>self, solution, optimization_type: list) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Determines which solution dominates which. Returns 1 if self
@@ -176,7 +176,7 @@ edge case where both solutions equal each other returns 1</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def dominated(self, solution, optimization_type):
+<pre><code class="python">def dominated(self, solution, optimization_type: list) -&gt; int:
     &#34;&#34;&#34;Determines which solution dominates which. Returns 1 if self 
     instance dominates, -1 if param sol dominates and 0 if neither. Unlikely
     edge case where both solutions equal each other returns 1&#34;&#34;&#34;

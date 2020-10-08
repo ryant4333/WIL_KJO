@@ -32,10 +32,20 @@ import sys
 
 class Problem:
     &#34;&#34;&#34;
-    Saves config file in the problem class.
+    The problem class is used to store the input values
+    given in the config.json file.
+
+    It follows the following process:
+        1. Values are read from the config.json file.
+        2. The objective is converted into an evaluable Python method.
+        3. Variables are converted into easier to parse arrays max[] and min[].
+        4. Infinite values written as &#34;inf&#34; or &#34;-inf&#34; in the max[] and min[]
+           arrays are converted to float values.
+        5. The variables are validated to ensure correct types and values have
+           been used.
     &#34;&#34;&#34;
-    def __init__(self, config_file):
-        &#34;&#34;&#34;Initialises a problem class based on a config json file&#34;&#34;&#34;
+    def __init__(self, config_file: str):
+        &#34;&#34;&#34;Initialise a problem class based on a config.json file&#34;&#34;&#34;
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)
@@ -63,7 +73,7 @@ class Problem:
         # Validation
         self.validate_config()
 
-    def validate_config(self):
+    def validate_config(self) -&gt; None:
         &#34;&#34;&#34;
         Perform validation on the config file
         - Checking types
@@ -72,7 +82,7 @@ class Problem:
         self.validate_types()
         self.validate_values()
 
-    def validate_types(self):
+    def validate_types(self) -&gt; None:
         &#34;&#34;&#34;
         Validates the config file types
         &#34;&#34;&#34;
@@ -109,7 +119,7 @@ class Problem:
             if type(i) != str:
                 raise TypeError(&#34;optimization_type should be type: &lt;list of strings&gt;&#34;)
 
-    def validate_values(self):
+    def validate_values(self) -&gt; None:
         &#34;&#34;&#34;
         Validates specific config file values
         &#34;&#34;&#34;
@@ -132,7 +142,7 @@ class Problem:
                 raise ValueError(&#34;min values should be less than max values (%s not less than %s)&#34;
                                  % (self.min[i], self.max[i]))
 
-    def convert_to_method(self, objective):
+    def convert_to_method(self, objective: str) -&gt; None:
         &#34;&#34;&#34;
         Convert objective name to function reference
         &#34;&#34;&#34;
@@ -145,7 +155,7 @@ class Problem:
         if not callable(self.objective):
             raise ValueError(&#34;Objective &#39;%s&#39; is not callable&#34; % objective)
 
-    def split_variables_into_max_min(self):
+    def split_variables_into_max_min(self) -&gt; None:
         &#34;&#34;&#34;
         Convert the dict form of displaying the min and max into
         an easier to work with min and max array.
@@ -155,7 +165,7 @@ class Problem:
             self.max.append(max_)
             self.min.append(min_)
 
-    def convert_min_max_to_inf(self):
+    def convert_min_max_to_inf(self) -&gt; None:
         &#34;&#34;&#34;
         Convert the min and max infinite
         values (inf and -inf) to the maximum
@@ -179,21 +189,40 @@ class Problem:
 <dl>
 <dt id="WIL_KJO.src.problem.Problem"><code class="flex name class">
 <span>class <span class="ident">Problem</span></span>
-<span>(</span><span>config_file)</span>
+<span>(</span><span>config_file: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Saves config file in the problem class.</p>
-<p>Initialises a problem class based on a config json file</p></div>
+<div class="desc"><p>The problem class is used to store the input values
+given in the config.json file.</p>
+<p>It follows the following process:
+1. Values are read from the config.json file.
+2. The objective is converted into an evaluable Python method.
+3. Variables are converted into easier to parse arrays max[] and min[].
+4. Infinite values written as "inf" or "-inf" in the max[] and min[]
+arrays are converted to float values.
+5. The variables are validated to ensure correct types and values have
+been used.</p>
+<p>Initialise a problem class based on a config.json file</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Problem:
     &#34;&#34;&#34;
-    Saves config file in the problem class.
+    The problem class is used to store the input values
+    given in the config.json file.
+
+    It follows the following process:
+        1. Values are read from the config.json file.
+        2. The objective is converted into an evaluable Python method.
+        3. Variables are converted into easier to parse arrays max[] and min[].
+        4. Infinite values written as &#34;inf&#34; or &#34;-inf&#34; in the max[] and min[]
+           arrays are converted to float values.
+        5. The variables are validated to ensure correct types and values have
+           been used.
     &#34;&#34;&#34;
-    def __init__(self, config_file):
-        &#34;&#34;&#34;Initialises a problem class based on a config json file&#34;&#34;&#34;
+    def __init__(self, config_file: str):
+        &#34;&#34;&#34;Initialise a problem class based on a config.json file&#34;&#34;&#34;
         # Read data from JSON file
         with open(config_file) as f:
             config = json.load(f)
@@ -221,7 +250,7 @@ class Problem:
         # Validation
         self.validate_config()
 
-    def validate_config(self):
+    def validate_config(self) -&gt; None:
         &#34;&#34;&#34;
         Perform validation on the config file
         - Checking types
@@ -230,7 +259,7 @@ class Problem:
         self.validate_types()
         self.validate_values()
 
-    def validate_types(self):
+    def validate_types(self) -&gt; None:
         &#34;&#34;&#34;
         Validates the config file types
         &#34;&#34;&#34;
@@ -267,7 +296,7 @@ class Problem:
             if type(i) != str:
                 raise TypeError(&#34;optimization_type should be type: &lt;list of strings&gt;&#34;)
 
-    def validate_values(self):
+    def validate_values(self) -&gt; None:
         &#34;&#34;&#34;
         Validates specific config file values
         &#34;&#34;&#34;
@@ -290,7 +319,7 @@ class Problem:
                 raise ValueError(&#34;min values should be less than max values (%s not less than %s)&#34;
                                  % (self.min[i], self.max[i]))
 
-    def convert_to_method(self, objective):
+    def convert_to_method(self, objective: str) -&gt; None:
         &#34;&#34;&#34;
         Convert objective name to function reference
         &#34;&#34;&#34;
@@ -303,7 +332,7 @@ class Problem:
         if not callable(self.objective):
             raise ValueError(&#34;Objective &#39;%s&#39; is not callable&#34; % objective)
 
-    def split_variables_into_max_min(self):
+    def split_variables_into_max_min(self) -&gt; None:
         &#34;&#34;&#34;
         Convert the dict form of displaying the min and max into
         an easier to work with min and max array.
@@ -313,7 +342,7 @@ class Problem:
             self.max.append(max_)
             self.min.append(min_)
 
-    def convert_min_max_to_inf(self):
+    def convert_min_max_to_inf(self) -&gt; None:
         &#34;&#34;&#34;
         Convert the min and max infinite
         values (inf and -inf) to the maximum
@@ -328,7 +357,7 @@ class Problem:
 <h3>Methods</h3>
 <dl>
 <dt id="WIL_KJO.src.problem.Problem.convert_min_max_to_inf"><code class="name flex">
-<span>def <span class="ident">convert_min_max_to_inf</span></span>(<span>self)</span>
+<span>def <span class="ident">convert_min_max_to_inf</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Convert the min and max infinite
@@ -338,7 +367,7 @@ and minimum float values.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def convert_min_max_to_inf(self):
+<pre><code class="python">def convert_min_max_to_inf(self) -&gt; None:
     &#34;&#34;&#34;
     Convert the min and max infinite
     values (inf and -inf) to the maximum
@@ -352,7 +381,7 @@ and minimum float values.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.problem.Problem.convert_to_method"><code class="name flex">
-<span>def <span class="ident">convert_to_method</span></span>(<span>self, objective)</span>
+<span>def <span class="ident">convert_to_method</span></span>(<span>self, objective: str) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Convert objective name to function reference</p></div>
@@ -360,7 +389,7 @@ and minimum float values.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def convert_to_method(self, objective):
+<pre><code class="python">def convert_to_method(self, objective: str) -&gt; None:
     &#34;&#34;&#34;
     Convert objective name to function reference
     &#34;&#34;&#34;
@@ -375,7 +404,7 @@ and minimum float values.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.problem.Problem.split_variables_into_max_min"><code class="name flex">
-<span>def <span class="ident">split_variables_into_max_min</span></span>(<span>self)</span>
+<span>def <span class="ident">split_variables_into_max_min</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Convert the dict form of displaying the min and max into
@@ -384,7 +413,7 @@ an easier to work with min and max array.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def split_variables_into_max_min(self):
+<pre><code class="python">def split_variables_into_max_min(self) -&gt; None:
     &#34;&#34;&#34;
     Convert the dict form of displaying the min and max into
     an easier to work with min and max array.
@@ -396,7 +425,7 @@ an easier to work with min and max array.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.problem.Problem.validate_config"><code class="name flex">
-<span>def <span class="ident">validate_config</span></span>(<span>self)</span>
+<span>def <span class="ident">validate_config</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Perform validation on the config file
@@ -406,7 +435,7 @@ an easier to work with min and max array.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def validate_config(self):
+<pre><code class="python">def validate_config(self) -&gt; None:
     &#34;&#34;&#34;
     Perform validation on the config file
     - Checking types
@@ -417,7 +446,7 @@ an easier to work with min and max array.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.problem.Problem.validate_types"><code class="name flex">
-<span>def <span class="ident">validate_types</span></span>(<span>self)</span>
+<span>def <span class="ident">validate_types</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Validates the config file types</p></div>
@@ -425,7 +454,7 @@ an easier to work with min and max array.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def validate_types(self):
+<pre><code class="python">def validate_types(self) -&gt; None:
     &#34;&#34;&#34;
     Validates the config file types
     &#34;&#34;&#34;
@@ -464,7 +493,7 @@ an easier to work with min and max array.</p></div>
 </details>
 </dd>
 <dt id="WIL_KJO.src.problem.Problem.validate_values"><code class="name flex">
-<span>def <span class="ident">validate_values</span></span>(<span>self)</span>
+<span>def <span class="ident">validate_values</span></span>(<span>self) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Validates specific config file values</p></div>
@@ -472,7 +501,7 @@ an easier to work with min and max array.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def validate_values(self):
+<pre><code class="python">def validate_values(self) -&gt; None:
     &#34;&#34;&#34;
     Validates specific config file values
     &#34;&#34;&#34;
