@@ -89,3 +89,8 @@ unused and are not near the optimal pereto front.
 Another recommendation is to add a way for a researcher to define the bounds of a problem's search space
 via a function in the objectives.py script, instead of manually entering it in the config file.
 
+
+## Contact
+For any questions or control
+Ryan Taylor: RyanCTaylor95@gmail.com
+Jayden Thomson: Jayden.Thomson@griffithuni.edu.au
