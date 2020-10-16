@@ -1,7 +1,7 @@
 #!/bin/bash
-user="ryan.taylor5@griffithuni.edu.au"
+user="{Your_email@email.com}"
 problem_folder="./benchmarks/zdt/zdt3"
-griffith_number="s2896663"
+griffith_number="{your snumber}"
 #PBS -M $user
 #PBS -N KJO
 #PBS -q workq
