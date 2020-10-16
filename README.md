@@ -90,7 +90,7 @@ Another recommendation is to add a way for a researcher to define the bounds of 
 via a function in the objectives.py script, instead of manually entering it in the config file.
 
 
-## Contact
-For any questions or control
-Ryan Taylor: RyanCTaylor95@gmail.com
-Jayden Thomson: Jayden.Thomson@griffithuni.edu.au
+## Contact  
+For any questions or control  
+Ryan Taylor: RyanCTaylor95@gmail.com  
+Jayden Thomson: Jayden.Thomson@griffithuni.edu.au  
